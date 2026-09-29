@@ -1,6 +1,6 @@
 ---
 description: "Executes full autonomous engineering workflow with verification. Use when implementing complete features, tackling GitHub issues, or running end-to-end development cycles."
-model: claude-opus-4-7
+model: opus
 argument-hint: "GitHub issue number/URL or feature description"
 allowed-tools: Bash(gh issue view:*), Bash(gh search:*), Bash(gh issue list:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(bundle exec:*), Bash(bundle install:*), Bash(rake:*), Bash(git:*), Read, Write, Edit, Glob, Grep, Agent, TaskCreate, TaskUpdate, TaskList
 ---
@@ -38,7 +38,7 @@ Use `TaskCreate` to record steps; update with `TaskUpdate` as you go.
 
 ## Phase 2: Explore
 
-1. Find related files (Glob/Grep, or the Explore agent for broad searches).
+1. Find related files (Glob/Grep, or the Explore agent, `model: haiku`, for broad searches).
 2. Read existing patterns in `lib/zazu/`. The reference implementation is conservative — match it.
 3. Check existing test coverage in `spec/zazu/`.
 4. If touching cassettes: read `spec/support/vcr.rb` and `spec/support/fixture_ids.rb` first.
@@ -127,6 +127,10 @@ bundle exec rspec                  # without VCR_RECORD; must replay clean
 
 Re-read the original requirements: would the requester consider this fully resolved? Have you addressed the root cause? Do the tests prove the fix?
 
+## Phase 6.5: Fable validation
+
+Spawn the `fable-validator` agent (it is pinned to Fable) with the issue, the acceptance criteria from Phase 1 and the base branch. On **BLOCK**, fix every blocker (back to Phase 4 for code, with a failing test first), re-verify, and run the validator again. On **PASS WITH NOTES**, fix the risks you agree with and list the rest in the pull request under "Accepted risks". Put the validator's one-line verdict and its "Not verified" list in the pull request body. Do not open the pull request before a PASS or PASS WITH NOTES.
+
 ## Phase 7: Commit and PR
 
 **Backticks in PR bodies pass through `<<'EOF'` heredocs verbatim — do NOT escape them with `` \` ``.** See the "PR descriptions" section in `CLAUDE.md`.
@@ -175,6 +179,7 @@ If you typed `` \` `` anywhere in the body, delete the backslash. The single-quo
 - [ ] `bundle exec rubocop` passes (no offenses).
 - [ ] Cassettes (if recorded) replay clean.
 - [ ] Public API unchanged unless intentional.
+- [ ] `fable-validator` verdict is PASS or PASS WITH NOTES (Phase 6.5), and it is in the PR body.
 - [ ] PR created with description.
 
 ## Karpathy guidelines (always)
