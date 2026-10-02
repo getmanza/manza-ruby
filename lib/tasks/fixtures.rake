@@ -527,9 +527,12 @@ module Fixtures
       @client.customers.delete(id)
     rescue Zazu::ValidationError => e
       # Customers with invoices cannot be hard-deleted. Drop the fixture
-      # tag instead, so the next seed does not count it as stale.
+      # tag instead, so the next seed does not count it as stale, and free
+      # the email (unique per entity) the customers#update spec sets.
       log "  - customer #{id}: #{e.message} (retiring instead)"
-      @client.customers.update(id, company_name: "Zazu Fixture Co — retired #{id[0, 8]}")
+      @client.customers.update(
+        id, company_name: "Zazu Fixture Co — retired #{id[0, 8]}", email: "fixture-retired-#{id}@example.com"
+      )
     end
 
     def try_delete_invoice(id)
