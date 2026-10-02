@@ -1,0 +1,25 @@
+CLAUDE.md
+  s_2429833000466f::t_e1bc4a5127cf48 128
+.gitignore
+  s_2429833000466f::t_e896546b1a6df0 19
+README.md
+  s_2429833000466f::t_e1bc4a5127cf48 202
+bin/rename-env-vars
+  s_2429833000466f::t_732ac00df80c28 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "973958518e153c679a518e068ff27a80f4b6f49a",
+  "prompts": {},
+  "sessions": {
+    "s_2429833000466f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d01460f1-9ac1-4879-a65c-cc6b12980b8f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
