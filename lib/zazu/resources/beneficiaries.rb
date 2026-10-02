@@ -18,7 +18,8 @@ module Zazu
 
       # POST /api/beneficiaries
       #
-      # Keys: beneficiary_type, person_name, company_name, email,
+      # Keys: beneficiary_type ("individual" | "business"; inferred from
+      # person_name / company_name when omitted), person_name, company_name, email,
       # phone_number. Values must be strings. Shares a 10/minute limit
       # with {#create_external_account}.
       def create(**attributes)

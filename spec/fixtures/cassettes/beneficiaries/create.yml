@@ -8,7 +8,7 @@ http_interactions:
     uri: https://ma.manza.dev/api/beneficiaries
     body:
       encoding: UTF-8
-      string: '{"beneficiary_type":"company","company_name":"Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)","email":"fixture-beneficiary-spec@example.com"}'
+      string: '{"beneficiary_type":"business","company_name":"Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)","email":"fixture-beneficiary-spec@example.com"}'
     headers:
       Authorization:
       - Bearer <ZAZU_API_KEY>
@@ -33,6 +33,6 @@ http_interactions:
       - "<ZAZU_VERSION>"
     body:
       encoding: UTF-8
-      string: '{"id":"0199a5c0-0000-7000-8000-00000000b001","beneficiary_type":"company","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)","external_accounts":[],"created_at":"2026-10-02T10:00:00Z"}'
+      string: '{"id":"0199a5c0-0000-7000-8000-00000000b001","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)","external_accounts":[],"created_at":"2026-10-02T10:00:00Z"}'
   recorded_at: Fri, 02 Oct 2026 10:00:00 GMT
 recorded_with: VCR 6.4.0

@@ -80,7 +80,7 @@ zazu.checkout_sessions.create(
 zazu.checkout_sessions.get("cs_...")
 
 zazu.beneficiaries.list
-zazu.beneficiaries.create(beneficiary_type: "company", company_name: "Acme Supplies", email: "ap@acme.com")
+zazu.beneficiaries.create(beneficiary_type: "business", company_name: "Acme Supplies", email: "ap@acme.com")
 zazu.beneficiaries.list_external_accounts("01a0...")
 zazu.beneficiaries.get_external_account("01a0...", "01a1...")
 zazu.beneficiaries.create_external_account("01a0...", account_number: "007780...", name: "Main account")
@@ -199,9 +199,42 @@ To re-record cassettes against staging:
 
 ```bash
 cp .env.example .env
-# fill in ZAZU_STAGING_API_KEY and the ZAZU_FIXTURE_*_ID values
+# fill in the keys, ZAZU_FIXTURE_ACCOUNT_ID and ZAZU_FIXTURE_BENEFICIARY_ID
+cloudflared tunnel --config ~/.cloudflared/zazu-sdk-authorizer.yml run zazu-sdk-authorizer   # separate terminal
 bundle exec rake fixtures:record
 ```
+
+Recording executes a real 10.00 MAD transfer on staging (the authorize cassette). The one-time staging setup (keys, authorizer enrolment, trusted payee) is listed at the top of `lib/tasks/fixtures.rake`.
+
+### The authorizer tunnel
+
+The machine-authorization cassettes need the `payment.authorization_requested` webhook, which staging sends to the webhook endpoint enrolled as transfer authorizer. During `rake fixtures:record` the seeder listens for it on `127.0.0.1:${ZAZU_STAGING_AUTHORIZER_PORT:-4599}`, so a tunnel must forward the endpoint's public URL to that port. The endpoint URL cannot change once enrolled, so the tunnel needs a **stable hostname** (a throwaway `trycloudflare.com` URL won't do).
+
+The existing setup uses a named Cloudflare tunnel `zazu-sdk-authorizer` → `https://sdk-authorizer.manza.dev/`. To run it on a new machine:
+
+```bash
+brew install cloudflared
+cloudflared tunnel login                    # pick the manza.dev zone
+cloudflared tunnel token --cred-file ~/.cloudflared/zazu-sdk-authorizer.json zazu-sdk-authorizer
+cat > ~/.cloudflared/zazu-sdk-authorizer.yml <<YML
+tunnel: zazu-sdk-authorizer
+credentials-file: $HOME/.cloudflared/zazu-sdk-authorizer.json
+ingress:
+  - hostname: sdk-authorizer.manza.dev
+    service: http://127.0.0.1:4599
+  - service: http_status:404
+YML
+cloudflared tunnel --config ~/.cloudflared/zazu-sdk-authorizer.yml run zazu-sdk-authorizer
+```
+
+To create one from scratch instead (then point a new webhook endpoint at it and enrol that one as authorizer):
+
+```bash
+cloudflared tunnel create zazu-sdk-authorizer
+cloudflared tunnel route dns zazu-sdk-authorizer sdk-authorizer.manza.dev
+```
+
+Check it end to end: with the tunnel running and nothing on port 4599, `curl -X POST https://sdk-authorizer.manza.dev/` returns 502. During a record run the seeder answers unsigned requests with 401.
 
 Cassettes are scrubbed before write — bearer tokens and request IDs are rewritten to placeholders. Even if a real key is in `.env`, the committed cassette never contains it.
 

@@ -387,7 +387,7 @@ module Fixtures
     # approves it, so the seeded account never becomes a trusted payee.
     def seed_beneficiary!
       beneficiary = @client.beneficiaries.create(
-        beneficiary_type: "company",
+        beneficiary_type: "business",
         company_name: "Zazu Fixture Beneficiary - created (#{fixture_marker})",
         email: "fixture-created-beneficiary-#{SecureRandom.hex(4)}@example.com"
       ).body

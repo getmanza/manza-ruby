@@ -26,13 +26,13 @@ RSpec.describe Zazu::Resources::Beneficiaries do
   describe "#create", vcr: { cassette_name: "beneficiaries/create" } do
     it "creates a beneficiary" do
       response = client.beneficiaries.create(
-        beneficiary_type: "company",
+        beneficiary_type: "business",
         company_name: "Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)",
         email: "fixture-beneficiary-spec@example.com"
       )
 
       expect(response.status).to eq(201)
-      expect(response.body["beneficiary_type"]).to eq("company")
+      expect(response.body["beneficiary_type"]).to eq("business")
       expect(response.body["external_accounts"]).to eq([])
     end
   end
