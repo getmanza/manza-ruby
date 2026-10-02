@@ -125,6 +125,7 @@ For multi-step tasks, state a brief plan with verification at each step.
 # One-time setup
 bundle install
 cp .env.example .env   # then fill in MANZA_STAGING_API_KEY for cassette recording
+bin/rename-env-vars    # once, if your .env predates 1.0: ZAZU_* → MANZA_* (backup in .env.bak)
 
 # Daily loop
 bundle exec rspec spec/manza/path/to_spec.rb    # while iterating
