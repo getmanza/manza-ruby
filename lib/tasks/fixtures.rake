@@ -81,9 +81,10 @@ module Fixtures
     FIXTURE_TAG = "zazu-ruby-fixture"
     FIXTURE_VERSION = "1" # bump when seed shape changes meaningfully
 
-    REQUIRED_ENV = %w[
-      ZAZU_STAGING_API_KEY ZAZU_STAGING_URL ZAZU_FIXTURE_ACCOUNT_ID ZAZU_FIXTURE_BENEFICIARY_ID
-      ZAZU_STAGING_AUTHORIZER_API_KEY ZAZU_STAGING_AUTHORIZER_SECRET
+    REQUIRED_ENV = %w[ZAZU_STAGING_API_KEY ZAZU_STAGING_URL ZAZU_FIXTURE_ACCOUNT_ID].freeze
+    # Only seeding needs these; teardown must work without them.
+    SEED_ENV = %w[
+      ZAZU_FIXTURE_BENEFICIARY_ID ZAZU_STAGING_AUTHORIZER_API_KEY ZAZU_STAGING_AUTHORIZER_SECRET
     ].freeze
 
     # Seconds to wait for the three payment.authorization_requested webhooks.
@@ -141,6 +142,7 @@ module Fixtures
     end
 
     def run!
+      check_env!(SEED_ENV)
       log "Checking for stale fixtures…"
       stale = find_stale_fixtures
       total_stale = stale.values.sum(&:size)
@@ -212,8 +214,8 @@ module Fixtures
 
     private
 
-    def check_env!
-      missing = REQUIRED_ENV.select { |k| ENV.fetch(k, "").empty? }
+    def check_env!(required = REQUIRED_ENV)
+      missing = required.select { |k| ENV.fetch(k, "").empty? }
       return if missing.empty?
 
       warn "Missing required env vars: #{missing.join(", ")}"
