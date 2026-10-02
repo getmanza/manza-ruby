@@ -5,7 +5,16 @@ All notable changes to `zazu-ruby` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.1]
+
+### Deprecated
+
+- `zazu-ruby` is renamed to `manza` (1.0.0). `require "zazu"` now prints a
+  deprecation warning and the gem shows a post-install message pointing to
+  `gem "manza"`. No further releases under this name; see the
+  [migration guide](https://github.com/getmanza/manza-ruby/blob/main/CHANGELOG.md).
+
+## [0.3.0]
 
 ### Added
 

@@ -1,5 +1,7 @@
 # Zazu Ruby SDK
 
+> **Deprecated.** `zazu-ruby` is now [`manza`](https://rubygems.org/gems/manza): `gem "manza"`, `require "manza"`, `Manza::Client`. See the [migration guide](https://github.com/getmanza/manza-ruby/blob/main/CHANGELOG.md). This gem gets no further updates.
+
 Ruby SDK for the [Manza API](https://ma.manza.finance). Faraday + HTTPX adapter for HTTP/2 + persistent connections.
 
 ```ruby

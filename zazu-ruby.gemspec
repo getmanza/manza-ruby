@@ -21,6 +21,11 @@ Gem::Specification.new do |spec|
   spec.metadata["bug_tracker_uri"] = "https://github.com/getzazu/zazu-ruby/issues"
   spec.metadata["documentation_uri"] = "https://github.com/getzazu/zazu-ruby#readme"
   spec.metadata["rubygems_mfa_required"] = "true"
+  spec.post_install_message = <<~MSG
+    zazu-ruby is deprecated and gets no further updates. It is now published
+    as gem "manza" (require "manza", Manza::Client). Migration guide:
+    https://github.com/getmanza/manza-ruby/blob/main/CHANGELOG.md
+  MSG
 
   spec.files = Dir[
     "lib/**/*.rb",

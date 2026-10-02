@@ -9,6 +9,12 @@
 #   zazu.accounts.list(limit: 50)
 #
 # See README.md for full documentation.
+#
+# Deprecated: this gem was renamed. Use `gem "manza"` / `require "manza"`.
+warn("[zazu-ruby] zazu-ruby is deprecated and gets no further updates. " \
+     'Switch to gem "manza" (require "manza", Manza::Client). ' \
+     "Migration guide: https://github.com/getmanza/manza-ruby/blob/main/CHANGELOG.md")
+
 module Zazu
   # Module-level shortcut. Equivalent to Zazu::Client.new(...).
   def self.new(**)
