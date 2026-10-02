@@ -464,6 +464,9 @@ module Fixtures
 
     def stale_invoices
       stale_records(@client.invoices) do |i|
+        # Teardown cancels invoices it cannot delete; treat those as gone.
+        next false if i["status"] == "cancelled"
+
         fixture_record?(i["reference"]) || fixture_record?(i.dig("customer", "name"))
       end
     end
@@ -523,9 +526,10 @@ module Fixtures
     def try_delete_customer(id)
       @client.customers.delete(id)
     rescue Zazu::ValidationError => e
-      # Customers with invoices cannot be hard-deleted. Surface the
-      # constraint and move on.
-      log "  - customer #{id}: #{e.message}"
+      # Customers with invoices cannot be hard-deleted. Drop the fixture
+      # tag instead, so the next seed does not count it as stale.
+      log "  - customer #{id}: #{e.message} (retiring instead)"
+      @client.customers.update(id, company_name: "Zazu Fixture Co — retired #{id[0, 8]}")
     end
 
     def try_delete_invoice(id)
