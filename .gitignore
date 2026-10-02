@@ -16,3 +16,4 @@ Gemfile.lock
 .ruby-version.local
 .env
 .env.local
+.env.bak

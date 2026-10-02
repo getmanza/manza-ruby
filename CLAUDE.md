@@ -124,7 +124,8 @@ For multi-step tasks, state a brief plan with verification at each step.
 ```bash
 # One-time setup
 bundle install
-cp .env.example .env   # then fill in MANZA_STAGING_API_KEY for cassette recording
+bin/rename-env-vars    # existing .env from before 1.0: ZAZU_* → MANZA_* (backup in .env.bak)
+cp .env.example .env   # fresh setup only; then fill in MANZA_STAGING_API_KEY for cassette recording
 
 # Daily loop
 bundle exec rspec spec/manza/path/to_spec.rb    # while iterating

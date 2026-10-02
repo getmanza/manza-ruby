@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Renames ZAZU_* keys to MANZA_* in a dotenv file (default: .env) for the
+# 1.0 rename. Keeps a backup at <file>.bak. Safe to run twice.
+#
+#   bin/rename-env-vars            # .env
+#   bin/rename-env-vars path/.env
+set -euo pipefail
+
+FILE="${1:-.env}"
+[[ -f "$FILE" ]] || { echo "No such file: $FILE" >&2; exit 1; }
+
+sed -i.bak -E 's/^([[:space:]]*(export[[:space:]]+)?)ZAZU_/\1MANZA_/' "$FILE"
+echo "Renamed $(grep -cE '^[[:space:]]*(export[[:space:]]+)?MANZA_' "$FILE") MANZA_* keys in $FILE (backup: $FILE.bak)"

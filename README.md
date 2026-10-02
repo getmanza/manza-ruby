@@ -198,7 +198,8 @@ The spec suite is VCR-backed — cassettes live in `spec/fixtures/cassettes/` an
 To re-record cassettes against staging:
 
 ```bash
-cp .env.example .env
+bin/rename-env-vars    # upgrading an existing 0.x .env: ZAZU_* → MANZA_* (backup in .env.bak)
+cp .env.example .env   # fresh setup only — overwrites an existing .env
 # fill in the keys, MANZA_FIXTURE_ACCOUNT_ID and MANZA_FIXTURE_BENEFICIARY_ID
 cloudflared tunnel --config ~/.cloudflared/zazu-sdk-authorizer.yml run zazu-sdk-authorizer   # separate terminal
 bundle exec rake fixtures:record
