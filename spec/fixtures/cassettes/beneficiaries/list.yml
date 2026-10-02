@@ -1,7 +1,6 @@
-# Hand-authored against the documented API contract (getzazu/app#2923) —
-# the beneficiaries endpoint was not yet deployed to staging when this
-# cassette was added. Re-record with `bundle exec rake fixtures:record`
-# once it ships (see lib/tasks/fixtures.rake discover_beneficiary_id!).
+# Hand-authored against the API contract (getmanza/zazu-ruby#6, app
+# c07b99b7e1): recording needs the one-time staging setup listed in
+# lib/tasks/fixtures.rake. Re-record with `bundle exec rake fixtures:record`.
 ---
 http_interactions:
 - request:
@@ -14,7 +13,7 @@ http_interactions:
       Authorization:
       - Bearer <ZAZU_API_KEY>
       User-Agent:
-      - zazu-ruby/0.1.3
+      - zazu-ruby/0.2.1
       Accept:
       - application/json
   response:
@@ -28,8 +27,10 @@ http_interactions:
       - "<REQUEST_ID>"
       Zazu-Version:
       - "<ZAZU_VERSION>"
+      Manza-Version:
+      - "<ZAZU_VERSION>"
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-beneficiary-id","beneficiary_type":"company","email":"fixture-beneficiary@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary Co","external_accounts":[{"id":"fixture-external-account-id","name":"Fixture Main Account","account_number":"007810000123456789012345","bank_identifier":"007","currency_code":"MAD","default":true}],"created_at":"2026-07-01T09:00:00Z"}],"has_more":false,"next_cursor":null}'
-  recorded_at: Wed, 16 Jul 2026 10:00:10 GMT
+      string: '{"data":[{"id":"fixture-beneficiary-id","beneficiary_type":"company","email":"fixture-beneficiary@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary Co","external_accounts":[{"id":"fixture-trusted-external-account-id","name":"Fixture Main Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"created_at":"2026-07-01T09:00:00Z"},{"id":"fixture-created-beneficiary-id","beneficiary_type":"company","email":"fixture-created-beneficiary@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary - created (zazu-ruby-fixture-v1)","external_accounts":[{"id":"fixture-external-account-id","name":"Fixture Seeded Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"created_at":"2026-10-02T10:00:00Z"}],"has_more":false,"next_cursor":null}'
+  recorded_at: Fri, 02 Oct 2026 10:00:00 GMT
 recorded_with: VCR 6.4.0

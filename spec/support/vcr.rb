@@ -15,13 +15,16 @@
 # Sensitive data is filtered before cassettes hit disk:
 #   - Authorization bearer tokens → "<ZAZU_API_KEY>"
 #   - X-Request-Id response headers → "<REQUEST_ID>"
-#   - Zazu-Version response headers → "<ZAZU_VERSION>"
+#   - Zazu-Version / Manza-Version response headers → "<ZAZU_VERSION>"
+#   - `signature` in transfer-authorization request bodies → "<SIGNATURE>"
 #   - List endpoints: non-fixture entries dropped from the response
 #     so we don't ship real customer PII / live webhook URLs from the
 #     staging entity into a public repo.
 #   - Sensitive response fields by name (recursive, any nesting depth):
 #       signing_secret → "<WEBHOOK_SIGNING_SECRET>"
 #       rib            → "<RIB>"
+#       account_number → "<ACCOUNT_NUMBER>"
+#       bank_identifier → "<BANK_IDENTIFIER>"
 #       next_cursor    → "<NEXT_CURSOR>" (encodes a real non-fixture record)
 # Even if a developer pastes a real key into a test or pulls one
 # from .env, the committed cassette is scrubbed.
@@ -78,6 +81,9 @@ end
 SENSITIVE_FIELD_PLACEHOLDERS = {
   "signing_secret" => "<WEBHOOK_SIGNING_SECRET>",
   "rib" => "<RIB>", # Moroccan bank account / routing identifier
+  # Beneficiary bank accounts — staging holds real bank numbers.
+  "account_number" => "<ACCOUNT_NUMBER>",
+  "bank_identifier" => "<BANK_IDENTIFIER>",
   # Cursor encodes a real non-fixture record's timestamp + UUID; it
   # churns on every re-record and points at staging internals.
   "next_cursor" => "<NEXT_CURSOR>"
@@ -149,6 +155,21 @@ VCR.configure do |config|
 
   config.filter_sensitive_data("<ZAZU_VERSION>") do |interaction|
     interaction.response.headers["Zazu-Version"]&.first
+  end
+
+  config.filter_sensitive_data("<ZAZU_VERSION>") do |interaction|
+    interaction.response.headers["Manza-Version"]&.first
+  end
+
+  # The authorize signature is an HMAC over the real nonce under the
+  # real authorizer secret. It lives in the *request* body, which the
+  # field scrubber above does not walk.
+  config.filter_sensitive_data("<SIGNATURE>") do |interaction|
+    next nil unless interaction.request.uri.end_with?("/authorize")
+
+    JSON.parse(interaction.request.body.to_s)["signature"]
+  rescue JSON::ParserError
+    nil
   end
 
   # Scrub fixture IDs out of URLs and bodies so cassettes replay

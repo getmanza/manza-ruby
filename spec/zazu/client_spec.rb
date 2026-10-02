@@ -51,11 +51,56 @@ RSpec.describe Zazu::Client do
         entity: Zazu::Resources::Entity,
         invoices: Zazu::Resources::Invoices,
         payment_links: Zazu::Resources::PaymentLinks,
+        payee_trust_requests: Zazu::Resources::PayeeTrustRequests,
         webhook_endpoints: Zazu::Resources::WebhookEndpoints
       }
       modules.each do |accessor, klass|
         expect(client.public_send(accessor)).to be_a(klass)
       end
+    end
+  end
+
+  describe "error mapping" do
+    let(:client) { described_class.new(api_key: "k", base_url: "https://staging.zazu.example") }
+
+    def stub_error(status, error)
+      stub_request(:get, "https://staging.zazu.example/api/entity")
+        .to_return(status: status, body: { error: error }.to_json,
+                   headers: { "Content-Type" => "application/json" })
+    end
+
+    it "maps 400 to ValidationError" do
+      stub_error(400, { message: "limit is malformed", type: "invalid_request_error" })
+
+      expect { client.entity.get }.to raise_error(Zazu::ValidationError) { |e|
+        expect(e.status).to eq(400)
+        expect(e.message).to eq("limit is malformed")
+        expect(e.type).to eq("invalid_request_error")
+      }
+    end
+
+    it "maps 409 to ConflictError carrying error.payment_id" do
+      stub_error(409, { message: "A transfer with this client_reference already exists",
+                        type: "duplicate_client_reference", param: "client_reference", payment_id: "pay_1" })
+
+      expect { client.entity.get }.to raise_error(Zazu::ConflictError) { |e|
+        expect(e.status).to eq(409)
+        expect(e.type).to eq("duplicate_client_reference")
+        expect(e.param).to eq("client_reference")
+        expect(e.payment_id).to eq("pay_1")
+      }
+    end
+
+    it "leaves payment_id nil when a 409 omits it" do
+      stub_error(409, { message: "Conflict" })
+
+      expect { client.entity.get }.to raise_error(Zazu::ConflictError) { |e| expect(e.payment_id).to be_nil }
+    end
+
+    it "includes payment_id in ConflictError#to_h" do
+      error = Zazu::ConflictError.new("dup", status: 409, payment_id: "pay_1")
+
+      expect(error.to_h).to include(error: "ConflictError", payment_id: "pay_1")
     end
   end
 end

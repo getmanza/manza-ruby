@@ -4,11 +4,11 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://staging.zazu.ma/api/beneficiaries/fixture-beneficiary-id
+    method: post
+    uri: https://staging.zazu.ma/api/transfer_drafts/fixture-bad-signature-draft-id/authorize
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"authorization_id":"fixture-bad-signature-authorization-id","signature":"<SIGNATURE>"}'
     headers:
       Authorization:
       - Bearer <ZAZU_API_KEY>
@@ -16,10 +16,12 @@ http_interactions:
       - zazu-ruby/0.2.1
       Accept:
       - application/json
+      Content-Type:
+      - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 422
+      message: Unprocessable Content
     headers:
       Content-Type:
       - application/json; charset=utf-8
@@ -31,6 +33,6 @@ http_interactions:
       - "<ZAZU_VERSION>"
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-beneficiary-id","beneficiary_type":"company","email":"fixture-beneficiary@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary Co","external_accounts":[{"id":"fixture-trusted-external-account-id","name":"Fixture Main Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"created_at":"2026-07-01T09:00:00Z"}'
+      string: '{"error":{"message":"Signature does not match","type":"invalid_signature"}}'
   recorded_at: Fri, 02 Oct 2026 10:00:00 GMT
 recorded_with: VCR 6.4.0

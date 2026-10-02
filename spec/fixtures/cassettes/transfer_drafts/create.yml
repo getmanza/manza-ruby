@@ -1,7 +1,6 @@
-# Hand-authored against the documented API contract (getzazu/app#2923) —
-# the transfer_drafts endpoint was not yet deployed to staging when this
-# cassette was added. Re-record with `bundle exec rake fixtures:record`
-# once it ships (see lib/tasks/fixtures.rake seed_transfer_draft!).
+# Hand-authored against the API contract (getmanza/zazu-ruby#6, app
+# c07b99b7e1): recording needs the one-time staging setup listed in
+# lib/tasks/fixtures.rake. Re-record with `bundle exec rake fixtures:record`.
 ---
 http_interactions:
 - request:
@@ -9,12 +8,12 @@ http_interactions:
     uri: https://staging.zazu.ma/api/transfer_drafts
     body:
       encoding: UTF-8
-      string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"150.00","payment_reference":"SDK fixture"}'
+      string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"150.00","payment_reference":"SDK fixture","client_reference":"fixture-client-reference"}'
     headers:
       Authorization:
       - Bearer <ZAZU_API_KEY>
       User-Agent:
-      - zazu-ruby/0.1.3
+      - zazu-ruby/0.2.1
       Accept:
       - application/json
       Content-Type:
@@ -30,8 +29,10 @@ http_interactions:
       - "<REQUEST_ID>"
       Zazu-Version:
       - "<ZAZU_VERSION>"
+      Manza-Version:
+      - "<ZAZU_VERSION>"
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-transfer-draft-id","status":"requested","currency_code":"MAD","payment_reference":"SDK fixture","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-external-account-id","amount":"150.0","destination_account_id":null,"transfer":null,"created_at":"2026-07-16T10:00:00Z","updated_at":"2026-07-16T10:00:00Z"}'
-  recorded_at: Wed, 16 Jul 2026 10:00:00 GMT
+      string: '{"id":"0199a5c0-0000-7000-8000-00000000d004","status":"requested","currency_code":"MAD","payment_reference":"SDK fixture","client_reference":"fixture-client-reference","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"150.0","destination_account_id":null,"transfer":null,"authorization":{"id":"0199a5c0-0000-7000-8000-00000000a005","status":"pending","expires_at":"2026-10-02T11:00:00Z"},"created_at":"2026-10-02T10:00:00Z","updated_at":"2026-10-02T10:00:00Z"}'
+  recorded_at: Fri, 02 Oct 2026 10:00:00 GMT
 recorded_with: VCR 6.4.0

@@ -1,7 +1,6 @@
-# Hand-authored against the documented API contract (getzazu/app#2923) —
-# the transfer_drafts endpoint was not yet deployed to staging when this
-# cassette was added. Re-record with `bundle exec rake fixtures:record`
-# once it ships (see lib/tasks/fixtures.rake seed_transfer_draft!).
+# Hand-authored against the API contract (getmanza/zazu-ruby#6, app
+# c07b99b7e1): recording needs the one-time staging setup listed in
+# lib/tasks/fixtures.rake. Re-record with `bundle exec rake fixtures:record`.
 ---
 http_interactions:
 - request:
@@ -14,7 +13,7 @@ http_interactions:
       Authorization:
       - Bearer <ZAZU_API_KEY>
       User-Agent:
-      - zazu-ruby/0.1.3
+      - zazu-ruby/0.2.1
       Accept:
       - application/json
   response:
@@ -28,8 +27,10 @@ http_interactions:
       - "<REQUEST_ID>"
       Zazu-Version:
       - "<ZAZU_VERSION>"
+      Manza-Version:
+      - "<ZAZU_VERSION>"
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-transfer-draft-id","status":"requested","currency_code":"MAD","payment_reference":"SDK fixture","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-external-account-id","amount":"150.0","destination_account_id":null,"transfer":null,"created_at":"2026-07-16T10:00:00Z","updated_at":"2026-07-16T10:00:00Z"}'
-  recorded_at: Wed, 16 Jul 2026 10:00:05 GMT
+      string: '{"id":"fixture-transfer-draft-id","status":"requested","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-transfer","client_reference":null,"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"1.0","destination_account_id":null,"transfer":null,"authorization":null,"created_at":"2026-10-02T10:00:00Z","updated_at":"2026-10-02T10:00:00Z"}'
+  recorded_at: Fri, 02 Oct 2026 10:00:00 GMT
 recorded_with: VCR 6.4.0

@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/beneficiaries/fixture-beneficiary-id
+    uri: https://staging.zazu.ma/api/beneficiaries/fixture-created-beneficiary-id/external_accounts?limit=100
     body:
       encoding: US-ASCII
       string: ''
@@ -31,6 +31,6 @@ http_interactions:
       - "<ZAZU_VERSION>"
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-beneficiary-id","beneficiary_type":"company","email":"fixture-beneficiary@example.com","phone_number":null,"name":"Zazu Fixture Beneficiary Co","external_accounts":[{"id":"fixture-trusted-external-account-id","name":"Fixture Main Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"created_at":"2026-07-01T09:00:00Z"}'
+      string: '{"data":[{"id":"fixture-external-account-id","name":"Fixture Seeded Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"has_more":false,"next_cursor":null}'
   recorded_at: Fri, 02 Oct 2026 10:00:00 GMT
 recorded_with: VCR 6.4.0

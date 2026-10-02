@@ -7,6 +7,45 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
+
+- `Zazu::ConflictError` (409), the 10th error class. A duplicate
+  `client_reference` on a transfer draft raises it with `#payment_id`
+  naming the existing draft. 400 now maps to `Zazu::ValidationError`
+  (lists return 400 for a malformed `limit`/`cursor`).
+- `TransferDrafts#authorize(id, authorization_id:, signature:)` and
+  `#decline(id, authorization_id:, reason: nil)` for machine-authorized
+  transfers. A blank signature raises `Zazu::ArgumentError` locally —
+  the API would count it as a failed attempt.
+- `TransferDrafts#create` documents the new optional `client_reference`;
+  responses carry `client_reference` and `authorization`.
+- `Zazu::TransferAuthorization` — `signature_input`, `sign` and
+  `payee_for`, the HMAC-SHA256 signer for authorization challenges, with
+  a fixed test vector shared across SDKs
+  (`spec/zazu/transfer_authorization_spec.rb`).
+- `Beneficiaries#create`, `#list_external_accounts`,
+  `#get_external_account` and `#create_external_account`.
+- `Zazu::Resources::PayeeTrustRequests` (`zazu.payee_trust_requests`) —
+  `create(external_account_ids:)` and `get(id)`.
+- Docs for new pass-through fields: checkout session `customer_name`,
+  `collect_billing_address`, `billing_address`, `settled_at`,
+  `transaction` and the `clearing` status; payment link billing fields;
+  customer `registration_number` / `vat_number` (and MA-only `tax_id` /
+  `ice_number`).
+
+### Changed
+
+- Cassettes scrub `Manza-Version`, `account_number`, `bank_identifier`
+  and the authorize request `signature`. The two authorize cassettes
+  match on method + URI.
+- `rake fixtures:seed` needs a second, authorizer API key, the
+  authorizer endpoint's signing secret and a tunnel to a local webhook
+  receiver (see the one-time setup in `lib/tasks/fixtures.rake`).
+  Re-recording now executes a real 1.00 MAD transfer.
+- The new beneficiaries, payee_trust_requests and transfer_drafts
+  cassettes are hand-authored against the API contract; re-record with
+  `rake fixtures:record` once the staging setup is in place.
+
 ## [0.2.1]
 
 ### Added
