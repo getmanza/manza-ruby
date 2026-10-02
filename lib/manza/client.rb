@@ -28,6 +28,8 @@ module Manza
     # Reads MANZA_<name>, falling back to the pre-1.0 ZAZU_<name> with a
     # one-time deprecation warning per variable. The fallback stays for
     # all of 1.x.
+    #
+    # @api private
     def self.env(name)
       value = ENV.fetch("MANZA_#{name}", nil)
       return value unless value.nil?
