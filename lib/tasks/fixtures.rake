@@ -19,12 +19,51 @@
 #   ZAZU_STAGING_API_KEY  — must have read+write scopes for every
 #                            resource we seed (customers, invoices,
 #                            payment_links, webhook_endpoints).
-#   ZAZU_STAGING_URL       — usually https://staging.zazu.ma.
+#   ZAZU_STAGING_URL       — usually https://ma.manza.dev.
 #   ZAZU_FIXTURE_ACCOUNT_ID — must be a real account in the entity
 #                              the API key belongs to. The seed
 #                              cannot create accounts (that's a
 #                              banking-side operation), so this one
 #                              ID has to come from outside.
+#   ZAZU_FIXTURE_BENEFICIARY_ID — the beneficiary whose default bank
+#                              account was marked a trusted payee by
+#                              hand (setup step 5). Hand-provided, like
+#                              the account: API-created beneficiaries
+#                              pile up (no delete) and are never trusted.
+#   ZAZU_STAGING_AUTHORIZER_API_KEY — a second key with
+#                              `transfers:authorize`. The API refuses to
+#                              let a draft's creating key authorize it.
+#   ZAZU_STAGING_AUTHORIZER_SECRET — signing secret of the webhook
+#                              endpoint enrolled as transfer authorizer.
+#   ZAZU_STAGING_AUTHORIZER_PORT — local port the authorizer endpoint's
+#                              tunnel forwards to (default 4599).
+#
+# One-time manual staging setup (in the staging UI) before the first
+# record of the machine-authorization cassettes:
+#
+#   1. Turn on `release_api_transfers` and
+#      `release_api_webhook_authorization` for the fixture entity.
+#   2. Give ZAZU_STAGING_API_KEY the extra scopes `beneficiaries:write`
+#      and `beneficiaries:request_trust`.
+#   3. Create ZAZU_STAGING_AUTHORIZER_API_KEY with `transfers:authorize`.
+#      Its creator must be an active member allowed to authorize and
+#      delete payments.
+#   4. Create a webhook endpoint at a stable tunnel URL (cloudflared /
+#      ngrok reserved domain) forwarding to ZAZU_STAGING_AUTHORIZER_PORT,
+#      enrol it as the transfer authorizer with limits covering 10.00 MAD (the API minimum),
+#      and store its secret as ZAZU_STAGING_AUTHORIZER_SECRET.
+#   5. Mark a beneficiary's default bank account as a trusted payee and
+#      store the beneficiary's id as ZAZU_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so the money comes
+#      back, and keep a balance on ZAZU_FIXTURE_ACCOUNT_ID.
+#
+# MONEY MOVES: the authorize cassette executes a real 10.00 MAD transfer
+# to the trusted payee on every re-record.
+#
+# The machine-authorization challenge expires after 1h, so seed and
+# record must run in the same `rake fixtures:record`. Seed and record
+# also share one process: the webhook receiver starts before the first
+# draft is seeded and keeps answering deliveries until the process
+# exits, so the authorizer endpoint does not collect failed deliveries.
 
 require "dotenv"
 # Use overload so the file's values beat any stale exports in the
@@ -43,6 +82,13 @@ module Fixtures
     FIXTURE_VERSION = "1" # bump when seed shape changes meaningfully
 
     REQUIRED_ENV = %w[ZAZU_STAGING_API_KEY ZAZU_STAGING_URL ZAZU_FIXTURE_ACCOUNT_ID].freeze
+    # Only seeding needs these; teardown must work without them.
+    SEED_ENV = %w[
+      ZAZU_FIXTURE_BENEFICIARY_ID ZAZU_STAGING_AUTHORIZER_API_KEY ZAZU_STAGING_AUTHORIZER_SECRET
+    ].freeze
+
+    # Seconds to wait for the three payment.authorization_requested webhooks.
+    AUTHORIZATION_WEBHOOK_TIMEOUT = 120
 
     # Keys we will print to stdout, in .env-paste-ready order.
     #
@@ -66,8 +112,21 @@ module Fixtures
       ZAZU_FIXTURE_DISABLED_WEBHOOK_ID
       ZAZU_FIXTURE_DELETABLE_WEBHOOK_ID
       ZAZU_FIXTURE_CHECKOUT_SESSION_ID
-      ZAZU_FIXTURE_BENEFICIARY_ID
       ZAZU_FIXTURE_TRANSFER_DRAFT_ID
+      ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID
+      ZAZU_FIXTURE_CREATED_BENEFICIARY_ID
+      ZAZU_FIXTURE_EXTERNAL_ACCOUNT_ID
+      ZAZU_FIXTURE_NEW_ACCOUNT_NUMBER
+      ZAZU_FIXTURE_PAYEE_TRUST_REQUEST_ID
+      ZAZU_FIXTURE_CLIENT_REFERENCE
+      ZAZU_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE
+      ZAZU_FIXTURE_AUTHORIZABLE_DRAFT_ID
+      ZAZU_FIXTURE_DECLINABLE_DRAFT_ID
+      ZAZU_FIXTURE_BAD_SIGNATURE_DRAFT_ID
+      ZAZU_FIXTURE_AUTHORIZABLE_AUTHORIZATION_ID
+      ZAZU_FIXTURE_DECLINABLE_AUTHORIZATION_ID
+      ZAZU_FIXTURE_BAD_SIGNATURE_AUTHORIZATION_ID
+      ZAZU_FIXTURE_AUTHORIZABLE_NONCE
     ].freeze
 
     def initialize
@@ -83,6 +142,7 @@ module Fixtures
     end
 
     def run!
+      check_env!(SEED_ENV)
       log "Checking for stale fixtures…"
       stale = find_stale_fixtures
       total_stale = stale.values.sum(&:size)
@@ -110,11 +170,22 @@ module Fixtures
       log "Seeding checkout session…"
       seed_checkout_session!
 
-      log "Discovering beneficiary id…"
-      discover_beneficiary_id!
+      log "Looking up the trusted payee…"
+      discover_trusted_external_account_id!
+
+      # Before any draft: every draft to the trusted payee fires a
+      # payment.authorization_requested webhook.
+      log "Starting the authorization webhook receiver…"
+      start_authorization_receiver!
 
       log "Seeding transfer draft…"
       seed_transfer_draft!
+
+      log "Seeding beneficiary, bank account and payee trust request…"
+      seed_beneficiary!
+
+      log "Seeding machine-authorization drafts (waiting for webhooks)…"
+      seed_machine_authorizations!
 
       emit_env_block
     end
@@ -143,8 +214,8 @@ module Fixtures
 
     private
 
-    def check_env!
-      missing = REQUIRED_ENV.select { |k| ENV.fetch(k, "").empty? }
+    def check_env!(required = REQUIRED_ENV)
+      missing = required.select { |k| ENV.fetch(k, "").empty? }
       return if missing.empty?
 
       warn "Missing required env vars: #{missing.join(", ")}"
@@ -275,31 +346,106 @@ module Fixtures
       @ids["ZAZU_FIXTURE_CHECKOUT_SESSION_ID"] = response.body["id"]
     end
 
-    # Beneficiaries are read-only via the API (created in the dashboard) —
-    # like transactions, we discover one rather than seeding it. The staging
-    # entity must have at least one beneficiary with a bank account on file.
-    def discover_beneficiary_id!
-      page = @client.beneficiaries.list(limit: 1)
-      first = page.data.first
-      raise "No beneficiaries found on staging entity — create one in the dashboard first" unless first
+    # The machine-authorization path needs a *trusted* payee, and only a
+    # member can grant trust (in the app, behind OTP). So rather than
+    # seeding one, we reuse the hand-provided beneficiary whose default
+    # bank account was marked trusted once (setup step 5).
+    def discover_trusted_external_account_id!
+      beneficiary_id = ENV.fetch("ZAZU_FIXTURE_BENEFICIARY_ID")
+      beneficiary = @client.beneficiaries.get(beneficiary_id).body
+      trusted = beneficiary["external_accounts"].find { |a| a["default"] }
+      raise "Beneficiary #{beneficiary_id} has no default bank account — see setup step 5" unless trusted
 
-      @ids["ZAZU_FIXTURE_BENEFICIARY_ID"] = first["id"]
+      @ids["ZAZU_FIXTURE_BENEFICIARY_ID"] = beneficiary_id
+      @ids["ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"] = trusted["id"]
     end
 
-    # Transfer drafts created via the API land in the in-app approval queue
-    # (status "requested") and are never executed unless a human approves —
-    # so seeding one moves no money. There is no delete endpoint; like
-    # checkout sessions, seeded drafts sit inert on staging and are excluded
-    # from find_stale_fixtures/teardown.
+    def start_authorization_receiver!
+      @receiver = AuthorizationReceiver.start(
+        port: Integer(ENV.fetch("ZAZU_STAGING_AUTHORIZER_PORT", "4599")),
+        secret: ENV.fetch("ZAZU_STAGING_AUTHORIZER_SECRET")
+      )
+    end
+
+    # There is no delete endpoint for transfer drafts; like checkout
+    # sessions, seeded drafts sit on staging and are excluded from
+    # find_stale_fixtures/teardown. This one targets the trusted payee,
+    # so it gets a machine-authorization challenge that nobody answers:
+    # after 1h it falls back to the in-app approvers. Do not approve it.
     def seed_transfer_draft!
       response = @client.transfer_drafts.create(
         account_id: @account_id,
         beneficiary_id: @ids.fetch("ZAZU_FIXTURE_BENEFICIARY_ID"),
-        amount: "1.00",
+        amount: "10.00",
         payment_reference: fixture_marker("transfer"),
         internal_notes: "[#{FIXTURE_TAG}] transfer draft — do not approve"
       )
       @ids["ZAZU_FIXTURE_TRANSFER_DRAFT_ID"] = response.body["id"]
+    end
+
+    # There is no delete endpoint for beneficiaries, bank accounts or
+    # trust requests. API-created ones stay on staging, inert, and are
+    # excluded from teardown. The trust request stays `pending`: nobody
+    # approves it, so the seeded account never becomes a trusted payee.
+    def seed_beneficiary!
+      beneficiary = @client.beneficiaries.create(
+        beneficiary_type: "business",
+        company_name: "Zazu Fixture Beneficiary - created (#{fixture_marker})",
+        email: "fixture-created-beneficiary-#{SecureRandom.hex(4)}@example.com"
+      ).body
+      account = @client.beneficiaries.create_external_account(
+        beneficiary["id"], account_number: random_rib, name: "Fixture Seeded Account"
+      ).body
+      trust_request = @client.payee_trust_requests.create(external_account_ids: [account["id"]]).body
+
+      @ids["ZAZU_FIXTURE_CREATED_BENEFICIARY_ID"] = beneficiary["id"]
+      @ids["ZAZU_FIXTURE_EXTERNAL_ACCOUNT_ID"] = account["id"]
+      @ids["ZAZU_FIXTURE_PAYEE_TRUST_REQUEST_ID"] = trust_request["id"]
+      # Account numbers are unique per entity: the create_external_account
+      # spec needs a fresh one on every record.
+      @ids["ZAZU_FIXTURE_NEW_ACCOUNT_NUMBER"] = random_rib
+      # Unused here: the transfer_drafts#create spec sends it.
+      @ids["ZAZU_FIXTURE_CLIENT_REFERENCE"] = random_client_reference("create")
+    end
+
+    # Three drafts to the trusted payee, each answered by a different
+    # spec: authorize (200, executes 10.00 MAD), decline (200), and a bad
+    # signature (422). The authorization id and nonce arrive only in the
+    # payment.authorization_requested webhook, so the local receiver
+    # captures them.
+    #
+    # Like the seed draft, the bad-signature draft is left with a failed
+    # attempt and falls back to the in-app approvers after 1h; the
+    # declined one is deleted. Do not approve leftovers.
+    def seed_machine_authorizations!
+      drafts = %w[authorizable declinable bad_signature].to_h do |kind|
+        [kind, create_machine_draft!(kind)]
+      end
+      @ids["ZAZU_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE"] = drafts["authorizable"]["client_reference"]
+
+      challenges = @receiver.wait_for(drafts.values.map { |d| d["id"] }, timeout: AUTHORIZATION_WEBHOOK_TIMEOUT)
+
+      drafts.each do |kind, draft|
+        prefix = "ZAZU_FIXTURE_#{kind.upcase}"
+        @ids["#{prefix}_DRAFT_ID"] = draft["id"]
+        @ids["#{prefix}_AUTHORIZATION_ID"] = challenges.fetch(draft["id"]).fetch("authorization_id")
+      end
+      @ids["ZAZU_FIXTURE_AUTHORIZABLE_NONCE"] = challenges.fetch(drafts["authorizable"]["id"]).fetch("nonce")
+    end
+
+    def create_machine_draft!(kind)
+      draft = @client.transfer_drafts.create(
+        account_id: @account_id,
+        beneficiary_id: @ids.fetch("ZAZU_FIXTURE_BENEFICIARY_ID"),
+        external_account_id: @ids.fetch("ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),
+        amount: "10.00",
+        payment_reference: fixture_marker(kind.tr("_", "-")),
+        client_reference: random_client_reference(kind)
+      ).body
+      return draft if draft["authorization"]
+
+      raise "Draft #{draft["id"]} (#{kind}) went to the in-app approvers instead of the authorizer. " \
+            "Check the one-time setup in lib/tasks/fixtures.rake: flags, authorizer enrolment and limits, trusted payee."
     end
 
     # --- Teardown steps -----------------------------------------------------
@@ -320,6 +466,9 @@ module Fixtures
 
     def stale_invoices
       stale_records(@client.invoices) do |i|
+        # Teardown cancels invoices it cannot delete; treat those as gone.
+        next false if i["status"] == "cancelled"
+
         fixture_record?(i["reference"]) || fixture_record?(i.dig("customer", "name"))
       end
     end
@@ -379,9 +528,13 @@ module Fixtures
     def try_delete_customer(id)
       @client.customers.delete(id)
     rescue Zazu::ValidationError => e
-      # Customers with invoices cannot be hard-deleted. Surface the
-      # constraint and move on.
-      log "  - customer #{id}: #{e.message}"
+      # Customers with invoices cannot be hard-deleted. Drop the fixture
+      # tag instead, so the next seed does not count it as stale, and free
+      # the email (unique per entity) the customers#update spec sets.
+      log "  - customer #{id}: #{e.message} (retiring instead)"
+      @client.customers.update(
+        id, company_name: "Zazu Fixture Co — retired #{id[0, 8]}", email: "fixture-retired-#{id}@example.com"
+      )
     end
 
     def try_delete_invoice(id)
@@ -454,6 +607,18 @@ module Fixtures
       log "Wrote #{EMITTED_KEYS.size} fixture IDs to .env."
     end
 
+    def random_client_reference(kind)
+      "#{fixture_marker(kind.tr("_", "-"))}-#{SecureRandom.hex(6)}"
+    end
+
+    # A 24-digit Moroccan RIB: bank (3) + city (3) + account (16) + key (2),
+    # with key = 97 - (first 22 digits * 100 mod 97).
+    def random_rib
+      body = "007780#{Array.new(16) { rand(10) }.join}"
+      key = 97 - ((Integer(body, 10) * 100) % 97)
+      format("%<body>s%<key>02d", body: body, key: key)
+    end
+
     def random_ice_number
       # MA market requires 15 digits when business + ice_number is
       # present. We always send exactly 15 digits to keep validation
@@ -462,6 +627,106 @@ module Fixtures
     end
   end
   # rubocop:enable Metrics/ClassLength
+
+  # Minimal HTTP receiver for the authorizer endpoint's tunnel. Verifies
+  # each delivery's signature (HMAC-SHA256 of "<timestamp>.<body>" under
+  # the endpoint secret) and records `payment.authorization_requested`
+  # challenges by payment id. Runs on a background thread until the
+  # process exits.
+  class AuthorizationReceiver
+    EVENT = "payment.authorization_requested"
+
+    def self.start(port:, secret:)
+      new(port:, secret:).tap(&:start)
+    end
+
+    def initialize(port:, secret:)
+      require "socket"
+      require "openssl"
+      @server = TCPServer.new("127.0.0.1", port)
+      @secret = secret
+      @challenges = {}
+      @mutex = Mutex.new
+    end
+
+    def start
+      Thread.new do
+        loop { handle(@server.accept) }
+      end
+    end
+
+    # Returns { payment_id => { "authorization_id", "nonce" } } once
+    # every id has arrived.
+    def wait_for(payment_ids, timeout:)
+      deadline = Time.now + timeout
+      loop do
+        found = @mutex.synchronize { @challenges.slice(*payment_ids) }
+        return found if found.size == payment_ids.size
+        if Time.now > deadline
+          raise "Timed out waiting for #{EVENT} webhooks for #{(payment_ids - found.keys).join(", ")} — is the tunnel up?"
+        end
+
+        sleep 1
+      end
+    end
+
+    private
+
+    def handle(socket)
+      headers, body = read_request(socket)
+      unless signed?(headers, body)
+        respond(socket, 401)
+        return
+      end
+
+      record(JSON.parse(body))
+      respond(socket, 200)
+    rescue StandardError => e
+      warn "[fixtures] receiver: #{e.class}: #{e.message}"
+      respond(socket, 400)
+    ensure
+      socket.close
+    end
+
+    def read_request(socket)
+      socket.gets # request line
+      headers = {}
+      while (line = socket.gets) && line != "\r\n"
+        name, value = line.split(":", 2)
+        headers[name.strip.downcase] = value.to_s.strip
+      end
+      [headers, socket.read(headers.fetch("content-length", "0").to_i)]
+    end
+
+    def signed?(headers, body)
+      signature = headers["x-manza-signature"] || headers["x-zazu-signature"]
+      timestamp = headers["x-manza-timestamp"] || headers["x-zazu-timestamp"]
+      return false unless signature && timestamp
+
+      expected = OpenSSL::HMAC.hexdigest("SHA256", @secret, "#{timestamp}.#{body}")
+      OpenSSL.fixed_length_secure_compare(expected, signature)
+    rescue ArgumentError # length mismatch
+      false
+    end
+
+    def record(payload)
+      return unless payload["event"] == EVENT
+
+      data = payload.fetch("data")
+      @mutex.synchronize do
+        @challenges[data.dig("payment", "id")] = {
+          "authorization_id" => data.dig("authorization", "id"),
+          "nonce" => data.dig("authorization", "nonce")
+        }
+      end
+    end
+
+    def respond(socket, status)
+      socket.write("HTTP/1.1 #{status} #{status == 200 ? "OK" : "Error"}\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+    rescue IOError, SystemCallError
+      nil
+    end
+  end
 end
 
 namespace :fixtures do

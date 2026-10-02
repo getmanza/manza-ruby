@@ -18,7 +18,8 @@ module Zazu
   # uses a connection pool via the HTTPX adapter — multiple threads
   # can share one client.
   class Client
-    DEFAULT_BASE_URL = "https://zazu.ma"
+    # Morocco production. South Africa: https://za.manza.finance.
+    DEFAULT_BASE_URL = "https://ma.manza.finance"
     DEFAULT_TIMEOUT = 30
     USER_AGENT = "zazu-ruby/#{VERSION}".freeze
 
@@ -67,6 +68,10 @@ module Zazu
 
     def payment_links
       @payment_links ||= Resources::PaymentLinks.new(self)
+    end
+
+    def payee_trust_requests
+      @payee_trust_requests ||= Resources::PayeeTrustRequests.new(self)
     end
 
     def transfer_drafts
@@ -130,6 +135,7 @@ module Zazu
     # is matched separately because Range keys don't work in Hash
     # lookup the way exact integers do.
     ERROR_BY_STATUS = {
+      400 => [ValidationError, "Bad request"],
       401 => [AuthenticationError, "Authentication failed"],
       403 => [ForbiddenError, "Forbidden"],
       404 => [NotFoundError, "Not found"],
@@ -147,7 +153,7 @@ module Zazu
         return klass.new(message || default_message, **kwargs)
       end
 
-      build_special_error(response, message, kwargs)
+      build_special_error(response, payload, message, kwargs)
     end
 
     def error_payload(body)
@@ -166,8 +172,10 @@ module Zazu
       }
     end
 
-    def build_special_error(response, message, kwargs)
+    def build_special_error(response, payload, message, kwargs)
       case response.status
+      when 409
+        ConflictError.new(message || "Conflict", payment_id: payload["payment_id"], **kwargs)
       when 429
         retry_after = response.headers["retry-after"]&.to_i
         RateLimitError.new(message || "Rate limited", retry_after: retry_after, **kwargs)

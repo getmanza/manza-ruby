@@ -27,11 +27,16 @@ module Zazu
       end
 
       # PATCH /api/webhook_endpoints/:id
+      #
+      # Changing `url` on the endpoint enrolled as transfer authorizer
+      # raises {Zazu::ValidationError}.
       def update(id, **attributes)
         http_patch(encode_path("api/webhook_endpoints", id), body: attributes)
       end
 
       # DELETE /api/webhook_endpoints/:id
+      #
+      # A soft delete (still 204).
       def delete(id)
         http_delete(encode_path("api/webhook_endpoints", id))
       end
@@ -42,6 +47,8 @@ module Zazu
       end
 
       # POST /api/webhook_endpoints/:id/regenerate_secret
+      #
+      # Raises {Zazu::ValidationError} on the enrolled transfer authorizer.
       def regenerate_secret(id)
         http_post(encode_path("api/webhook_endpoints", id, "regenerate_secret"))
       end

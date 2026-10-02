@@ -20,8 +20,10 @@ module Zazu
       #
       # @param attributes [Hash] customer attributes — see API docs.
       #   Common keys: customer_type ("individual"|"business"),
-      #   person_name, company_name, email, phone, tax_id, ice_number,
-      #   billing_address (Hash with street/city/postal_code/country/country_code).
+      #   person_name, company_name, email, phone, registration_number,
+      #   vat_number, billing_address (Hash with street/city/postal_code/
+      #   country/country_code). Morocco only: tax_id, ice_number — these
+      #   keys are absent from responses in other markets.
       def create(**attributes)
         http_post("api/customers", body: attributes)
       end

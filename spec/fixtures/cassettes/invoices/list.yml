@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/invoices?limit=100
+    uri: https://ma.manza.dev/api/invoices?limit=100
     body:
       encoding: US-ASCII
       string: ''
@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <ZAZU_API_KEY>
       User-Agent:
-      - zazu-ruby/0.1.3
+      - zazu-ruby/0.2.1
       Accept:
       - application/json
       Accept-Encoding:
@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Thu, 07 May 2026 07:39:28 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -32,44 +30,80 @@ http_interactions:
       - max-age=0, private, must-revalidate
       Content-Security-Policy:
       - 'default-src ''self''; script-src ''self'' ''unsafe-eval'' ''wasm-unsafe-eval''
-        https://staging.zazu.ma https://zazu.ma https://zazu.africa https://app.intercom.io
-        https://widget.intercom.io https://js.intercomcdn.com https://js.intercomdcn.eu
-        https://static.sumsub.com https://js.evervault.com https://pay.google.com/gp/p/js/pay.js
-        https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
-        https://www.googletagmanager.com https://assets.calendly.com ''strict-dynamic''
-        ''nonce-GqmmUSsdNynLMttEWAuYEA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com;
-        font-src ''self'' https://fonts.gstatic.com data: https://js.intercomcdn.com
-        https://js.intercomdcn.eu https://fonts.intercomcdn.com; img-src ''self''
-        data: blob: https://staging.zazu.ma https://fsn1.your-objectstorage.com https://js.intercomcdn.com
-        https://js.intercomdcn.eu https://static.intercomassets.com https://static.intercomassets.eu
-        https://downloads.intercomcdn.com https://downloads.intercomcdn.eu https://downloads.intercomdcn.eu
-        https://uploads.intercomusercontent.com https://gifs.intercomcdn.com https://gifs.intercomdcn.eu
-        https://*.intercom-attachments.eu https://*.sumsub.com https://www.google.com
-        https://*.gstatic.com https://www.google-analytics.com; media-src ''self''
-        blob: https://*.sumsub.com https://*.stripe.com https://js.intercomcdn.com
-        https://js.intercomdcn.eu; connect-src ''self'' wss://staging.zazu.ma https://api.sumsub.com
-        https://*.sumsub.com https://api.charimoney.com https://api.eu.intercom.io
+        https://staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev https://zazu.ma
+        https://zazu.africa https://app.intercom.io https://widget.intercom.io https://js.intercomcdn.com
+        https://js.intercomdcn.eu https://static.sumsub.com https://js.evervault.com
+        https://*.peachpayments.com https://oppwa.com https://*.oppwa.com https://pay.google.com
+        https://*.jscrambler.com https://jscrambler.com https://ajax.googleapis.com
+        https://www.google.com https://play.google.com https://applepay.cdn-apple.com
+        https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
+        https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
+        https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-giosv4OfOMxykNr/2CR48A=='';
+        style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
+        https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
+        ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
+        https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com https://js.intercomdcn.eu
+        https://fonts.intercomcdn.com https://assets.ma.manza.dev; img-src ''self''
+        data: blob: https://staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev
+        https://fsn1.your-objectstorage.com https://js.intercomcdn.com https://js.intercomdcn.eu
+        https://static.intercomassets.com https://static.intercomassets.eu https://downloads.intercomcdn.com
+        https://downloads.intercomcdn.eu https://downloads.intercomdcn.eu https://uploads.intercomusercontent.com
+        https://gifs.intercomcdn.com https://gifs.intercomdcn.eu https://*.intercom-attachments.eu
+        https://*.sumsub.com https://www.google.com https://*.gstatic.com https://www.google-analytics.com
+        https://app.cal.com https://cal.com https://assets.ma.manza.dev https://assets.ma.manza.dev
+        https://*.peachpayments.com https://oppwa.com https://*.oppwa.com https://pay.google.com;
+        media-src ''self'' blob: https://*.sumsub.com https://*.stripe.com https://js.intercomcdn.com
+        https://js.intercomdcn.eu; connect-src ''self'' wss://staging.zazu.ma https://pay.staging.zazu.ma
+        https://ma.manza.dev https://pay.ma.manza.dev https://assets.ma.manza.dev
+        https://api.sumsub.com https://*.sumsub.com https://api.charimoney.com https://api.eu.intercom.io
         https://api-iam.eu.intercom.io https://api-ping.intercom.io https://nexus-europe-websocket.intercom.io
         wss://nexus-europe-websocket.intercom.io https://*.intercom-messenger.com
         wss://*.intercom-messenger.com https://uploads.intercomcdn.com https://uploads.intercomdcn.eu
         https://uploads.intercomcdn.eu https://uploads.eu.intercomcdn.com https://uploads.intercomusercontent.com
-        https://*.intercom-attachments.eu https://keys.evervault.com https://api.evervault.com
-        https://*.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
-        https://calendly.com; frame-src ''self'' https://staging.zazu.ma https://pay.staging.zazu.ma
-        https://docs.google.com https://*.sumsub.com https://intercom-sheets.com https://www.intercom-reporting.com
-        https://www.youtube.com https://player.vimeo.com https://www.tella.tv https://ui-components.evervault.com
-        https://*.evervault.com https://js.stripe.com https://hooks.stripe.com https://calendly.com
-        https://pay.chari.com; frame-ancestors ''self'' https://staging.zazu.ma https://pay.staging.zazu.ma;
-        object-src ''none''; base-uri ''self''; form-action ''self'' https://calendly.com;
-        worker-src ''self'' blob:; child-src ''self'' blob: https://intercom-sheets.com
-        https://www.intercom-reporting.com https://*.sumsub.com https://calendly.com;
-        manifest-src ''self''; report-uri /csp-violation-reports'
+        https://*.intercom-attachments.eu https://keys.evervault.com https://*.peachpayments.com
+        https://oppwa.com https://*.oppwa.com https://pay.google.com https://*.jscrambler.com
+        https://jscrambler.com https://www.google.com https://play.google.com https://*.ingest.us.sentry.io
+        https://api.evervault.com https://*.basistheory.com https://*.stripe.com https://www.google-analytics.com
+        https://www.googletagmanager.com https://calendly.com https://app.cal.com
+        https://cal.com; frame-src ''self'' https://staging.zazu.ma https://pay.staging.zazu.ma
+        https://ma.manza.dev https://pay.ma.manza.dev https://docs.google.com https://*.sumsub.com
+        https://intercom-sheets.com https://www.intercom-reporting.com https://www.youtube.com
+        https://www.youtube-nocookie.com https://player.vimeo.com https://www.loom.com
+        https://www.tella.tv https://challenges.cloudflare.com https://ui-components.evervault.com
+        https://*.evervault.com https://*.peachpayments.com https://oppwa.com https://*.oppwa.com
+        https://pay.google.com https://*.myeft.co.za https://myeft.co.za https://*.payflex.co.za
+        https://payflex.co.za https://*.ftapp.co.za https://ftapp.co.za https://happypay.co.za
+        https://*.happypay.co.za https://cryptogr.net https://*.cryptogr.net https://*.float.co.za
+        https://float.co.za https://acs-challenge.apata.io https://eu-prod.ppipe.net
+        https://*.bankserv.co.za https://*.arcot.com https://*.wlp-acs.com https://*.basistheory.com
+        https://js.stripe.com https://hooks.stripe.com https://calendly.com https://app.cal.com
+        https://cal.com https://pay.chari.com; frame-ancestors ''self'' https://staging.zazu.ma
+        https://pay.staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev;
+        object-src ''none''; base-uri ''self''; form-action ''self'' https://pay.staging.zazu.ma
+        https://ma.manza.dev https://pay.ma.manza.dev https://calendly.com https://app.cal.com
+        https://cal.com; worker-src ''self'' blob: https://oppwa.com https://*.oppwa.com
+        https://ajax.googleapis.com; child-src ''self'' blob: https://intercom-sheets.com
+        https://www.intercom-reporting.com https://*.sumsub.com https://www.youtube-nocookie.com
+        https://www.loom.com https://player.vimeo.com https://www.tella.tv https://calendly.com
+        https://app.cal.com https://cal.com https://*.peachpayments.com https://oppwa.com
+        https://*.oppwa.com https://pay.google.com https://*.myeft.co.za https://myeft.co.za
+        https://*.payflex.co.za https://payflex.co.za https://*.ftapp.co.za https://ftapp.co.za
+        https://happypay.co.za https://*.happypay.co.za https://cryptogr.net https://*.cryptogr.net
+        https://*.float.co.za https://float.co.za https://acs-challenge.apata.io https://eu-prod.ppipe.net
+        https://*.bankserv.co.za https://*.arcot.com https://*.wlp-acs.com https://oppwa.com
+        https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
+        /csp-violation-reports'
       Etag:
-      - W/"8fff2a4601f82816811cefa892533859"
+      - W/"d65a09ab0bc58203ca06f432789102c4"
+      Manza-Version:
+      - "<ZAZU_VERSION>"
       Referrer-Policy:
-      - same-origin
+      - strict-origin-when-cross-origin
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -78,30 +112,24 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.140048'
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
-      Expect-Ct:
-      - max-age=86400, enforce
-      Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kuAZf3tcnF4SFzZQlCMlP49afK5Zdp0siSZDTbj85t9X%2B2eVOvVXUazjZjfdlNil3kMxyLGxfB3VrV138GfWmvZDA0IMroE5eupOnr48ijEyVh%2BtdEfp%2FOQlAV1Kn%2BoCtA%3D%3D"}]}'
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bsf4IKVgLYEZZORsq%2BVcWxZctSaDqg0O8eu4JvPkDnXm8LrWI9RZbgXARSz6FtN5XGWoTNNShHb7S1NwFNL%2F4oIopKIu9AFrGzbRoHklScNXDzENxao0NCeKI%2BJcax%2FOozwxep%2Fw82UeISI%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - 9f7e922cbacf098f-FRA
+      Alt-Svc:
+      - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-deletable-invoice-id","number":"F-202605/004","status":"pending_approval","currency_code":"MAD","issue_date":"2026-05-07","due_date":"2026-06-06","reference":"zazu-ruby-fixture-v1-inv-1","notes":"[zazu-ruby-fixture]
-        draft 1","payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-05-07T08:39:12+01:00","updated_at":"2026-05-07T08:39:12+01:00","credit_note":false,"customer":{"id":"fixture-customer-id","name":"Zazu
-        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-10582c98@example.com"},"items_count":1,"discounts_count":0,"payment_link_url":null},{"id":"fixture-invoice-id","number":"F-202605/003","status":"pending_approval","currency_code":"MAD","issue_date":"2026-05-07","due_date":"2026-06-06","reference":"zazu-ruby-fixture-v1-inv-0","notes":"[zazu-ruby-fixture]
-        draft 0","payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-05-07T08:39:12+01:00","updated_at":"2026-05-07T08:39:12+01:00","credit_note":false,"customer":{"id":"fixture-customer-id","name":"Zazu
-        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-10582c98@example.com"},"items_count":1,"discounts_count":0,"payment_link_url":null}],"has_more":false,"next_cursor":null}'
-  recorded_at: Thu, 07 May 2026 07:39:28 GMT
+      string: '{"data":[{"id":"fixture-deletable-invoice-id","number":"INV-202610-007","status":"pending_approval","currency_code":"MAD","issue_date":"2026-10-02","due_date":"2026-11-01","reference":"zazu-ruby-fixture-v1-inv-1","notes":"[zazu-ruby-fixture]
+        draft 1","payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"delivery_date":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-10-02T15:24:32+00:00","updated_at":"2026-10-02T15:24:32+00:00","credit_note":false,"customer":{"id":"fixture-customer-id","name":"Zazu
+        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-bd6c6a59@example.com"},"items_count":1,"discounts_count":0,"payment_link_url":null},{"id":"fixture-invoice-id","number":"INV-202610-006","status":"pending_approval","currency_code":"MAD","issue_date":"2026-10-02","due_date":"2026-11-01","reference":"zazu-ruby-fixture-v1-inv-0","notes":"[zazu-ruby-fixture]
+        draft 0","payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"delivery_date":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-10-02T15:24:30+00:00","updated_at":"2026-10-02T15:24:30+00:00","credit_note":false,"customer":{"id":"fixture-customer-id","name":"Zazu
+        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-bd6c6a59@example.com"},"items_count":1,"discounts_count":0,"payment_link_url":null}],"has_more":false,"next_cursor":null}'
+  recorded_at: Fri, 02 Oct 2026 15:24:52 GMT
 recorded_with: VCR 6.4.0

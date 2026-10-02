@@ -1,6 +1,6 @@
 # Zazu Ruby SDK
 
-Ruby SDK for the [Zazu API](https://zazu.ma). Faraday + HTTPX adapter for HTTP/2 + persistent connections.
+Ruby SDK for the [Manza API](https://ma.manza.finance). Faraday + HTTPX adapter for HTTP/2 + persistent connections.
 
 ```ruby
 gem "zazu-ruby"
@@ -14,8 +14,8 @@ The gem is published as `zazu-ruby` on RubyGems but loaded as `zazu` in code (th
 require "zazu"
 
 zazu = Zazu.new(api_key: ENV["ZAZU_API_KEY"])
-# Or with explicit base URL (defaults to https://zazu.ma):
-zazu = Zazu.new(api_key: ENV["ZAZU_API_KEY"], base_url: "https://zazu.africa")
+# Or with explicit base URL (defaults to https://ma.manza.finance, Morocco):
+zazu = Zazu.new(api_key: ENV["ZAZU_API_KEY"], base_url: "https://za.manza.finance")
 
 entity = zazu.entity.get
 # => #<Zazu::Response status=200 ...>
@@ -79,6 +79,24 @@ zazu.checkout_sessions.create(
 )
 zazu.checkout_sessions.get("cs_...")
 
+zazu.beneficiaries.list
+zazu.beneficiaries.create(beneficiary_type: "business", company_name: "Acme Supplies", email: "ap@acme.com")
+zazu.beneficiaries.list_external_accounts("01a0...")
+zazu.beneficiaries.get_external_account("01a0...", "01a1...")
+zazu.beneficiaries.create_external_account("01a0...", account_number: "007780...", name: "Main account")
+
+zazu.payee_trust_requests.create(external_account_ids: ["01a1..."])
+zazu.payee_trust_requests.get("01a2...")
+
+zazu.transfer_drafts.create(
+  account_id: "019dde7d-...",
+  beneficiary_id: "01a0...",
+  amount: "2500.00",
+  client_reference: "po_1042" # unique per entity; a duplicate raises Zazu::ConflictError
+)
+zazu.transfer_drafts.get("01a3...")
+zazu.transfer_drafts.decline("01a3...", authorization_id: "01a4...", reason: "Not ours")
+
 zazu.webhook_endpoints.list
 zazu.webhook_endpoints.create(
   url: "https://example.com/webhooks/zazu",
@@ -89,6 +107,28 @@ zazu.webhook_endpoints.regenerate_secret("01a0...")
 zazu.webhook_endpoints.enable("01a0...")
 zazu.webhook_endpoints.disable("01a0...")
 ```
+
+## Machine-authorized transfers
+
+A draft inside your entity's authorization envelope (trusted payee, within limits) is sent to your enrolled authorizer endpoint as a `payment.authorization_requested` webhook carrying an `authorization.id` and a one-time `nonce`. Sign the draft from **your own record** of it with the endpoint's signing secret, and authorize it with a **different API key** from the one that created it (the creating key gets 403 `same_key_forbidden`):
+
+```ruby
+input = Zazu::TransferAuthorization.signature_input(
+  payment_id: draft["id"],
+  nonce: webhook["data"]["authorization"]["nonce"],
+  amount: draft["amount"],               # the API's decimal string, e.g. "2500.0"
+  currency_code: draft["currency_code"],
+  account_id: draft["account_id"],
+  payee: Zazu::TransferAuthorization.payee_for(external_account_id: draft["external_account_id"]),
+  client_reference: draft["client_reference"]
+)
+signature = Zazu::TransferAuthorization.sign(secret: signing_secret, signature_input: input)
+
+authorizer = Zazu.new(api_key: ENV["ZAZU_AUTHORIZER_API_KEY"])
+authorizer.transfer_drafts.authorize(draft["id"], authorization_id: webhook["data"]["authorization"]["id"], signature: signature)
+```
+
+A wrong signature raises `Zazu::ValidationError` (`type` `invalid_signature`). Five on one challenge send the draft to your in-app approvers; five in a row suspend the authorizer.
 
 ## Pagination
 
@@ -117,7 +157,9 @@ Every non-2xx response raises a subclass of `Zazu::Error`:
 |---|---|
 | 401 | `Zazu::AuthenticationError` |
 | 403 | `Zazu::ForbiddenError` |
+| 400 | `Zazu::ValidationError` (malformed request, e.g. bad `limit`/`cursor`) |
 | 404 | `Zazu::NotFoundError` |
+| 409 | `Zazu::ConflictError` (carries `#payment_id` for a duplicate `client_reference`) |
 | 422 | `Zazu::ValidationError` |
 | 429 | `Zazu::RateLimitError` (carries `#retry_after`) |
 | 5xx | `Zazu::ServerError` |
@@ -141,7 +183,7 @@ end
 zazu = Zazu.new(api_key: "...", api_version: "2026-03-27")
 ```
 
-Or via env: `ZAZU_API_VERSION=2026-03-27`. The header is sent on every request; the API echoes it back in `Zazu-Version`.
+Or via env: `ZAZU_API_VERSION=2026-03-27`. The header is sent on every request; the API echoes it back in both `Zazu-Version` and `Manza-Version`.
 
 ## Development
 
@@ -157,9 +199,44 @@ To re-record cassettes against staging:
 
 ```bash
 cp .env.example .env
-# fill in ZAZU_STAGING_API_KEY and the ZAZU_FIXTURE_*_ID values
+# fill in the keys, ZAZU_FIXTURE_ACCOUNT_ID and ZAZU_FIXTURE_BENEFICIARY_ID
+cloudflared tunnel --config ~/.cloudflared/zazu-sdk-authorizer.yml run zazu-sdk-authorizer   # separate terminal
 bundle exec rake fixtures:record
 ```
+
+Recording executes a real 10.00 MAD transfer on staging (the authorize cassette). The one-time staging setup (keys, authorizer enrolment, trusted payee) is listed at the top of `lib/tasks/fixtures.rake`.
+
+### The authorizer tunnel
+
+The machine-authorization cassettes need the `payment.authorization_requested` webhook, which staging sends to the webhook endpoint enrolled as transfer authorizer. During `rake fixtures:record` the seeder listens for it on `127.0.0.1:${ZAZU_STAGING_AUTHORIZER_PORT:-4599}`, so a tunnel must forward the endpoint's public URL to that port. The endpoint URL cannot change once enrolled, so the tunnel needs a **stable hostname** (a throwaway `trycloudflare.com` URL won't do).
+
+The existing setup uses a named Cloudflare tunnel `zazu-sdk-authorizer` → `https://sdk-authorizer.manza.dev/`. To run it on a new machine:
+
+```bash
+brew install cloudflared
+cloudflared tunnel login                    # pick the manza.dev zone
+cloudflared tunnel token --cred-file ~/.cloudflared/zazu-sdk-authorizer.json zazu-sdk-authorizer
+cat > ~/.cloudflared/zazu-sdk-authorizer.yml <<YML
+tunnel: zazu-sdk-authorizer
+credentials-file: $HOME/.cloudflared/zazu-sdk-authorizer.json
+ingress:
+  - hostname: sdk-authorizer.manza.dev
+    service: http://127.0.0.1:4599
+  - service: http_status:404
+YML
+cloudflared tunnel --config ~/.cloudflared/zazu-sdk-authorizer.yml run zazu-sdk-authorizer
+```
+
+To create one from scratch instead (then point a new webhook endpoint at it and enrol that one as authorizer):
+
+```bash
+cloudflared tunnel create zazu-sdk-authorizer
+cloudflared tunnel route dns zazu-sdk-authorizer sdk-authorizer.manza.dev
+```
+
+The tunnel's `service` port must match `ZAZU_STAGING_AUTHORIZER_PORT`: if you change one, change the other, or deliveries never reach the seeder and `fixtures:record` times out waiting for them.
+
+Check it end to end: with the tunnel running and nothing on port 4599, `curl -X POST https://sdk-authorizer.manza.dev/` returns 502. During a record run the seeder answers unsigned requests with 401.
 
 Cassettes are scrubbed before write — bearer tokens and request IDs are rewritten to placeholders. Even if a real key is in `.env`, the committed cassette never contains it.
 

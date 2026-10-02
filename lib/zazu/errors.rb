@@ -42,9 +42,28 @@ module Zazu
   # see it).
   class NotFoundError < Error; end
 
-  # 422 — request body or query params failed validation. `#param`
-  # carries the offending field name when the API supplies it.
+  # 400 / 422 — request body or query params failed validation (400 for
+  # a malformed request such as a bad `limit`/`cursor`, 422 for a
+  # well-formed one the API rejects). `#param` carries the offending
+  # field name when the API supplies it.
   class ValidationError < Error; end
+
+  # 409 — the request conflicts with an existing resource. For a
+  # duplicate `client_reference` on a transfer draft (`type`
+  # "duplicate_client_reference"), `#payment_id` names the draft that
+  # already holds it.
+  class ConflictError < Error
+    attr_reader :payment_id
+
+    def initialize(message = nil, payment_id: nil, **)
+      super(message, **)
+      @payment_id = payment_id
+    end
+
+    def to_h
+      super.merge(payment_id:).compact
+    end
+  end
 
   # 429 — rate limited. Retry after the `Retry-After` header (seconds).
   class RateLimitError < Error

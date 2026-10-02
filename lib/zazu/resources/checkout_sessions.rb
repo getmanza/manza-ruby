@@ -4,8 +4,9 @@ module Zazu
   module Resources
     # One-off hosted checkout sessions. Pre-API there's no list,
     # update, or delete — sessions are created and inspected by id.
-    # State (`open`, `processing`, `complete`, `expired`) transitions
-    # are read-only from the SDK's perspective.
+    # State (`open`, `processing`, `clearing`, `complete`, `expired`)
+    # transitions are read-only from the SDK's perspective. Responses
+    # carry `settled_at` and the paying `transaction`.
     class CheckoutSessions < Base
       # GET /api/checkout_sessions/:id
       def get(id)
@@ -16,7 +17,8 @@ module Zazu
       #
       # @param attributes [Hash] checkout-session attributes — see API docs.
       #   Required: account_id, amount, success_url.
-      #   Optional: metadata, customer_email, cancel_url, description, expires_at.
+      #   Optional: metadata, customer_email, customer_name, cancel_url,
+      #   description, expires_at, collect_billing_address, billing_address.
       def create(**attributes)
         http_post("api/checkout_sessions", body: attributes)
       end

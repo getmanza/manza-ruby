@@ -1,11 +1,12 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://ma.manza.dev/api/customers/fixture-customer-id
+    method: post
+    uri: https://ma.manza.dev/api/beneficiaries
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"beneficiary_type":"business","company_name":"Zazu Fixture Beneficiary
+        - spec (zazu-ruby-fixture)","email":"fixture-beneficiary-spec@example.com"}'
     headers:
       Authorization:
       - Bearer <ZAZU_API_KEY>
@@ -13,17 +14,17 @@ http_interactions:
       - zazu-ruby/0.2.1
       Accept:
       - application/json
+      Content-Type:
+      - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
     status:
-      code: 200
-      message: OK
+      code: 201
+      message: Created
     headers:
       Content-Type:
       - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
       Connection:
       - keep-alive
       Cache-Control:
@@ -39,7 +40,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-1mSxpYK3s35UD7wctk8b3Q=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-p6UuEuUQ7ML+WBpkMHCjjQ=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -95,7 +96,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"76bec738b575f02b06c82b4b1e0add61"
+      - W/"9a1fb9f517eb3a68195f06c5dcc19788"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -119,14 +120,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=X%2BdyhOuS3LkxGN5jggq1JbK0mbzp1CNMAibMqh%2FAQkhRi3PGQUUaFx3hHTGx97MxiztTvdoTN0102JIzoks78rV2d42Be6RDxBkFWdQmnubdRgW7lBcNtTj3G4BPNa6E9BxZOblMunqgfak%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=jrQTv4af6jjWvRPHp%2FSDOfYF26YJN%2Fd6RSNLUcBH2irfjj3pdBT%2B29uF4odwXaQ%2B4B30Iv8xPV5ssjlGm6k1Yf%2Fs37j4hmjhvrlDi%2FegGEgJHkt8lrxMEil9Piwy88K%2B6nkShA9fTdGTz5c%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiWmF6dSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJlbWFpbCI6ImZpeHR1cmUtcHJpbWFyeS1iZDZjNmE1OUBleGFtcGxlLmNvbSIsInBob25lIjpudWxsLCJjdXN0b21lcl90eXBlIjoiYnVzaW5lc3MiLCJ0YXhfaWQiOm51bGwsImljZV9udW1iZXIiOiIzNzM0NDYyNDA5MjQ1MzkiLCJuYW1lIjoiWmF6dSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0wMlQxNToyNDozMCswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTAyVDE1OjI0OjMwKzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
-  recorded_at: Fri, 02 Oct 2026 15:24:50 GMT
+      encoding: UTF-8
+      string: '{"id":"01a0fd37-c9ad-791e-a45b-bf87592b4214","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Zazu
+        Fixture Beneficiary - spec (zazu-ruby-fixture)","external_accounts":[],"created_at":"2026-10-02T15:24:46+00:00"}'
+  recorded_at: Fri, 02 Oct 2026 15:24:47 GMT
 recorded_with: VCR 6.4.0
