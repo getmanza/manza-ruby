@@ -1,0 +1,83 @@
+spec/fixtures/cassettes/webhook_endpoints/enable.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/payment_links/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/payment_links/cancel.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/customers/list.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/webhook_endpoints/create.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 39-64,69-101
+spec/fixtures/cassettes/invoices/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/accounts/list_transactions.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/invoices/list.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/payment_links/list.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/customers/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/webhook_endpoints/delete.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 32-57
+spec/fixtures/cassettes/accounts/list.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+CHANGELOG.md
+  ai_agent 49-51
+spec/fixtures/cassettes/accounts/get_transaction.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/customers/update.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63
+spec/fixtures/cassettes/webhook_endpoints/list.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/webhook_endpoints/regenerate_secret.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/payment_links/create.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 39-64,69-101
+spec/fixtures/cassettes/invoices/update.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/webhook_endpoints/update.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/accounts/list_currency_filtered.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/customers/list_q_filtered.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/webhook_endpoints/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/invoices/delete.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 32-57
+spec/fixtures/cassettes/webhook_endpoints/disable.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/invoices/create.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 39-64,69-101
+spec/fixtures/cassettes/entity/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/accounts/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/customers/create.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63,68-100
+spec/fixtures/cassettes/customers/delete.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 32-57
+spec/fixtures/cassettes/checkout_sessions/get.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 36-61,66-98
+spec/fixtures/cassettes/webhook_endpoints/test.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 38-63
+spec/fixtures/cassettes/checkout_sessions/create.yml
+  s_079f1f00ed88e6::t_3e1b9f94895a97 39-64,69-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ecfd6b52bf8badfcb4d568f3442b5d1a0c7a0c8e",
+  "prompts": {},
+  "sessions": {
+    "s_079f1f00ed88e6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b45600fa-a094-4f21-a314-2db468be6a6c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
