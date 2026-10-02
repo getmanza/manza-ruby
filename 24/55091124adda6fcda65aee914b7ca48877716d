@@ -1,0 +1,19 @@
+.github/workflows/cassettes.yml
+  s_079f1f00ed88e6::t_f154e93f1d2405 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2455091124adda6fcda65aee914b7ca48877716d",
+  "prompts": {},
+  "sessions": {
+    "s_079f1f00ed88e6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b45600fa-a094-4f21-a314-2db468be6a6c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
