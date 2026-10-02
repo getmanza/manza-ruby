@@ -20,12 +20,8 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:19 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '4170'
       Connection:
       - keep-alive
       Cache-Control:
@@ -41,7 +37,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-tLyver7QFaxMs2fQ96RO9A=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-SHbAIQDjd6uGmNQev6KLlg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +93,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"e85013c3129a9b1b486ae903000bf6af"
+      - W/"680b2821732aca6e9540c3aba1b22144"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +102,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,30 +110,24 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.152111'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=usnR1W8EnKsPmVxIIi3j92KaLRsMKEePMm1S9zcQHTE06EC2SwBEFAeJR%2BkItvDZqupH4ymBW4ud0vlo7EWt4eAaJRM5ptSPG9o0%2Fkk%2Bm2iTnuG2TNMFc26zb5CFfO0yFC5H%2FOp6gBUhOk0%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=E2SjTa%2BxEf%2F84s5bmyRGaWvJrRyWx1ZJkI42k%2FulhM%2BwOcBbuP5Z%2BsEAx%2BOUA22WDDDiBpftYubT9KDOinYSxnfae7jXIKc%2FPJxZxu%2BVfr3ODIyXTAOZQZlc8ERmuPuns9TEbLtSjQ3RJ80%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448aac8d39ed9f-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"fixture-deletable-customer-id","person_name":null,"company_name":"Zazu
-        Fixture Co — deletable (zazu-ruby-fixture-v1)","email":"fixture-deletable-60f93af1@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"000772278977469","name":"Zazu
-        Fixture Co — deletable (zazu-ruby-fixture-v1)","invoices_count":0,"created_at":"2026-10-02T14:54:00+00:00","updated_at":"2026-10-02T14:54:00+00:00","billing_address":null},{"id":"fixture-customer-id","person_name":null,"company_name":"Zazu
-        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-03fde17e@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"854235866149098","name":"Zazu
-        Fixture Co — primary (zazu-ruby-fixture-v1)","invoices_count":2,"created_at":"2026-10-02T14:54:00+00:00","updated_at":"2026-10-02T14:54:00+00:00","billing_address":null}],"has_more":false,"next_cursor":null}'
-  recorded_at: Fri, 02 Oct 2026 14:54:19 GMT
+        Fixture Co — deletable (zazu-ruby-fixture-v1)","email":"fixture-deletable-7a00016f@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"757335654362749","name":"Zazu
+        Fixture Co — deletable (zazu-ruby-fixture-v1)","invoices_count":0,"created_at":"2026-10-02T15:24:30+00:00","updated_at":"2026-10-02T15:24:30+00:00","billing_address":null},{"id":"fixture-customer-id","person_name":null,"company_name":"Zazu
+        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-bd6c6a59@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"373446240924539","name":"Zazu
+        Fixture Co — primary (zazu-ruby-fixture-v1)","invoices_count":2,"created_at":"2026-10-02T15:24:30+00:00","updated_at":"2026-10-02T15:24:30+00:00","billing_address":null}],"has_more":false,"next_cursor":null}'
+  recorded_at: Fri, 02 Oct 2026 15:24:49 GMT
 recorded_with: VCR 6.4.0

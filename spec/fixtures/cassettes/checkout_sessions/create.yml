@@ -23,12 +23,8 @@ http_interactions:
       code: 201
       message: Created
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:19 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '654'
       Connection:
       - keep-alive
       Cache-Control:
@@ -44,7 +40,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-aiBQBGQrxfNflMv/kTUSQQ=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-m+/yWLwaDUwKeLUNswjmHQ=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -100,7 +96,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"2b0078f182573fa2c437fcd942797821"
+      - W/"044e128bc70d51a6081c165bdaafa33f"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -109,8 +105,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - bypass
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -119,27 +113,21 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.171724'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=lOS5QLhp9%2Bcw1EVQg0pbYvuphZPJU9jdcNBFk4uzs3Zmi4sJMEXIUgGi2nHVaGuNpzRwHfctNsjK0DwAWB9dKopCNOiIeFNOr4Lc3lT2mxe61s6%2B%2BhHfzzxBFaVQhAZQ9Fyou8TZHW1n4wo%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=eiVHWiU65%2ButyrAsLxJA3oUZ0JgnNDQteYKsj5yzrt7J9neE8DcOkVJSId0N3BNfF8KosknFqXjOEyeppnRrwIyao%2Fhb%2FKdOD4JCcR5IuiL8cAsM8jYSW2OfA0tWjx39FOXeowTVQDvToIQ%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448aa7bb3ced5a-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
       string: '{"currency_code":"MAD","metadata":{"order_id":"ORD-FIXTURE"},"customer_email":"fixture@example.com","description":"Created
-        by zazu-ruby fixture spec","cancel_url":"https://example.com/zazu-fixture-cancel","customer_name":null,"collect_billing_address":null,"billing_address":{},"id":"cs_3MBQ4wzSgz7A30wIosqThXi4","url":"https://pay.staging.zazu.ma/checkout/cs_3MBQ4wzSgz7A30wIosqThXi4","status":"open","amount":"100.0","success_url":"https://example.com/zazu-fixture-success?session_id=cs_3MBQ4wzSgz7A30wIosqThXi4","expires_at":"2026-10-02T15:24:18+00:00","completed_at":null,"settled_at":null,"created_at":"2026-10-02T14:54:18+00:00","transaction":null}'
-  recorded_at: Fri, 02 Oct 2026 14:54:19 GMT
+        by zazu-ruby fixture spec","cancel_url":"https://example.com/zazu-fixture-cancel","customer_name":null,"collect_billing_address":null,"billing_address":{},"id":"cs_AZknJmsTeYyY2lcYJYN9DIzs","url":"https://pay.staging.zazu.ma/checkout/cs_AZknJmsTeYyY2lcYJYN9DIzs","status":"open","amount":"100.0","success_url":"https://example.com/zazu-fixture-success?session_id=cs_AZknJmsTeYyY2lcYJYN9DIzs","expires_at":"2026-10-02T15:54:48+00:00","completed_at":null,"settled_at":null,"created_at":"2026-10-02T15:24:48+00:00","transaction":null}'
+  recorded_at: Fri, 02 Oct 2026 15:24:48 GMT
 recorded_with: VCR 6.4.0

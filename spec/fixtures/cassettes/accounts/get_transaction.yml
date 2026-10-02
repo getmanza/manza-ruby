@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:16 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-4X7RiTxENHv3bvbVvosK6g=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-aAQdIZq8dfCNJ+SaPoeZ+Q=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"a87527b5ad958024c953ea1b1c2a4b4b"
+      - W/"1ff4ba0d575345c6946ecfc78d53aae6"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,30 +112,24 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.250660'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=BRZIhBix0ACvDQWumeeQxVe%2FjBlWDJPvusBmV7AErj3NeCNivNJwa0h0Cm4H8ljT9I19%2BcShK0mZfjsKORzg4%2BuFzy3zocv6jOyy%2F34tHJoB75uRfj%2BZ%2FUXly0imR1l%2Bc5ADU8171AE391Y%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9RXhp44WFRXM%2BSRQ6dQLcIReXilp3xtQiDVAOPMWafArf4xpSZeXoMqicHVbUUcuZIBebfIhsBQd%2F8UjeEFBxjz0d9BeA70%2Fht5VMR3rLVDzNM0SNsAO0E021IrOk6slacQRcsUPPekEd2o%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448a951bb06c5d-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
       string: '{"id":"fixture-transaction-id","account_id":"fixture-account-id","operation":"debit","currency_code":"MAD","internal_transfer":false,"other_name":"Casawave
-        SARLAU","external_id":"27130","provider_name":"chari_money","transfer_id":"01a0fd0b-a5c8-7a5e-9ebc-7441ab17efaf","card_payment_id":null,"card_topup_id":null,"posting_id":"01a0fd0c-91e7-7845-81e8-b550d9a842b2","amount":"-10.0","account_balance_after":"228324.01","source_type":"transfer","source_id":"01a0fd0b-a5c8-7a5e-9ebc-7441ab17efaf","transaction_type":"External
+        SARLAU","external_id":"27134","provider_name":"chari_money","transfer_id":"01a0fd1c-1a6b-75ad-9713-e1a852188542","card_payment_id":null,"card_topup_id":null,"posting_id":"01a0fd1d-f978-7f5a-b382-3a3282c9a7a9","amount":"-10.0","account_balance_after":"228304.01","source_type":"transfer","source_id":"01a0fd1c-1a6b-75ad-9713-e1a852188542","transaction_type":"External
         Transfer","reference":"zazu-ruby-fixture-v1-authorizable","label":"Virement
-        sortant - Casawave SARLAU","posted_at":"2026-10-02T14:36:34+00:00","value_date":"2026-10-02","created_at":"2026-10-02T14:37:34+00:00","updated_at":"2026-10-02T14:37:36+00:00","account":{"id":"fixture-account-id","name":"Main
+        sortant - Casawave SARLAU","posted_at":"2026-10-02T14:54:33+00:00","value_date":"2026-10-02","created_at":"2026-10-02T14:56:35+00:00","updated_at":"2026-10-02T14:56:37+00:00","account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"}}'
-  recorded_at: Fri, 02 Oct 2026 14:54:16 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:45 GMT
 recorded_with: VCR 6.4.0

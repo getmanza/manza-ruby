@@ -23,12 +23,8 @@ http_interactions:
       code: 201
       message: Created
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:18 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '186'
       Connection:
       - keep-alive
       Cache-Control:
@@ -44,7 +40,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-JJe9qtprd5ArWfSBsg/B6Q=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-i5UD2H9ACEkz2l5TkiajzQ=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -100,7 +96,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"d5af122ad1c7266f4f254df6c84f104a"
+      - W/"cccde8d6d42e1ce64a085b48cb8a8caf"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -109,8 +105,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - bypass
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -119,27 +113,21 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.343571'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=KTzGuzXXper1b%2BR7qD7rIHHEfK045UdjvyXxo1splSJxvHcHSwZWsv3%2BtWBrlz5whoQ9ZE8vR6PLP7GTsbvCQuOdVXJXPgUnHaXaWZvvOgDvdlmBRDQBHL0md2dXlwlAzasmOiL%2BgQnJbK8%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=1fnZut%2BLZjhO1XAMXe9uYB4PdtITwrEpyalEXiIiq4xk2DpiLv0g%2F0MgJjmYNylVGGdOsn0owFFP4Z%2BSRNq860ev6clUsApYCzGsIGpUcgzbpPX7J5Fl3Dkc1dDQQKRq%2BDzVRhykJuWJmHE%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448aa42a396da0-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a0fd1b-e374-7533-8c47-6bd77065688b","name":"Fixture Secondary
+      string: '{"id":"01a0fd37-ce87-7932-b10e-a56984b27bde","name":"Fixture Secondary
         Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":false}'
-  recorded_at: Fri, 02 Oct 2026 14:54:18 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:48 GMT
 recorded_with: VCR 6.4.0

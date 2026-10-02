@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:19 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-TNHSxshHbAm7B4UYfaUjJA=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-gO+kllixLV+aAdyJeoxABg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"bc151504432ae0c689c37a1dd036c60f"
+      - W/"3c0c059c875a418c367ed3cbaea86c23"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,27 +112,21 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.161973'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=b1KJbjbbQugMgPck%2Bt6WCh2s49xuILcntP7c7YU30o1sQ%2Bp4K7KfgeOAgmaPC37PuCLgMH%2BwZBgdQCzVnqk0aTD09R%2B35%2BKFaD7H9AhyiYVlb%2BFr1KMe0tcjv%2BhOFrYHa41hy2kzRC3puls%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bhiWdfmG16g4KsXtHAJpuXxmduRDt30xIvWR%2BXM6gbxsIERWg5tMG%2BhZyIrBEtQ6elfjKCVeAnChHxVpTOY1d4Cn4lERQ3sWo4qjRl5wLLB4ZCnZZPR%2FIiRVV%2BXIcVvsahzwU8tB5ZeqrDM%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448aaa3aa7ee5f-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"currency_code":"MAD","metadata":{"fixture_marker":"zazu-ruby-fixture-v1-checkout"},"customer_email":"fixture-checkout-98776082@example.com","description":"[zazu-ruby-fixture]
-        checkout session","cancel_url":"https://example.com/zazu-fixture-cancel","customer_name":null,"collect_billing_address":null,"billing_address":{},"id":"fixture-checkout-session-id","url":"https://pay.staging.zazu.ma/checkout/fixture-checkout-session-id","status":"open","amount":"100.0","success_url":"https://example.com/zazu-fixture-success?session_id=fixture-checkout-session-id","expires_at":"2026-10-02T15:24:05+00:00","completed_at":null,"settled_at":null,"created_at":"2026-10-02T14:54:05+00:00","transaction":null}'
-  recorded_at: Fri, 02 Oct 2026 14:54:19 GMT
+      string: '{"currency_code":"MAD","metadata":{"fixture_marker":"zazu-ruby-fixture-v1-checkout"},"customer_email":"fixture-checkout-43934246@example.com","description":"[zazu-ruby-fixture]
+        checkout session","cancel_url":"https://example.com/zazu-fixture-cancel","customer_name":null,"collect_billing_address":null,"billing_address":{},"id":"fixture-checkout-session-id","url":"https://pay.staging.zazu.ma/checkout/fixture-checkout-session-id","status":"open","amount":"100.0","success_url":"https://example.com/zazu-fixture-success?session_id=fixture-checkout-session-id","expires_at":"2026-10-02T15:54:36+00:00","completed_at":null,"settled_at":null,"created_at":"2026-10-02T15:24:36+00:00","transaction":null}'
+  recorded_at: Fri, 02 Oct 2026 15:24:49 GMT
 recorded_with: VCR 6.4.0

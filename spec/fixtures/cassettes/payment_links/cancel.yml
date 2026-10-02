@@ -22,8 +22,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:29 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -43,7 +41,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-XFeu4KCUV3CZbCHF50mZjA=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-WJmlccOSPt8VEnd98ab8mg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -99,7 +97,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"255d0c646319c17b20b0272df2e579af"
+      - W/"f4978a3293ef83b2e0c624a4f4564bd1"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -108,8 +106,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - bypass
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -118,28 +114,22 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.428395'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=IS2QoffGZipxWAT3dY3%2Fg3RPbMFeof4gJC0apbiosaFebAOm4ZemmDwL7HLZrYnqoi3rQ%2FCYVcrtfJZ1I7sU7w9i1GArVZPu6DI7x0lA5k0BlVhqi23sZwQsHvPNpIqXwZkQW5P9G4cIWMo%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=eLmKTbVhJ%2FKLgCR3cGMyvEvJilC%2BEiB9C5jGK4DzWy4Obe%2BeVzxbeuRjh%2Fwveau51T%2FA9WvyiNUnAD8wIYo%2FwFNY0RpAAnG%2BKM4nAhd4k2%2BsjWZYtRxwbYq%2BAbBnvFuaQDAZK15k%2Bb3Ya58%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448ae4b82dbabb-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-cancellable-payment-link-id","slug":"dFe0fS9jbANn","link_type":"single","currency_code":"MAD","title":"Zazu
-        Fixture — cancellable","description":"[zazu-ruby-fixture] cancellable","payment_reference":"fixture-cancellable-9f334810","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"cancelled","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/dFe0fS9jbANn","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T14:54:04+00:00","updated_at":"2026-10-02T14:54:28+00:00","account":{"id":"fixture-account-id","name":"Main
+      string: '{"id":"fixture-cancellable-payment-link-id","slug":"UYIagDSZ8edy","link_type":"single","currency_code":"MAD","title":"Zazu
+        Fixture — cancellable","description":"[zazu-ruby-fixture] cancellable","payment_reference":"fixture-cancellable-125244b1","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"cancelled","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/UYIagDSZ8edy","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T15:24:34+00:00","updated_at":"2026-10-02T15:24:58+00:00","account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"}}'
-  recorded_at: Fri, 02 Oct 2026 14:54:29 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:59 GMT
 recorded_with: VCR 6.4.0

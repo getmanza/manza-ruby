@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:17 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-zWd5ZaWg6o/poEQ5FrNyBg=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-Q08wfRf14jhvBAICCl72yg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"b795c95f3f42dd43ad28f2928eebc948"
+      - W/"f6a2734a3967af6822768204d9bd8b06"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,27 +112,21 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.131094'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=L2cItLoggOfOxsmAd6QyVjZ6lbp%2Bk%2BDRm4tDeN9FT07kriDHqT1AuGFib1BEXlTJaHrCTVMtK6DjZzbkzns3YZY10jltl7qZC4x1UX0vKAayqqE%2BTybeQ5TBnwAA9l4UqN3VS1bt9dBAJQ4%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=MbMiWCEudYrHAB0833dIi9kzzYQ2g2V%2BCVx6BIm%2F2YxxalIzYJlmsBFebzxB44D%2FCgOh4GsEDAIrKmUxuQOJAMqLBmIccHsEuixgzVpxlubvHbCy6SKamKHlXAzos3Z4lvn31ez2vt2FwEM%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448aa03cf15252-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"fixture-external-account-id","name":"Fixture Seeded
         Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"has_more":false,"next_cursor":null}'
-  recorded_at: Fri, 02 Oct 2026 14:54:17 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:47 GMT
 recorded_with: VCR 6.4.0

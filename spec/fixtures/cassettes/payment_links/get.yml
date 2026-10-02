@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:27 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-Q5uehLL4unFmvpDw9+E+iQ=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-xuVFNuyGQqh7Rq/QI9C9fA=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"1f3fe28164b755abbf5ae3a9cb00d2cc"
+      - W/"57a115046b997bbceef02c2c9cada0c4"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,28 +112,22 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.130714'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=P4NU%2B4TFvUoElNA1DqakYTI%2Bmqu9255i%2Fo2ZQMVtK7tzBsjGG4FT7p47G2oGbv4rDXUaEYHB67GZn%2FPT3hfd2FN4WEXfAFfgt3Ww2YjMWoGYOj7iSz7g2q4lKK3XsZSgQCT8TAbhy2X%2FJ%2BY%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=gvK5GfWJTgakztBfeKkmcIiAK2dpNgqmW6GmAzo%2BUZ86nMeiwLV7OPmhGerEJbjEmMEks76NrIK84E%2FmIPAPvPbsUX0dtMzPqjg0QqABscO308agajarcHNJZ2CK5MdKYplg3xs0oSY%2BSmc%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448adfbed9baca-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-payment-link-id","slug":"OMw7p4Wd2Lol","link_type":"single","currency_code":"MAD","title":"Zazu
-        Fixture — primary","description":"[zazu-ruby-fixture] primary","payment_reference":"fixture-primary-b9a297db","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"active","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/OMw7p4Wd2Lol","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T14:54:03+00:00","updated_at":"2026-10-02T14:54:03+00:00","account":{"id":"fixture-account-id","name":"Main
+      string: '{"id":"fixture-payment-link-id","slug":"JjLz5sN82Z12","link_type":"single","currency_code":"MAD","title":"Zazu
+        Fixture — primary","description":"[zazu-ruby-fixture] primary","payment_reference":"fixture-primary-9acf2301","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"active","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/JjLz5sN82Z12","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T15:24:34+00:00","updated_at":"2026-10-02T15:24:34+00:00","account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"}}'
-  recorded_at: Fri, 02 Oct 2026 14:54:28 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:57 GMT
 recorded_with: VCR 6.4.0

@@ -20,12 +20,8 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:22 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '1027'
       Connection:
       - keep-alive
       Cache-Control:
@@ -41,7 +37,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-XJ0z9zY+4iU/X3xIVKghIg=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-wUCxvbM3x/neFxvDnXRBvg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +93,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"e59d816417c7d60d732d71554186c127"
+      - W/"69c3aeffcd1f68070e47cf71a9090959"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +102,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,27 +110,21 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.142761'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=0hlWKBodmBn4HjEevVAlAH2pjOxcyVCQzGZaeWb4BZEVyBw5vMc%2BcaRxUAmEksYcWYvdtJxEI1EjEk9Iy3FwzIJxHq%2F0EzMtXRC1cf61fJZ3Wwzs1cfaOzSqmiN1TVN4zirFKfonkHNC4Hw%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=DTmJv1ARKgfhsUGV4nhztz58pr19r29RQWiQM4DLFSxYEMq1XlxC1l1MlxtLO1xWCBLR351LEDV0SzS8d1d6L15jG7%2FupvfIb02BA2NCZJFeLMNKUlGNzcgOVOYtl5LeYXE%2BxihTlrtjLZ0%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448abf0a33c630-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtaW52b2ljZS1pZCIsIm51bWJlciI6IklOVi0yMDI2MTAtMDA2Iiwic3RhdHVzIjoicGVuZGluZ19hcHByb3ZhbCIsImN1cnJlbmN5X2NvZGUiOiJNQUQiLCJpc3N1ZV9kYXRlIjoiMjAyNi0xMC0wMiIsImR1ZV9kYXRlIjoiMjAyNi0xMS0wMSIsInJlZmVyZW5jZSI6InphenUtcnVieS1maXh0dXJlLXYxLWludi0wIiwibm90ZXMiOiJbemF6dS1ydWJ5LWZpeHR1cmVdIGRyYWZ0IDAiLCJwYXltZW50X3Rlcm1zIjpudWxsLCJzZW5kX3RvX2VtYWlsIjpudWxsLCJjcmVkaXRlZF9pbnZvaWNlX2lkIjpudWxsLCJkZWxpdmVyeV9kYXRlIjpudWxsLCJzdWJ0b3RhbCI6IjEwMC4wIiwiZGlzY291bnRfdG90YWwiOiIwLjAiLCJ0YXhfdG90YWwiOiIyMC4wIiwidG90YWwiOiIxMjAuMCIsInNlbnRfYXQiOm51bGwsInBhaWRfYXQiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTAyVDE0OjU0OjAwKzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMDJUMTQ6NTQ6MDArMDA6MDAiLCJjcmVkaXRfbm90ZSI6ZmFsc2UsImNyZWRpdF9ub3RlcyI6W10sImN1c3RvbWVyIjp7ImlkIjoiZml4dHVyZS1jdXN0b21lci1pZCIsIm5hbWUiOiJaYXp1IEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImVtYWlsIjoiZml4dHVyZS1wcmltYXJ5LTAzZmRlMTdlQGV4YW1wbGUuY29tIiwicGhvbmUiOm51bGwsInRheF9pZCI6bnVsbCwiaWNlX251bWJlciI6Ijg1NDIzNTg2NjE0OTA5OCJ9LCJiaWxsaW5nX2FkZHJlc3MiOm51bGwsIml0ZW1zIjpbeyJpZCI6IjAxYTBmZDFiLTllM2UtNzA1NC1hZjgwLWRmN2ViM2ZlMWQ1YiIsImRlc2NyaXB0aW9uIjoiWmF6dSBmaXh0dXJlIGxpbmUgaXRlbSIsInBvc2l0aW9uIjowLCJxdWFudGl0eSI6IjEuMCIsInVuaXRfcHJpY2UiOiIxMDAuMCIsInRheF9yYXRlIjoiMC4yIiwiYW1vdW50IjoiMTAwLjAifV0sImRpc2NvdW50cyI6W10sInBheW1lbnRfbGluayI6bnVsbH0=
-  recorded_at: Fri, 02 Oct 2026 14:54:22 GMT
+        eyJpZCI6ImZpeHR1cmUtaW52b2ljZS1pZCIsIm51bWJlciI6IklOVi0yMDI2MTAtMDA2Iiwic3RhdHVzIjoicGVuZGluZ19hcHByb3ZhbCIsImN1cnJlbmN5X2NvZGUiOiJNQUQiLCJpc3N1ZV9kYXRlIjoiMjAyNi0xMC0wMiIsImR1ZV9kYXRlIjoiMjAyNi0xMS0wMSIsInJlZmVyZW5jZSI6InphenUtcnVieS1maXh0dXJlLXYxLWludi0wIiwibm90ZXMiOiJbemF6dS1ydWJ5LWZpeHR1cmVdIGRyYWZ0IDAiLCJwYXltZW50X3Rlcm1zIjpudWxsLCJzZW5kX3RvX2VtYWlsIjpudWxsLCJjcmVkaXRlZF9pbnZvaWNlX2lkIjpudWxsLCJkZWxpdmVyeV9kYXRlIjpudWxsLCJzdWJ0b3RhbCI6IjEwMC4wIiwiZGlzY291bnRfdG90YWwiOiIwLjAiLCJ0YXhfdG90YWwiOiIyMC4wIiwidG90YWwiOiIxMjAuMCIsInNlbnRfYXQiOm51bGwsInBhaWRfYXQiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTAyVDE1OjI0OjMwKzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMDJUMTU6MjQ6MzArMDA6MDAiLCJjcmVkaXRfbm90ZSI6ZmFsc2UsImNyZWRpdF9ub3RlcyI6W10sImN1c3RvbWVyIjp7ImlkIjoiZml4dHVyZS1jdXN0b21lci1pZCIsIm5hbWUiOiJaYXp1IEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImVtYWlsIjoiZml4dHVyZS1wcmltYXJ5LWJkNmM2YTU5QGV4YW1wbGUuY29tIiwicGhvbmUiOm51bGwsInRheF9pZCI6bnVsbCwiaWNlX251bWJlciI6IjM3MzQ0NjI0MDkyNDUzOSJ9LCJiaWxsaW5nX2FkZHJlc3MiOm51bGwsIml0ZW1zIjpbeyJpZCI6IjAxYTBmZDM3LThhMjctNzVmYy05ZmI1LTY0YmMxZTc2ZWUxYyIsImRlc2NyaXB0aW9uIjoiWmF6dSBmaXh0dXJlIGxpbmUgaXRlbSIsInBvc2l0aW9uIjowLCJxdWFudGl0eSI6IjEuMCIsInVuaXRfcHJpY2UiOiIxMDAuMCIsInRheF9yYXRlIjoiMC4yIiwiYW1vdW50IjoiMTAwLjAifV0sImRpc2NvdW50cyI6W10sInBheW1lbnRfbGluayI6bnVsbH0=
+  recorded_at: Fri, 02 Oct 2026 15:24:52 GMT
 recorded_with: VCR 6.4.0

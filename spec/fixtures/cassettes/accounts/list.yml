@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:14 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-yuKhwg+MJlAM8CYhQ5Iq8A=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-fkLDF0v5eDLaj7izQVtGeA=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"6879946fc3deecd2e5f0dbea601b6898"
+      - W/"5ae0d616d96d285f3bda7b1e6491188d"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,26 +112,20 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.152553'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=b9j%2Fd%2FLBqZ4uZRv853jqiYisJp2nj3nmd%2FkThkA2nLTB2Vv1%2FZ8gbWQaRLvm%2F00hIyTyMG5db6bTCrd0ztPdyB75FUO2uSU%2Bk0w4t9PSEA8hEU9zf4kVljMIrG5J9QTyuPS%2FVyVALSUAowQ%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=xPNd3Z9d%2B0hL7CNWEijxZX6ANfNNjBkT56BSN0awrK4cgaH1j8qs5inokWv7Sp%2FwfwDkFmj2uTcyhm1sSixitSCVyWNXaCe8cHJUW26ZyN5SQ1k%2FX88MgTZq2aqR1iKzJbrGPTfwVcFeKyQ%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448a8b5f8eee55-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-account-id","name":"Main Account","status":"open","currency_code":"MAD","balance":"202271.04","created_at":"2025-11-18T08:05:28+01:00","updated_at":"2026-10-02T14:37:34+00:00","rib":"<RIB>"}],"has_more":false,"next_cursor":null}'
-  recorded_at: Fri, 02 Oct 2026 14:54:14 GMT
+      string: '{"data":[{"id":"fixture-account-id","name":"Main Account","status":"open","currency_code":"MAD","balance":"202261.04","created_at":"2025-11-18T08:05:28+01:00","updated_at":"2026-10-02T14:56:35+00:00","rib":"<RIB>"}],"has_more":false,"next_cursor":null}'
+  recorded_at: Fri, 02 Oct 2026 15:24:44 GMT
 recorded_with: VCR 6.4.0

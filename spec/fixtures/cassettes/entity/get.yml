@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:21 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-AYMpMj9MqedP2FpksxNCpQ=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-sjLdDciDW4ObF1dzJJUHbg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,26 +112,20 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.124718'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=CGufbMMtJoY7QUMsf80jU29Z7ivOawMYI4Og04pWOqQKTugIxoK7I4bo4zqlIZlzfYGVDyo3l%2BSJ30j52%2BkJHFK%2Bk1zFEn0sMF8jeilLP0F%2Fi9ZMsFQKbeL6A0KbInC1nx1ocj2adzrtkI8%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kxeI6TdbY0470r7BOLIjuwtKH89mICOiD4oC4dHHbLYc0WOStr9Cp%2BuRMjSPKj79TWWJSDLNN%2BsyQr2Q8THoKh2rxaz6oOW8aTj5OeIhYCK7iS1vFT8MvV6t55jL5ZgUTbs9UM45Nuum2F4%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448aba1c4e6da0-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: '{"id":"019a95b0-2cf0-7f5c-9462-056370069c93","name":"Zazu","created_at":"2025-11-18T07:39:02+01:00"}'
-  recorded_at: Fri, 02 Oct 2026 14:54:21 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:51 GMT
 recorded_with: VCR 6.4.0

@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:20 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-YiTj90PZK0KZuMpbclP84w=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-1mSxpYK3s35UD7wctk8b3Q=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"5d08c7b4aa730f0412db93c3897a03f6"
+      - W/"76bec738b575f02b06c82b4b1e0add61"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,27 +112,21 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.118476'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=cpk3Ly2slNl7j4cFuxpZ%2FtOb08LnM6bPM%2FlGEhwQvP1PDFuilqwCgVARGELoY83iF%2FpD%2BLbhfmqVrXtrSd4AdLOG5EJ3Z1iDwyHFGXtNry7prtLLhw86SwWaloWETFWWUgOrRtbgMrMS3Lg%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=X%2BdyhOuS3LkxGN5jggq1JbK0mbzp1CNMAibMqh%2FAQkhRi3PGQUUaFx3hHTGx97MxiztTvdoTN0102JIzoks78rV2d42Be6RDxBkFWdQmnubdRgW7lBcNtTj3G4BPNa6E9BxZOblMunqgfak%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448ab10e68ba91-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiWmF6dSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJlbWFpbCI6ImZpeHR1cmUtcHJpbWFyeS0wM2ZkZTE3ZUBleGFtcGxlLmNvbSIsInBob25lIjpudWxsLCJjdXN0b21lcl90eXBlIjoiYnVzaW5lc3MiLCJ0YXhfaWQiOm51bGwsImljZV9udW1iZXIiOiI4NTQyMzU4NjYxNDkwOTgiLCJuYW1lIjoiWmF6dSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0wMlQxNDo1NDowMCswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTAyVDE0OjU0OjAwKzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
-  recorded_at: Fri, 02 Oct 2026 14:54:20 GMT
+        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiWmF6dSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJlbWFpbCI6ImZpeHR1cmUtcHJpbWFyeS1iZDZjNmE1OUBleGFtcGxlLmNvbSIsInBob25lIjpudWxsLCJjdXN0b21lcl90eXBlIjoiYnVzaW5lc3MiLCJ0YXhfaWQiOm51bGwsImljZV9udW1iZXIiOiIzNzM0NDYyNDA5MjQ1MzkiLCJuYW1lIjoiWmF6dSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0wMlQxNToyNDozMCswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTAyVDE1OjI0OjMwKzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
+  recorded_at: Fri, 02 Oct 2026 15:24:50 GMT
 recorded_with: VCR 6.4.0

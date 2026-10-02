@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:17 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-cfkmcZvybbrt8RWYTeq7KA=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-ibdG/Jh5JXG69p61MdViiQ=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,22 +112,16 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.123098'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=w%2Fh7m9sP%2FxUB7dJpiwbdRYzncbUjdm7xecQXX%2BCS6z4bpb0dzTQtsqQ1bOm%2F%2BzcxBZtJ%2FSNlfTIVlovFm7oJfVqPlaElSBFHi1woKKSjKPMJ54QEQwBWcY5dPoyOiGmmguMxGKv44p7syFc%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=N8TEo7fjykMRLqfdZGe4rdqkTmfZX6ygfrSSrosWhTMmXlUF8%2FHmPf%2FBWWO7h69uiCaoa%2B0YJC8WW1kRjjm1IYEidAyLvKfspuN2stg2DrnXZYSJa%2BKRIcFQhYBuaan20KmnapbnP1P3SKQ%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448a9b0faf5272-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
@@ -139,5 +129,5 @@ http_interactions:
       string: '{"id":"fixture-beneficiary-id","beneficiary_type":"business","email":null,"phone_number":null,"name":"Casawave
         SARLAU","external_accounts":[{"id":"fixture-trusted-external-account-id","name":"Compte
         Courant","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true}],"created_at":"2026-03-07T17:13:01+00:00"}'
-  recorded_at: Fri, 02 Oct 2026 14:54:17 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:46 GMT
 recorded_with: VCR 6.4.0

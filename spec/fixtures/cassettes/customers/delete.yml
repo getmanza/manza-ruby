@@ -20,8 +20,6 @@ http_interactions:
       code: 204
       message: No Content
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:21 GMT
       Connection:
       - keep-alive
       Cache-Control:
@@ -37,7 +35,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-GWbqY3xq69g1mF4m5KWqoA=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-QFJIj5Jb4IrVBZ9k1x11rQ=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -100,8 +98,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - bypass
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -110,26 +106,20 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.164706'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ntJ00OP3gzym2I%2BBHuM7V1Eok3610Y54ywWWLHoyKcAg4%2B3oyNKeSqPbYiyIXzNcppsja3rpw7ibHShq7xyWZW%2BLt%2BGs2YCcsxaWYlWsX7wiTdLKuLUjU5zqz3ZlRH9VkSQdEXRtVUKSn9U%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tX0JQhoyQxApZcPvn7C1rwtEXv0oeQ2daJeQf4Oje503HTfbdiExKZJIw6yzvCwaStqSF4PIhI8CBwgftcZ5xoXqhIng8lo%2BvA%2FT7RGtb0pAHgBV5zScUYOQj4F71fhF0jYcLzlSWxBJVmo%3D"}]}'
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448ab7ae28ed17-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
       string: ''
-  recorded_at: Fri, 02 Oct 2026 14:54:21 GMT
+  recorded_at: Fri, 02 Oct 2026 15:24:51 GMT
 recorded_with: VCR 6.4.0

@@ -20,8 +20,6 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:27 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -41,7 +39,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-6KjpY6vZnFRepD0J8HyadQ=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-7PzMYimWriHgO4O1qgYheg=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -97,7 +95,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Etag:
-      - W/"98a4edbf2e5d534d739c82f422508bf7"
+      - W/"bd67e2e61175fc9170f38b80d3336551"
       Manza-Version:
       - "<ZAZU_VERSION>"
       Referrer-Policy:
@@ -106,8 +104,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - miss
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -116,30 +112,24 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.144176'
       X-Xss-Protection:
       - '0'
       Zazu-Version:
       - "<ZAZU_VERSION>"
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=eKUG76Txo4f1YPRoiIUEl%2BIHzg9BLPeYWrfFqI0kkWvyKKH42AaZCikcp2shzS2WGhJxfkX85SwDP8Mykw1wgiTwK3CsjzCjF3AYNwyIHaDBbVuP1nfWLGrc0hZZ%2FAWdef9LtFaQ%2B3mPLCk%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qLNtTMLSyO8CKtWeR9dRgMOsP6WPYrH3Xhg3p3ga5oepYDyGaDIyzStqdjhwGIQZcFTAUO3yvXyEVuRdAD%2BAESlXkjxoUYul3bmfxS7FhhUN6QLa5slljXdyasfsNZTRgPVBDdPmdZlJdAg%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448addcd49f1c2-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-cancellable-payment-link-id","slug":"dFe0fS9jbANn","link_type":"single","currency_code":"MAD","title":"Zazu
-        Fixture — cancellable","description":"[zazu-ruby-fixture] cancellable","payment_reference":"fixture-cancellable-9f334810","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"active","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/dFe0fS9jbANn","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T14:54:04+00:00","updated_at":"2026-10-02T14:54:04+00:00","account":{"id":"fixture-account-id","name":"Main
-        Account","currency_code":"MAD","rib":"<RIB>"}},{"id":"fixture-payment-link-id","slug":"OMw7p4Wd2Lol","link_type":"single","currency_code":"MAD","title":"Zazu
-        Fixture — primary","description":"[zazu-ruby-fixture] primary","payment_reference":"fixture-primary-b9a297db","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"active","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/OMw7p4Wd2Lol","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T14:54:03+00:00","updated_at":"2026-10-02T14:54:03+00:00","account":{"id":"fixture-account-id","name":"Main
-        Account","currency_code":"MAD","rib":"<RIB>"}}],"has_more":true,"next_cursor":"<NEXT_CURSOR>"}'
-  recorded_at: Fri, 02 Oct 2026 14:54:27 GMT
+      string: '{"data":[{"id":"fixture-cancellable-payment-link-id","slug":"UYIagDSZ8edy","link_type":"single","currency_code":"MAD","title":"Zazu
+        Fixture — cancellable","description":"[zazu-ruby-fixture] cancellable","payment_reference":"fixture-cancellable-125244b1","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"active","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/UYIagDSZ8edy","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T15:24:34+00:00","updated_at":"2026-10-02T15:24:34+00:00","account":{"id":"fixture-account-id","name":"Main
+        Account","currency_code":"MAD","rib":"<RIB>"}},{"id":"fixture-payment-link-id","slug":"JjLz5sN82Z12","link_type":"single","currency_code":"MAD","title":"Zazu
+        Fixture — primary","description":"[zazu-ruby-fixture] primary","payment_reference":"fixture-primary-9acf2301","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"active","amount":"100.0","url":"https://pay.staging.zazu.ma/payment-link/JjLz5sN82Z12","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-02T15:24:34+00:00","updated_at":"2026-10-02T15:24:34+00:00","account":{"id":"fixture-account-id","name":"Main
+        Account","currency_code":"MAD","rib":"<RIB>"}}],"has_more":false,"next_cursor":null}'
+  recorded_at: Fri, 02 Oct 2026 15:24:57 GMT
 recorded_with: VCR 6.4.0

@@ -22,8 +22,6 @@ http_interactions:
       code: 403
       message: Forbidden
     headers:
-      Date:
-      - Fri, 02 Oct 2026 14:54:31 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -43,7 +41,7 @@ http_interactions:
         https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
         https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
         https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-oD1jhDhM7k7cFafXm8D+NQ=='';
+        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-Oo5FvG6ONOmKJpY8aydwIQ=='';
         style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
         https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
         ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
@@ -104,8 +102,6 @@ http_interactions:
       - max-age=63072000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Cache:
-      - bypass
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -114,25 +110,19 @@ http_interactions:
       - none
       X-Request-Id:
       - "<REQUEST_ID>"
-      X-Runtime:
-      - '0.141777'
       X-Xss-Protection:
       - '0'
-      Cf-Cache-Status:
-      - DYNAMIC
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=7W95xNiiG61u07UXD0%2FtG0STrhZcwpRJrXvEgl4XggGQeknZdlJUAQC97MXpAXnkkycxeWZkeO0J5PUO4GlwuQpTIpmisYVGCuCP3Ovb4u247oLPAZ803gAk4kEpxT02nFA7tShi2aLiOrE%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2B0ZnAy%2FiHx%2FJIQ3tLxSLw1rX3dnUfCoW8FNlzPNVQvFWDF8LkxGRP05be65Du0I%2Bz9QnUMgw7zrKT7MLtDCx4oWKAAWwXVRAmhvrcaE5hJdxoUAXEyRLjS6r2ezDw0EmZiDBc7u3RTkB7N0%3D"}]}'
       Server:
       - cloudflare
-      Cf-Ray:
-      - a4448af78a21edc3-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: '{"error":{"message":"The API key that created this transfer cannot
         authorize it","type":"same_key_forbidden"}}'
-  recorded_at: Fri, 02 Oct 2026 14:54:31 GMT
+  recorded_at: Fri, 02 Oct 2026 15:25:02 GMT
 recorded_with: VCR 6.4.0
