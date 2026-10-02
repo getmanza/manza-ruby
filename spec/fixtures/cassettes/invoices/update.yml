@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: patch
-    uri: https://staging.zazu.ma/api/invoices/fixture-invoice-id
+    uri: https://ma.manza.dev/api/invoices/fixture-invoice-id
     body:
       encoding: UTF-8
       string: '{"notes":"updated by SDK fixture spec"}'

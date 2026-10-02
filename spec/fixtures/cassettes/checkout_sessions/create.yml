@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/checkout_sessions
+    uri: https://ma.manza.dev/api/checkout_sessions
     body:
       encoding: UTF-8
       string: '{"account_id":"fixture-account-id","amount":"100.00","success_url":"https://example.com/zazu-fixture-success?session_id={CHECKOUT_SESSION_ID}","cancel_url":"https://example.com/zazu-fixture-cancel","description":"Created

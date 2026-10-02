@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/invoices
+    uri: https://ma.manza.dev/api/invoices
     body:
       encoding: UTF-8
       string: '{"customer_id":"fixture-customer-id","currency_code":"MAD","issue_date":"2026-05-03","due_date":"2026-06-03","items":[{"description":"SDK

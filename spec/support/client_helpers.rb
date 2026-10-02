@@ -5,7 +5,7 @@
 # the key value doesn't matter (it's scrubbed in cassettes anyway);
 # during recording, it has to be a real staging key.
 module ClientHelpers
-  STAGING_BASE_URL = "https://staging.zazu.ma"
+  STAGING_BASE_URL = "https://ma.manza.dev"
 
   def zazu_client(**overrides)
     Zazu::Client.new(

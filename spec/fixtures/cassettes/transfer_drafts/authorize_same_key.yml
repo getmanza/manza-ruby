@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/transfer_drafts/fixture-authorizable-draft-id/authorize
+    uri: https://ma.manza.dev/api/transfer_drafts/fixture-authorizable-draft-id/authorize
     body:
       encoding: UTF-8
       string: '{"authorization_id":"fixture-authorizable-authorization-id","signature":"<SIGNATURE>"}'

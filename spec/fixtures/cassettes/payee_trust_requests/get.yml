@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/payee_trust_requests/fixture-payee-trust-request-id
+    uri: https://ma.manza.dev/api/payee_trust_requests/fixture-payee-trust-request-id
     body:
       encoding: US-ASCII
       string: ''

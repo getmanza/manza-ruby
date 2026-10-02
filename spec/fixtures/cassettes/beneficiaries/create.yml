@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/beneficiaries
+    uri: https://ma.manza.dev/api/beneficiaries
     body:
       encoding: UTF-8
       string: '{"beneficiary_type":"company","company_name":"Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)","email":"fixture-beneficiary-spec@example.com"}'

@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/payee_trust_requests
+    uri: https://ma.manza.dev/api/payee_trust_requests
     body:
       encoding: UTF-8
       string: '{"external_account_ids":["fixture-external-account-id"]}'

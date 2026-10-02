@@ -18,7 +18,8 @@ module Zazu
   # uses a connection pool via the HTTPX adapter — multiple threads
   # can share one client.
   class Client
-    DEFAULT_BASE_URL = "https://zazu.ma"
+    # Morocco production. South Africa: https://za.manza.finance.
+    DEFAULT_BASE_URL = "https://ma.manza.finance"
     DEFAULT_TIMEOUT = 30
     USER_AGENT = "zazu-ruby/#{VERSION}".freeze
 

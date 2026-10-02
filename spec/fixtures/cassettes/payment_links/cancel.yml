@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/payment_links/fixture-cancellable-payment-link-id/cancel
+    uri: https://ma.manza.dev/api/payment_links/fixture-cancellable-payment-link-id/cancel
     body:
       encoding: UTF-8
       string: ''

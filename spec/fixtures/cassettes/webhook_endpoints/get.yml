@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/webhook_endpoints/fixture-webhook-id
+    uri: https://ma.manza.dev/api/webhook_endpoints/fixture-webhook-id
     body:
       encoding: US-ASCII
       string: ''

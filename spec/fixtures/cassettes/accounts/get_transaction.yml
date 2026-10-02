@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/accounts/fixture-account-id/transactions/fixture-transaction-id
+    uri: https://ma.manza.dev/api/accounts/fixture-account-id/transactions/fixture-transaction-id
     body:
       encoding: US-ASCII
       string: ''

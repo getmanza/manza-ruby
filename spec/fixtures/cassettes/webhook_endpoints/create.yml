@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/webhook_endpoints
+    uri: https://ma.manza.dev/api/webhook_endpoints
     body:
       encoding: UTF-8
       string: '{"url":"https://example.com/zazu-webhooks","events":["payment_link.paid"],"description":"SDK

@@ -1,6 +1,6 @@
 # zazu-ruby
 
-Ruby SDK for the Zazu API. **Reference implementation** for the cross-language SDK family — the Ruby SDK records cassettes against `staging.zazu.ma` and ships them as a release tarball. Every other SDK (zazu-ts, zazu-cli, zazu-python, zazu-go, …) replays those cassettes.
+Ruby SDK for the Zazu API. **Reference implementation** for the cross-language SDK family — the Ruby SDK records cassettes against `ma.manza.dev` (staging) and ships them as a release tarball. Every other SDK (zazu-ts, zazu-cli, zazu-python, zazu-go, …) replays those cassettes.
 
 ## Stack
 
@@ -163,7 +163,7 @@ These live in `.claude/commands/` and are available in any Claude Code session:
 
 This repo is the source of truth:
 
-- Records cassettes against `staging.zazu.ma`
+- Records cassettes against `ma.manza.dev` (staging)
 - Ships them as a release tarball (`cassettes-vX.Y.Z.tar.gz`) on each version
 - All other SDKs (`zazu-ts`, future `zazu-python`, `zazu-go`, `zazu-php`, `zazu-crystal`, `zazu-elixir`, `zazu-rust`) replay these cassettes in their own test harness
 

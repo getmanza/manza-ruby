@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/entity
+    uri: https://ma.manza.dev/api/entity
     body:
       encoding: US-ASCII
       string: ''

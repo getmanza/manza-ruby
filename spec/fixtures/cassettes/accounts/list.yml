@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/accounts?limit=100
+    uri: https://ma.manza.dev/api/accounts?limit=100
     body:
       encoding: US-ASCII
       string: ''

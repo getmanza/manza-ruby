@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/beneficiaries/fixture-created-beneficiary-id/external_accounts
+    uri: https://ma.manza.dev/api/beneficiaries/fixture-created-beneficiary-id/external_accounts
     body:
       encoding: UTF-8
       string: '{"account_number":"fixture-new-account-number","name":"Fixture Secondary Account"}'

@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/beneficiaries/fixture-created-beneficiary-id/external_accounts?limit=100
+    uri: https://ma.manza.dev/api/beneficiaries/fixture-created-beneficiary-id/external_accounts?limit=100
     body:
       encoding: US-ASCII
       string: ''

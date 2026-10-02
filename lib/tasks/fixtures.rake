@@ -19,7 +19,7 @@
 #   ZAZU_STAGING_API_KEY  — must have read+write scopes for every
 #                            resource we seed (customers, invoices,
 #                            payment_links, webhook_endpoints).
-#   ZAZU_STAGING_URL       — usually https://staging.zazu.ma.
+#   ZAZU_STAGING_URL       — usually https://ma.manza.dev.
 #   ZAZU_FIXTURE_ACCOUNT_ID — must be a real account in the entity
 #                              the API key belongs to. The seed
 #                              cannot create accounts (that's a

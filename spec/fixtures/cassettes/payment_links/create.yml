@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/payment_links
+    uri: https://ma.manza.dev/api/payment_links
     body:
       encoding: UTF-8
       string: '{"account_id":"fixture-account-id","amount":"100.00","title":"SDK fixture","description":"Created

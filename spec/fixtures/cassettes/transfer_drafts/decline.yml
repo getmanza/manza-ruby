@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/transfer_drafts/fixture-declinable-draft-id/decline
+    uri: https://ma.manza.dev/api/transfer_drafts/fixture-declinable-draft-id/decline
     body:
       encoding: UTF-8
       string: '{"authorization_id":"fixture-declinable-authorization-id","reason":"SDK fixture"}'

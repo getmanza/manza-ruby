@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://staging.zazu.ma/api/customers/fixture-deletable-customer-id
+    uri: https://ma.manza.dev/api/customers/fixture-deletable-customer-id
     body:
       encoding: US-ASCII
       string: ''

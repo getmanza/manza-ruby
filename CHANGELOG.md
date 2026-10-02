@@ -35,6 +35,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 
+- Default base URL is now `https://ma.manza.finance` (Morocco production;
+  South Africa is `https://za.manza.finance`). Cassettes are recorded
+  against staging at `https://ma.manza.dev`. The old `zazu.ma` hosts are
+  still served.
 - Cassettes scrub `Manza-Version`, `account_number`, `bank_identifier`
   and the authorize request `signature`. The two authorize cassettes
   match on method + URI.

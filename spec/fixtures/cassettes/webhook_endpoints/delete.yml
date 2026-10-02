@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://staging.zazu.ma/api/webhook_endpoints/fixture-deletable-webhook-id
+    uri: https://ma.manza.dev/api/webhook_endpoints/fixture-deletable-webhook-id
     body:
       encoding: US-ASCII
       string: ''

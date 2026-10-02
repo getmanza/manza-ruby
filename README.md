@@ -1,6 +1,6 @@
 # Zazu Ruby SDK
 
-Ruby SDK for the [Zazu API](https://zazu.ma). Faraday + HTTPX adapter for HTTP/2 + persistent connections.
+Ruby SDK for the [Manza API](https://ma.manza.finance). Faraday + HTTPX adapter for HTTP/2 + persistent connections.
 
 ```ruby
 gem "zazu-ruby"
@@ -14,8 +14,8 @@ The gem is published as `zazu-ruby` on RubyGems but loaded as `zazu` in code (th
 require "zazu"
 
 zazu = Zazu.new(api_key: ENV["ZAZU_API_KEY"])
-# Or with explicit base URL (defaults to https://zazu.ma):
-zazu = Zazu.new(api_key: ENV["ZAZU_API_KEY"], base_url: "https://zazu.africa")
+# Or with explicit base URL (defaults to https://ma.manza.finance, Morocco):
+zazu = Zazu.new(api_key: ENV["ZAZU_API_KEY"], base_url: "https://za.manza.finance")
 
 entity = zazu.entity.get
 # => #<Zazu::Response status=200 ...>

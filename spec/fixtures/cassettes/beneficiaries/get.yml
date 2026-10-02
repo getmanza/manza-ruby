@@ -5,7 +5,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.zazu.ma/api/beneficiaries/fixture-beneficiary-id
+    uri: https://ma.manza.dev/api/beneficiaries/fixture-beneficiary-id
     body:
       encoding: US-ASCII
       string: ''

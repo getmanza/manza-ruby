@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.zazu.ma/api/customers
+    uri: https://ma.manza.dev/api/customers
     body:
       encoding: UTF-8
       string: '{"customer_type":"business","company_name":"Zazu SDK Fixture Co (zazu-ruby-fixture-v1-spec)","email":"create-spec@zazu-ruby-fixture.example.com","ice_number":"000000000000000"}'

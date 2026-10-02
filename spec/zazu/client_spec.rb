@@ -19,9 +19,9 @@ RSpec.describe Zazu::Client do
       expect(client.base_url).to eq("https://api.zazu.ma")
     end
 
-    it "defaults base_url to https://zazu.ma" do
+    it "defaults base_url to https://ma.manza.finance" do
       client = described_class.new(api_key: "k")
-      expect(client.base_url).to eq("https://zazu.ma")
+      expect(client.base_url).to eq("https://ma.manza.finance")
     end
 
     it "reads api_key from ZAZU_API_KEY env var" do
