@@ -12,7 +12,7 @@ Ruby SDK for the Zazu API. **Reference implementation** for the cross-language S
 | Cassettes | VCR + WebMock | `spec/support/vcr.rb` |
 | Lint | Rubocop + rubocop-rspec + rubocop-performance + rubocop-rake | `.rubocop.yml` |
 | Build / package mgmt | Bundler | `Gemfile`, `bundle install` |
-| Release | `rake release[X.Y.Z]` | `Rakefile` — tag-driven, OIDC trusted publishing |
+| Release | `bin/release` | zoolutions release kit (`bin/release` + `rakelib/release.rake`, synced from docs-kit — never edit in place); OIDC trusted publishing |
 
 ## Public API surface
 
@@ -136,11 +136,13 @@ bundle exec rake default                       # spec + rubocop, the canonical p
 bundle exec rake fixtures:record               # teardown → seed → record
 bundle exec rspec                              # verify replay-only is green
 
-# Release (after PR merge)
-bundle exec rake release[X.Y.Z]
-# → bumps version.rb, pushes main, creates GH release
-# → release.yml workflow handles RubyGems publish + sigstore attestation
-# → cassette tarball uploaded as a release asset for other-language SDKs
+# Release (after PR merge, from a clean, up-to-date main)
+bin/release list        # last releases + what patch/minor/major would give
+bin/release --dry-run   # version + changes since the last tag, publishes nothing
+bin/release minor       # or patch (default), major, an explicit 0.3.0; --force re-creates
+# → rake release[X.Y.Z]: bumps version.rb, pushes main, publishes the GH release
+# → release.yml: RubyGems publish + sigstore attestation (shared kit file)
+# → cassettes.yml: cassette tarball uploaded as a release asset for other-language SDKs
 ```
 
 ## Models
