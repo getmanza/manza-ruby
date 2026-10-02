@@ -1,0 +1,33 @@
+spec/zazu/resources/beneficiaries_spec.rb
+  s_079f1f00ed88e6::t_24394c0c4b5866 29,35
+spec/fixtures/cassettes/beneficiaries/create.yml
+  s_079f1f00ed88e6::t_24394c0c4b5866 11,36
+README.md
+  s_079f1f00ed88e6::t_24394c0c4b5866 83
+  s_079f1f00ed88e6::t_0ae5d725d00d5e 219,221
+  s_079f1f00ed88e6::t_242079f0cbfeaa 202-203,207-218,220,222-237
+lib/zazu/resources/beneficiaries.rb
+  s_079f1f00ed88e6::t_24394c0c4b5866 21-22
+lib/tasks/fixtures.rake
+  s_079f1f00ed88e6::t_24394c0c4b5866 390
+spec/fixtures/cassettes/beneficiaries/list.yml
+  s_079f1f00ed88e6::t_24394c0c4b5866 34
+spec/fixtures/cassettes/beneficiaries/get.yml
+  s_079f1f00ed88e6::t_24394c0c4b5866 34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "cf363df5241877cd4a7f825838f0740bb11e619b",
+  "prompts": {},
+  "sessions": {
+    "s_079f1f00ed88e6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b45600fa-a094-4f21-a314-2db468be6a6c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
