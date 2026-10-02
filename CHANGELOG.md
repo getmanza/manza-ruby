@@ -45,7 +45,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - `rake fixtures:seed` needs a second, authorizer API key, the
   authorizer endpoint's signing secret and a tunnel to a local webhook
   receiver (see the one-time setup in `lib/tasks/fixtures.rake`).
-  Re-recording now executes a real 1.00 MAD transfer.
+  Re-recording now executes a real 10.00 MAD transfer (the API minimum).
 - The new beneficiaries, payee_trust_requests and transfer_drafts
   cassettes are hand-authored against the API contract; re-record with
   `rake fixtures:record` once the staging setup is in place.

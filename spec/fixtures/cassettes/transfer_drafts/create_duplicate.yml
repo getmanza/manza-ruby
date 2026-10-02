@@ -8,7 +8,7 @@ http_interactions:
     uri: https://ma.manza.dev/api/transfer_drafts
     body:
       encoding: UTF-8
-      string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"1.00","client_reference":"fixture-authorizable-client-reference"}'
+      string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"10.00","client_reference":"fixture-authorizable-client-reference"}'
     headers:
       Authorization:
       - Bearer <ZAZU_API_KEY>

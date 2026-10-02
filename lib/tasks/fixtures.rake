@@ -50,13 +50,13 @@
 #      delete payments.
 #   4. Create a webhook endpoint at a stable tunnel URL (cloudflared /
 #      ngrok reserved domain) forwarding to ZAZU_STAGING_AUTHORIZER_PORT,
-#      enrol it as the transfer authorizer with limits covering 1.00 MAD,
+#      enrol it as the transfer authorizer with limits covering 10.00 MAD (the API minimum),
 #      and store its secret as ZAZU_STAGING_AUTHORIZER_SECRET.
 #   5. Mark a beneficiary's default bank account as a trusted payee and
 #      store the beneficiary's id as ZAZU_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so the money comes
 #      back, and keep a balance on ZAZU_FIXTURE_ACCOUNT_ID.
 #
-# MONEY MOVES: the authorize cassette executes a real 1.00 MAD transfer
+# MONEY MOVES: the authorize cassette executes a real 10.00 MAD transfer
 # to the trusted payee on every re-record.
 #
 # The machine-authorization challenge expires after 1h, so seed and
@@ -374,7 +374,7 @@ module Fixtures
       response = @client.transfer_drafts.create(
         account_id: @account_id,
         beneficiary_id: @ids.fetch("ZAZU_FIXTURE_BENEFICIARY_ID"),
-        amount: "1.00",
+        amount: "10.00",
         payment_reference: fixture_marker("transfer"),
         internal_notes: "[#{FIXTURE_TAG}] transfer draft — do not approve"
       )
@@ -407,7 +407,7 @@ module Fixtures
     end
 
     # Three drafts to the trusted payee, each answered by a different
-    # spec: authorize (200, executes 1.00 MAD), decline (200), and a bad
+    # spec: authorize (200, executes 10.00 MAD), decline (200), and a bad
     # signature (422). The authorization id and nonce arrive only in the
     # payment.authorization_requested webhook, so the local receiver
     # captures them.
@@ -436,7 +436,7 @@ module Fixtures
         account_id: @account_id,
         beneficiary_id: @ids.fetch("ZAZU_FIXTURE_BENEFICIARY_ID"),
         external_account_id: @ids.fetch("ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),
-        amount: "1.00",
+        amount: "10.00",
         payment_reference: fixture_marker(kind.tr("_", "-")),
         client_reference: random_client_reference(kind)
       ).body

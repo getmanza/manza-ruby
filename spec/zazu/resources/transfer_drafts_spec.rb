@@ -29,7 +29,7 @@ RSpec.describe Zazu::Resources::TransferDrafts do
         client.transfer_drafts.create(
           account_id: fixture_id("ZAZU_FIXTURE_ACCOUNT_ID"),
           beneficiary_id: fixture_id("ZAZU_FIXTURE_BENEFICIARY_ID"),
-          amount: "1.00",
+          amount: "10.00",
           client_reference: fixture_id("ZAZU_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE")
         )
       end.to raise_error(Zazu::ConflictError) { |e|
@@ -98,7 +98,7 @@ RSpec.describe Zazu::Resources::TransferDrafts do
         input = Zazu::TransferAuthorization.signature_input(
           payment_id: draft_id,
           nonce: fixture_id("ZAZU_FIXTURE_AUTHORIZABLE_NONCE"),
-          amount: "1.0",
+          amount: "10.0",
           currency_code: "MAD",
           account_id: fixture_id("ZAZU_FIXTURE_ACCOUNT_ID"),
           payee: Zazu::TransferAuthorization.payee_for(
