@@ -1,13 +1,13 @@
-# zazu-ruby
+# manza-ruby
 
-Ruby SDK for the Zazu API. **Reference implementation** for the cross-language SDK family — the Ruby SDK records cassettes against `ma.manza.dev` (staging) and ships them as a release tarball. Every other SDK (zazu-ts, zazu-cli, zazu-python, zazu-go, …) replays those cassettes.
+Ruby SDK for the Manza API (gem `manza`, formerly `zazu-ruby`). **Reference implementation** for the cross-language SDK family — the Ruby SDK records cassettes against `ma.manza.dev` (staging) and ships them as a release tarball. Every other SDK (manza-ts, cli, manza-python, manza-go, …) replays those cassettes.
 
 ## Stack
 
 | Concern | Tool | Notes |
 |---|---|---|
-| Language | Ruby ≥ 3.3 (matrix: 3.3, 3.4, 4.0) | `zazu-ruby.gemspec` `required_ruby_version` |
-| HTTP | Faraday + HTTPX adapter (replay uses `:net_http`) | `lib/zazu/client.rb` — see "Critical rules" |
+| Language | Ruby ≥ 3.3 (matrix: 3.3, 3.4, 4.0) | `manza.gemspec` `required_ruby_version` |
+| HTTP | Faraday + HTTPX adapter (replay uses `:net_http`) | `lib/manza/client.rb` — see "Critical rules" |
 | Tests | RSpec | `spec/` |
 | Cassettes | VCR + WebMock | `spec/support/vcr.rb` |
 | Lint | Rubocop + rubocop-rspec + rubocop-performance + rubocop-rake | `.rubocop.yml` |
@@ -17,57 +17,57 @@ Ruby SDK for the Zazu API. **Reference implementation** for the cross-language S
 ## Public API surface
 
 ```ruby
-zazu = Zazu::Client.new(api_key: "sk_live_...")
+manza = Manza::Client.new(api_key: "sk_live_...")
 
-zazu.entity.get
-zazu.accounts.list(currency_code: "MAD")
-zazu.accounts.list_transactions(account_id)
-zazu.customers.list(q: "Acme")
-zazu.customers.create(...)
-zazu.invoices.list
-zazu.payment_links.cancel(id)
-zazu.webhook_endpoints.list
+manza.entity.get
+manza.accounts.list(currency_code: "MAD")
+manza.accounts.list_transactions(account_id)
+manza.customers.list(q: "Acme")
+manza.customers.create(...)
+manza.invoices.list
+manza.payment_links.cancel(id)
+manza.webhook_endpoints.list
 ```
 
-- `Zazu::Page` — cursor-based pagination, hard cap of 100/page (`MAX_PER_PAGE`)
-- 10-class `Zazu::Error` hierarchy — discriminate via `is_a?(Zazu::ValidationError)`, never status-code matching
+- `Manza::Page` — cursor-based pagination, hard cap of 100/page (`MAX_PER_PAGE`)
+- 10-class `Manza::Error` hierarchy — discriminate via `is_a?(Manza::ValidationError)`, never status-code matching
 - Snake-case wire format — request/response bodies are returned as-is. **No auto-camelCasing.**
 
 ## How to work in this codebase
 
 1. **Tests come first.** Every change to `lib/` ships with a spec. Cassette-replay tests are the contract — they enforce the same wire format across Ruby, TS, and future SDKs.
-2. **Use the SDK's primitives.** `Zazu::Page`, `Zazu::Error` subclasses, the `Resources::Base` http_get/post/patch/delete helpers, `encode_path` for URL construction. Don't hand-roll Faraday calls or string-interpolate URLs.
+2. **Use the SDK's primitives.** `Manza::Page`, `Manza::Error` subclasses, the `Resources::Base` http_get/post/patch/delete helpers, `encode_path` for URL construction. Don't hand-roll Faraday calls or string-interpolate URLs.
 3. **Snake-case stays.** Response keys are wire-format. We don't camelCase them.
 4. **Rubocop must be clean.** `bundle exec rubocop` is gated in CI. Don't add `# rubocop:disable` to silence — fix the issue. `Metrics` is intentionally disabled (long methods are sometimes the right answer in a thin SDK); don't fight that.
 
 ## Critical rules
 
-- **HTTPX adapter for production, `net_http` for cassette recording.** `lib/zazu/client.rb` swaps to `net_http` when `VCR_RECORD` is set because the HTTPX webmock plugin layered with VCR's webmock library hook deadlocks on the first real request. This was painful to find — preserve it.
+- **HTTPX adapter for production, `net_http` for cassette recording.** `lib/manza/client.rb` swaps to `net_http` when `VCR_RECORD` is set because the HTTPX webmock plugin layered with VCR's webmock library hook deadlocks on the first real request. This was painful to find — preserve it.
 - **`bundle exec rake default` before every commit.** Runs spec + rubocop. CI runs the same.
 - **No long-lived RubyGems API key.** Releases publish via OIDC trusted publishing through the `rubygems` GitHub environment. Verify the binding on https://rubygems.org/profile/me → Trusted publishers if it ever drifts.
-- **Cassettes are scrubbed.** `spec/support/vcr.rb` strips `Authorization`, `X-Request-Id`, `Zazu-Version`, and every `ENV["ZAZU_FIXTURE_*"]` value. Even if a developer commits a real key by accident, the cassette is clean. Don't disable the scrubbers.
-- **Fixture IDs go through `fixture_id()`.** Defined in `spec/support/fixture_ids.rb`. Specs call `fixture_id("ZAZU_FIXTURE_X")` which returns `ENV[X]` when set or a deterministic placeholder when not. The placeholder is what VCR scrubs to, so cassettes replay everywhere.
+- **Cassettes are scrubbed.** `spec/support/vcr.rb` strips `Authorization`, `X-Request-Id`, `Manza-Version`/`Zazu-Version`, and every `ENV["MANZA_FIXTURE_*"]` value. Even if a developer commits a real key by accident, the cassette is clean. Don't disable the scrubbers.
+- **Fixture IDs go through `fixture_id()`.** Defined in `spec/support/fixture_ids.rb`. Specs call `fixture_id("MANZA_FIXTURE_X")` which returns `ENV[X]` when set or a deterministic placeholder when not. The placeholder is what VCR scrubs to, so cassettes replay everywhere.
 - **Snake-case wire format.** API request/response bodies use snake_case. Don't transform them.
-- **No new error classes without updating other SDKs.** The 10-class hierarchy is shared across SDKs. Adding to it means coordinating zazu-ruby + zazu-ts at minimum.
-- **`Dotenv.overload`, not `Dotenv.load`.** A stale shell-exported `ZAZU_FIXTURE_*` variable will mask the freshly-seeded value otherwise. Both `spec_helper.rb` and `lib/tasks/fixtures.rake` do this.
+- **No new error classes without updating other SDKs.** The 10-class hierarchy is shared across SDKs. Adding to it means coordinating manza-ruby + manza-ts at minimum.
+- **`Dotenv.overload`, not `Dotenv.load`.** A stale shell-exported `MANZA_FIXTURE_*` variable will mask the freshly-seeded value otherwise. Both `spec_helper.rb` and `lib/tasks/fixtures.rake` do this.
 - **Never escape backticks in PR bodies.** With `<<'EOF'` (single-quoted heredoc) the shell passes everything through verbatim. Typing `` \` `` produces literal `` \` `` in the rendered PR. See "PR descriptions" below.
 
 ## PR descriptions
 
-Write PR description bodies in plain Markdown. **Do not escape backticks** with `` \` `` — GitHub renders `` \` `` literally as a backslash followed by a backtick, producing output like `` \`Zazu::Page\` `` instead of the monospace `Zazu::Page` the reader expects.
+Write PR description bodies in plain Markdown. **Do not escape backticks** with `` \` `` — GitHub renders `` \` `` literally as a backslash followed by a backtick, producing output like `` \`Manza::Page\` `` instead of the monospace `Manza::Page` the reader expects.
 
 The usual cause is writing the description inside a bash heredoc (`gh pr create --body "$(cat <<'EOF' ... EOF)"`) and then reflexively escaping every backtick because of shell-quoting muscle memory. With `<<'EOF'` (single-quoted delimiter) the shell does NOT interpret anything inside the heredoc — backticks, dollars, and backslashes all pass through verbatim. So write them exactly as you want them rendered:
 
 ```bash
-# Good — renders as `Zazu::Page` in monospace
+# Good — renders as `Manza::Page` in monospace
 gh pr create --body "$(cat <<'EOF'
-Uses the `Zazu::Page` helper.
+Uses the `Manza::Page` helper.
 EOF
 )"
 
-# Bad — renders as \`Zazu::Page\` literally in the PR body
+# Bad — renders as \`Manza::Page\` literally in the PR body
 gh pr create --body "$(cat <<'EOF'
-Uses the \`Zazu::Page\` helper.
+Uses the \`Manza::Page\` helper.
 EOF
 )"
 ```
@@ -124,10 +124,10 @@ For multi-step tasks, state a brief plan with verification at each step.
 ```bash
 # One-time setup
 bundle install
-cp .env.example .env   # then fill in ZAZU_STAGING_API_KEY for cassette recording
+cp .env.example .env   # then fill in MANZA_STAGING_API_KEY for cassette recording
 
 # Daily loop
-bundle exec rspec spec/zazu/path/to_spec.rb    # while iterating
+bundle exec rspec spec/manza/path/to_spec.rb    # while iterating
 bundle exec rspec                              # full suite
 bundle exec rubocop                            # lint
 bundle exec rake default                       # spec + rubocop, the canonical pre-commit check
@@ -167,13 +167,13 @@ This repo is the source of truth:
 
 - Records cassettes against `ma.manza.dev` (staging)
 - Ships them as a release tarball (`cassettes-vX.Y.Z.tar.gz`) on each version
-- All other SDKs (`zazu-ts`, future `zazu-python`, `zazu-go`, `zazu-php`, `zazu-crystal`, `zazu-elixir`, `zazu-rust`) replay these cassettes in their own test harness
+- All other SDKs (`manza-ts`, `manza-python`, `manza-go`, `manza-php`, `manza-crystal`, `manza-elixir`, `manza-rust`) replay these cassettes in their own test harness
 
-If the contract breaks (e.g., new request shape), it's a coordinated change across at least two repos: zazu-ruby and zazu-ts.
+If the contract breaks (e.g., new request shape), it's a coordinated change across at least two repos: manza-ruby and manza-ts.
 
 ## Repository links
 
-- This repo: https://github.com/getzazu/zazu-ruby
-- RubyGems: https://rubygems.org/gems/zazu-ruby
-- TypeScript SDK: https://github.com/getzazu/zazu-ts (https://www.npmjs.com/package/@getzazu/sdk)
-- CLI consumer: https://github.com/getzazu/cli
+- This repo: https://github.com/getmanza/manza-ruby
+- RubyGems: https://rubygems.org/gems/manza
+- TypeScript SDK: https://github.com/getmanza/manza-ts (https://www.npmjs.com/package/@manza/sdk)
+- CLI consumer: https://github.com/getmanza/cli

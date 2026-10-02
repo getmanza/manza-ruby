@@ -34,7 +34,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          GEM_VERSION=$(ruby -r ./lib/zazu/version -e "puts Zazu::VERSION")
+          GEM_VERSION=$(ruby -r ./lib/manza/version -e "puts Manza::VERSION")
           if [ "v$GEM_VERSION" != "$RELEASE_TAG" ]; then
             echo "::error::Tag $RELEASE_TAG does not match gem version $GEM_VERSION"
             exit 1

@@ -59,7 +59,7 @@ If you can't reproduce locally, the failure is environmental (CI-only):
 - Different Ruby version → check `.tool-versions` and the workflow `ruby-version`
 - Missing dependency → did `bundle install` actually run?
 - Network → external service (RubyGems registry, staging API) hiccup
-- Secret missing → e.g. trusted-publishing OIDC environment, ZAZU_STAGING_* secrets
+- Secret missing → e.g. trusted-publishing OIDC environment, MANZA_STAGING_* secrets
 - Concurrency → fixture seeder colliding with a parallel run
 
 ### Find the root cause
@@ -128,7 +128,7 @@ gh pr view <PR> --json mergeable,reviewDecision
 
 If the failure was CI-config drift (workflow YAML out of sync with reality), also update relevant docs:
 - `.tool-versions`
-- `zazu-ruby.gemspec` `required_ruby_version`
+- `manza.gemspec` `required_ruby_version`
 - `CLAUDE.md` if a convention changed
 
 ## Common patterns and fixes

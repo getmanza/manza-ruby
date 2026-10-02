@@ -10,8 +10,8 @@ task default: %i[spec rubocop]
 
 desc "Build gem and verify contents"
 task :build do
-  sh("gem build zazu-ruby.gemspec --strict")
-  gem_file = Dir["zazu-ruby-*.gem"].first
+  sh("gem build manza.gemspec --strict")
+  gem_file = Dir["manza-*.gem"].first
   abort "Gem file not found after build" unless gem_file
 
   sh("gem unpack #{gem_file} --target /tmp/gem-verify")
@@ -27,7 +27,7 @@ end
 load File.expand_path("lib/tasks/fixtures.rake", __dir__)
 
 namespace :fixtures do
-  desc "Re-record all VCR cassettes against the staging API. Requires .env with ZAZU_STAGING_API_KEY."
+  desc "Re-record all VCR cassettes against the staging API. Requires .env with MANZA_STAGING_API_KEY."
   task record: %i[teardown seed] do
     # `seed` writes fresh IDs into .env. Re-load them here so the
     # spec child process picks up the new values, in case anything
@@ -48,12 +48,12 @@ namespace :fixtures do
   desc "Pack committed cassettes into a release tarball at pkg/cassettes-vVERSION.tar.gz"
   task :pack do
     require "fileutils"
-    require_relative "lib/zazu/version"
+    require_relative "lib/manza/version"
 
     out_dir = File.expand_path("pkg", __dir__)
     FileUtils.mkdir_p(out_dir)
 
-    tarball = File.join(out_dir, "cassettes-v#{Zazu::VERSION}.tar.gz")
+    tarball = File.join(out_dir, "cassettes-v#{Manza::VERSION}.tar.gz")
     cassette_dir = File.expand_path("spec/fixtures/cassettes", __dir__)
 
     if Dir.glob(File.join(cassette_dir, "**/*.yml")).empty?
