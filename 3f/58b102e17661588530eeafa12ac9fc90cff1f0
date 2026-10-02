@@ -1,0 +1,23 @@
+spec/support/vcr.rb
+  s_079f1f00ed88e6::t_77c9cd3de21bac 69-72,123-124,172-173,175-176,181-192,203-212
+spec/zazu/resources/transfer_drafts_spec.rb
+  s_079f1f00ed88e6::t_77c9cd3de21bac 63-66,69,82,95
+CHANGELOG.md
+  s_079f1f00ed88e6::t_109013b433dee3 43-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3f58b102e17661588530eeafa12ac9fc90cff1f0",
+  "prompts": {},
+  "sessions": {
+    "s_079f1f00ed88e6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b45600fa-a094-4f21-a314-2db468be6a6c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
