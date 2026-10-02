@@ -40,8 +40,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   against staging at `https://ma.manza.dev`. The old `zazu.ma` hosts are
   still served.
 - Cassettes scrub `Manza-Version`, `account_number`, `bank_identifier`
-  and the authorize request `signature`. The two authorize cassettes
-  match on method + URI.
+  and the authorize request `signature`. The three authorize cassettes
+  match the request body minus `signature` (`body_without_signature`),
+  which replay cannot reproduce; other SDKs should do the same.
 - `rake fixtures:seed` needs a second, authorizer API key, the
   authorizer endpoint's signing secret and a tunnel to a local webhook
   receiver (see the one-time setup in `lib/tasks/fixtures.rake`).

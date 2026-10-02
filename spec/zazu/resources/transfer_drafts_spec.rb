@@ -60,13 +60,13 @@ RSpec.describe Zazu::Resources::TransferDrafts do
   # suspend the authorizer, and only a valid authorize resets the
   # streak. So the bad signature records before the valid one.
   #
-  # The authorize cassettes match on method + URI: the recorded
-  # signature is an HMAC over the real nonce and secret (scrubbed to
-  # <SIGNATURE>), which replay cannot reproduce. The signer itself is
-  # proven by spec/zazu/transfer_authorization_spec.rb.
+  # The authorize cassettes match the body minus `signature`: the
+  # recorded signature is an HMAC over the real nonce and secret
+  # (scrubbed to <SIGNATURE>), which replay cannot reproduce. The signer
+  # itself is proven by spec/zazu/transfer_authorization_spec.rb.
   describe "machine authorization", order: :defined do
     describe "#authorize with a bad signature",
-             vcr: { cassette_name: "transfer_drafts/authorize_bad_signature", match_requests_on: %i[method uri] } do
+             vcr: { cassette_name: "transfer_drafts/authorize_bad_signature", match_requests_on: %i[method uri body_without_signature] } do
       it "raises ValidationError invalid_signature" do
         expect do
           zazu_authorizer_client.transfer_drafts.authorize(
@@ -79,7 +79,7 @@ RSpec.describe Zazu::Resources::TransferDrafts do
     end
 
     describe "#authorize with the creating key",
-             vcr: { cassette_name: "transfer_drafts/authorize_same_key", match_requests_on: %i[method uri] } do
+             vcr: { cassette_name: "transfer_drafts/authorize_same_key", match_requests_on: %i[method uri body_without_signature] } do
       it "raises ForbiddenError same_key_forbidden" do
         expect do
           client.transfer_drafts.authorize(
@@ -92,7 +92,7 @@ RSpec.describe Zazu::Resources::TransferDrafts do
     end
 
     describe "#authorize",
-             vcr: { cassette_name: "transfer_drafts/authorize", match_requests_on: %i[method uri] } do
+             vcr: { cassette_name: "transfer_drafts/authorize", match_requests_on: %i[method uri body_without_signature] } do
       it "executes the draft" do
         draft_id = fixture_id("ZAZU_FIXTURE_AUTHORIZABLE_DRAFT_ID")
         input = Zazu::TransferAuthorization.signature_input(

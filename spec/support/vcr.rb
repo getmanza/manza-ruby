@@ -66,6 +66,10 @@ def scrub_response_body!(interaction)
     end
     if kept.size != parsed["data"].size
       parsed["data"] = kept
+      # The dropped records are what a next page would hold; the cassette
+      # has no second-page interaction to serve, so end the list here.
+      parsed["has_more"] = false if parsed.key?("has_more")
+      parsed["next_cursor"] = nil if parsed.key?("next_cursor")
       changed = true
     end
   end
@@ -116,6 +120,8 @@ def scrub_sensitive_fields!(value)
   end
 end
 
+VOLATILE_RESPONSE_HEADERS = %w[content-length date x-runtime x-cache cf-ray cf-cache-status].freeze
+
 VCR.configure do |config|
   config.cassette_library_dir = File.expand_path("../fixtures/cassettes", __dir__)
   config.hook_into :webmock
@@ -163,13 +169,25 @@ VCR.configure do |config|
 
   # The authorize signature is an HMAC over the real nonce under the
   # real authorizer secret. It lives in the *request* body, which the
-  # field scrubber above does not walk.
+  # field scrubber above does not walk. Matched by field, not URL, so a
+  # moved endpoint cannot slip a real signature into a cassette.
   config.filter_sensitive_data("<SIGNATURE>") do |interaction|
-    next nil unless interaction.request.uri.end_with?("/authorize")
-
-    JSON.parse(interaction.request.body.to_s)["signature"]
+    parsed = JSON.parse(interaction.request.body.to_s)
+    parsed["signature"] if parsed.is_a?(Hash) && parsed["signature"].is_a?(String)
   rescue JSON::ParserError
     nil
+  end
+
+  # The authorize body carries an HMAC that replay cannot reproduce (it
+  # signs the real nonce under the real secret); match everything else.
+  config.register_request_matcher(:body_without_signature) do |recorded, replayed|
+    strip_signature = lambda do |body|
+      parsed = JSON.parse(body.to_s)
+      parsed.is_a?(Hash) ? parsed.except("signature") : parsed
+    rescue JSON::ParserError
+      body
+    end
+    strip_signature.call(recorded.body) == strip_signature.call(replayed.body)
   end
 
   # Scrub fixture IDs out of URLs and bodies so cassettes replay
@@ -181,5 +199,16 @@ VCR.configure do |config|
     next if real.nil? || real.empty?
 
     config.filter_sensitive_data(placeholder) { real }
+  end
+
+  # Registered last, so it runs after every body rewrite above:
+  #   Content-Length — the scrubbers change the body length; a stale value
+  #     breaks HTTP stacks that honour it when other SDKs replay.
+  #   Date, X-Runtime, X-Cache, Cf-Ray, Cf-Cache-Status — change on every
+  #     request; replay never matches on them, they only add diff noise.
+  config.before_record do |interaction|
+    interaction.response.headers.delete_if do |name, _|
+      VOLATILE_RESPONSE_HEADERS.include?(name.downcase)
+    end
   end
 end
