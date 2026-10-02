@@ -1,0 +1,29 @@
+spec/fixtures/cassettes/transfer_drafts/get.yml
+  s_079f1f00ed88e6::t_26cf56054fc609 34
+lib/tasks/fixtures.rake
+  s_079f1f00ed88e6::t_26cf56054fc609 53,59,377,410,439
+CHANGELOG.md
+  s_079f1f00ed88e6::t_26cf56054fc609 48
+spec/zazu/resources/transfer_drafts_spec.rb
+  s_079f1f00ed88e6::t_26cf56054fc609 32,101
+spec/fixtures/cassettes/transfer_drafts/authorize.yml
+  s_079f1f00ed88e6::t_26cf56054fc609 36
+spec/fixtures/cassettes/transfer_drafts/create_duplicate.yml
+  s_079f1f00ed88e6::t_26cf56054fc609 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a924eebb6a90fdd77d36908be56202aae27849db",
+  "prompts": {},
+  "sessions": {
+    "s_079f1f00ed88e6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b45600fa-a094-4f21-a314-2db468be6a6c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
