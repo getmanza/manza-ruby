@@ -30,7 +30,7 @@ zazu.webhook_endpoints.list
 ```
 
 - `Zazu::Page` — cursor-based pagination, hard cap of 100/page (`MAX_PER_PAGE`)
-- 9-class `Zazu::Error` hierarchy — discriminate via `is_a?(Zazu::ValidationError)`, never status-code matching
+- 10-class `Zazu::Error` hierarchy — discriminate via `is_a?(Zazu::ValidationError)`, never status-code matching
 - Snake-case wire format — request/response bodies are returned as-is. **No auto-camelCasing.**
 
 ## How to work in this codebase
@@ -48,7 +48,7 @@ zazu.webhook_endpoints.list
 - **Cassettes are scrubbed.** `spec/support/vcr.rb` strips `Authorization`, `X-Request-Id`, `Zazu-Version`, and every `ENV["ZAZU_FIXTURE_*"]` value. Even if a developer commits a real key by accident, the cassette is clean. Don't disable the scrubbers.
 - **Fixture IDs go through `fixture_id()`.** Defined in `spec/support/fixture_ids.rb`. Specs call `fixture_id("ZAZU_FIXTURE_X")` which returns `ENV[X]` when set or a deterministic placeholder when not. The placeholder is what VCR scrubs to, so cassettes replay everywhere.
 - **Snake-case wire format.** API request/response bodies use snake_case. Don't transform them.
-- **No new error classes without updating other SDKs.** The 9-class hierarchy is shared across SDKs. Adding to it means coordinating zazu-ruby + zazu-ts at minimum.
+- **No new error classes without updating other SDKs.** The 10-class hierarchy is shared across SDKs. Adding to it means coordinating zazu-ruby + zazu-ts at minimum.
 - **`Dotenv.overload`, not `Dotenv.load`.** A stale shell-exported `ZAZU_FIXTURE_*` variable will mask the freshly-seeded value otherwise. Both `spec_helper.rb` and `lib/tasks/fixtures.rake` do this.
 - **Never escape backticks in PR bodies.** With `<<'EOF'` (single-quoted heredoc) the shell passes everything through verbatim. Typing `` \` `` produces literal `` \` `` in the rendered PR. See "PR descriptions" below.
 

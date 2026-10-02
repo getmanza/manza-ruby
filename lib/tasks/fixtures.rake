@@ -25,6 +25,11 @@
 #                              cannot create accounts (that's a
 #                              banking-side operation), so this one
 #                              ID has to come from outside.
+#   ZAZU_FIXTURE_BENEFICIARY_ID — the beneficiary whose default bank
+#                              account was marked a trusted payee by
+#                              hand (setup step 5). Hand-provided, like
+#                              the account: API-created beneficiaries
+#                              pile up (no delete) and are never trusted.
 #   ZAZU_STAGING_AUTHORIZER_API_KEY — a second key with
 #                              `transfers:authorize`. The API refuses to
 #                              let a draft's creating key authorize it.
@@ -47,9 +52,8 @@
 #      ngrok reserved domain) forwarding to ZAZU_STAGING_AUTHORIZER_PORT,
 #      enrol it as the transfer authorizer with limits covering 1.00 MAD,
 #      and store its secret as ZAZU_STAGING_AUTHORIZER_SECRET.
-#   5. Mark the default bank account of the beneficiary that
-#      `discover_beneficiary_id!` picks (the first one listed) as a
-#      trusted payee. Make it an entity-owned account so the money comes
+#   5. Mark a beneficiary's default bank account as a trusted payee and
+#      store the beneficiary's id as ZAZU_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so the money comes
 #      back, and keep a balance on ZAZU_FIXTURE_ACCOUNT_ID.
 #
 # MONEY MOVES: the authorize cassette executes a real 1.00 MAD transfer
@@ -57,10 +61,9 @@
 #
 # The machine-authorization challenge expires after 1h, so seed and
 # record must run in the same `rake fixtures:record`. Seed and record
-# also share one process: the webhook receiver keeps answering
-# deliveries (including the challenge the transfer_drafts#create spec
-# triggers) until the process exits, so the authorizer endpoint does
-# not collect failed deliveries.
+# also share one process: the webhook receiver starts before the first
+# draft is seeded and keeps answering deliveries until the process
+# exits, so the authorizer endpoint does not collect failed deliveries.
 
 require "dotenv"
 # Use overload so the file's values beat any stale exports in the
@@ -79,7 +82,7 @@ module Fixtures
     FIXTURE_VERSION = "1" # bump when seed shape changes meaningfully
 
     REQUIRED_ENV = %w[
-      ZAZU_STAGING_API_KEY ZAZU_STAGING_URL ZAZU_FIXTURE_ACCOUNT_ID
+      ZAZU_STAGING_API_KEY ZAZU_STAGING_URL ZAZU_FIXTURE_ACCOUNT_ID ZAZU_FIXTURE_BENEFICIARY_ID
       ZAZU_STAGING_AUTHORIZER_API_KEY ZAZU_STAGING_AUTHORIZER_SECRET
     ].freeze
 
@@ -108,7 +111,6 @@ module Fixtures
       ZAZU_FIXTURE_DISABLED_WEBHOOK_ID
       ZAZU_FIXTURE_DELETABLE_WEBHOOK_ID
       ZAZU_FIXTURE_CHECKOUT_SESSION_ID
-      ZAZU_FIXTURE_BENEFICIARY_ID
       ZAZU_FIXTURE_TRANSFER_DRAFT_ID
       ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID
       ZAZU_FIXTURE_CREATED_BENEFICIARY_ID
@@ -166,8 +168,13 @@ module Fixtures
       log "Seeding checkout session…"
       seed_checkout_session!
 
-      log "Discovering beneficiary id…"
-      discover_beneficiary_id!
+      log "Looking up the trusted payee…"
+      discover_trusted_external_account_id!
+
+      # Before any draft: every draft to the trusted payee fires a
+      # payment.authorization_requested webhook.
+      log "Starting the authorization webhook receiver…"
+      start_authorization_receiver!
 
       log "Seeding transfer draft…"
       seed_transfer_draft!
@@ -339,18 +346,23 @@ module Fixtures
 
     # The machine-authorization path needs a *trusted* payee, and only a
     # member can grant trust (in the app, behind OTP). So rather than
-    # seeding one, we discover the beneficiary whose default bank account
-    # was marked trusted once by hand (setup step 5) and reuse it.
-    def discover_beneficiary_id!
-      page = @client.beneficiaries.list(limit: 1)
-      first = page.data.first
-      raise "No beneficiaries found on staging entity — create one in the dashboard first" unless first
+    # seeding one, we reuse the hand-provided beneficiary whose default
+    # bank account was marked trusted once (setup step 5).
+    def discover_trusted_external_account_id!
+      beneficiary_id = ENV.fetch("ZAZU_FIXTURE_BENEFICIARY_ID")
+      beneficiary = @client.beneficiaries.get(beneficiary_id).body
+      trusted = beneficiary["external_accounts"].find { |a| a["default"] }
+      raise "Beneficiary #{beneficiary_id} has no default bank account — see setup step 5" unless trusted
 
-      trusted = first["external_accounts"].find { |a| a["default"] }
-      raise "Beneficiary #{first["id"]} has no default bank account — see setup step 5" unless trusted
-
-      @ids["ZAZU_FIXTURE_BENEFICIARY_ID"] = first["id"]
+      @ids["ZAZU_FIXTURE_BENEFICIARY_ID"] = beneficiary_id
       @ids["ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"] = trusted["id"]
+    end
+
+    def start_authorization_receiver!
+      @receiver = AuthorizationReceiver.start(
+        port: Integer(ENV.fetch("ZAZU_STAGING_AUTHORIZER_PORT", "4599")),
+        secret: ENV.fetch("ZAZU_STAGING_AUTHORIZER_SECRET")
+      )
     end
 
     # There is no delete endpoint for transfer drafts; like checkout
@@ -397,20 +409,19 @@ module Fixtures
     # Three drafts to the trusted payee, each answered by a different
     # spec: authorize (200, executes 1.00 MAD), decline (200), and a bad
     # signature (422). The authorization id and nonce arrive only in the
-    # payment.authorization_requested webhook, so a local receiver
+    # payment.authorization_requested webhook, so the local receiver
     # captures them.
+    #
+    # Like the seed draft, the bad-signature draft is left with a failed
+    # attempt and falls back to the in-app approvers after 1h; the
+    # declined one is deleted. Do not approve leftovers.
     def seed_machine_authorizations!
-      receiver = AuthorizationReceiver.start(
-        port: Integer(ENV.fetch("ZAZU_STAGING_AUTHORIZER_PORT", "4599")),
-        secret: ENV.fetch("ZAZU_STAGING_AUTHORIZER_SECRET")
-      )
-
       drafts = %w[authorizable declinable bad_signature].to_h do |kind|
         [kind, create_machine_draft!(kind)]
       end
       @ids["ZAZU_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE"] = drafts["authorizable"]["client_reference"]
 
-      challenges = receiver.wait_for(drafts.values.map { |d| d["id"] }, timeout: AUTHORIZATION_WEBHOOK_TIMEOUT)
+      challenges = @receiver.wait_for(drafts.values.map { |d| d["id"] }, timeout: AUTHORIZATION_WEBHOOK_TIMEOUT)
 
       drafts.each do |kind, draft|
         prefix = "ZAZU_FIXTURE_#{kind.upcase}"
