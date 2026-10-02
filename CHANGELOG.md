@@ -46,9 +46,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   authorizer endpoint's signing secret and a tunnel to a local webhook
   receiver (see the one-time setup in `lib/tasks/fixtures.rake`).
   Re-recording now executes a real 10.00 MAD transfer (the API minimum).
-- The new beneficiaries, payee_trust_requests and transfer_drafts
-  cassettes are hand-authored against the API contract; re-record with
-  `rake fixtures:record` once the staging setup is in place.
+- Every cassette is re-recorded against `ma.manza.dev`, including the
+  full machine-authorization path (authorize 200, decline 200, bad
+  signature 422, same key 403, duplicate client_reference 409).
 
 ## [0.2.1]
 
