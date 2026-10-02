@@ -39,8 +39,8 @@ Use `TaskCreate` to record steps; update with `TaskUpdate` as you go.
 ## Phase 2: Explore
 
 1. Find related files (Glob/Grep, or the Explore agent, `model: haiku`, for broad searches).
-2. Read existing patterns in `lib/zazu/`. The reference implementation is conservative — match it.
-3. Check existing test coverage in `spec/zazu/`.
+2. Read existing patterns in `lib/manza/`. The reference implementation is conservative — match it.
+3. Check existing test coverage in `spec/manza/`.
 4. If touching cassettes: read `spec/support/vcr.rb` and `spec/support/fixture_ids.rb` first.
 
 ## Phase 3: Plan
@@ -56,7 +56,7 @@ For each logical unit:
 
 ### 4.1 Failing test first
 
-Add a new spec under `spec/zazu/`. Confirm it fails for the right reason:
+Add a new spec under `spec/manza/`. Confirm it fails for the right reason:
 
 ```bash
 bundle exec rspec path/to/spec.rb
@@ -70,9 +70,9 @@ Project conventions:
 |-----|-----------|
 | `Resources::Base` http_get/post/patch/delete helpers | direct `Faraday` calls |
 | `encode_path("api/foo", id)` | string interpolation in URLs |
-| `Page` from `lib/zazu/page.rb` | manual cursor loop |
-| Specific error subclasses (`Zazu::ValidationError` etc.) | rescuing `Zazu::Error` and matching status |
-| `fixture_id("ZAZU_FIXTURE_X")` in specs | `ENV.fetch("ZAZU_FIXTURE_X", "fallback")` |
+| `Page` from `lib/manza/page.rb` | manual cursor loop |
+| Specific error subclasses (`Manza::ValidationError` etc.) | rescuing `Manza::Error` and matching status |
+| `fixture_id("MANZA_FIXTURE_X")` in specs | `ENV.fetch("MANZA_FIXTURE_X", "fallback")` |
 | Snake-case wire format | re-mapping keys |
 | `Dotenv.overload` (already wired in spec_helper) | `dotenv/load` |
 

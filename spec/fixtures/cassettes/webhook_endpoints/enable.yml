@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer <ZAZU_API_KEY>
+      - Bearer <MANZA_API_KEY>
       User-Agent:
       - zazu-ruby/0.2.1
       Accept:
@@ -99,7 +99,7 @@ http_interactions:
       Etag:
       - W/"9b8220095f4628430bbc3a683ab34f7d"
       Manza-Version:
-      - "<ZAZU_VERSION>"
+      - "<MANZA_VERSION>"
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Strict-Transport-Security:
@@ -117,7 +117,7 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       Zazu-Version:
-      - "<ZAZU_VERSION>"
+      - "<MANZA_VERSION>"
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:

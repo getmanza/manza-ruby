@@ -16,26 +16,26 @@
 # an error pointing at teardown.
 #
 # Requires .env with:
-#   ZAZU_STAGING_API_KEY  — must have read+write scopes for every
+#   MANZA_STAGING_API_KEY  — must have read+write scopes for every
 #                            resource we seed (customers, invoices,
 #                            payment_links, webhook_endpoints).
-#   ZAZU_STAGING_URL       — usually https://ma.manza.dev.
-#   ZAZU_FIXTURE_ACCOUNT_ID — must be a real account in the entity
+#   MANZA_STAGING_URL       — usually https://ma.manza.dev.
+#   MANZA_FIXTURE_ACCOUNT_ID — must be a real account in the entity
 #                              the API key belongs to. The seed
 #                              cannot create accounts (that's a
 #                              banking-side operation), so this one
 #                              ID has to come from outside.
-#   ZAZU_FIXTURE_BENEFICIARY_ID — the beneficiary whose default bank
+#   MANZA_FIXTURE_BENEFICIARY_ID — the beneficiary whose default bank
 #                              account was marked a trusted payee by
 #                              hand (setup step 5). Hand-provided, like
 #                              the account: API-created beneficiaries
 #                              pile up (no delete) and are never trusted.
-#   ZAZU_STAGING_AUTHORIZER_API_KEY — a second key with
+#   MANZA_STAGING_AUTHORIZER_API_KEY — a second key with
 #                              `transfers:authorize`. The API refuses to
 #                              let a draft's creating key authorize it.
-#   ZAZU_STAGING_AUTHORIZER_SECRET — signing secret of the webhook
+#   MANZA_STAGING_AUTHORIZER_SECRET — signing secret of the webhook
 #                              endpoint enrolled as transfer authorizer.
-#   ZAZU_STAGING_AUTHORIZER_PORT — local port the authorizer endpoint's
+#   MANZA_STAGING_AUTHORIZER_PORT — local port the authorizer endpoint's
 #                              tunnel forwards to (default 4599).
 #
 # One-time manual staging setup (in the staging UI) before the first
@@ -43,18 +43,18 @@
 #
 #   1. Turn on `release_api_transfers` and
 #      `release_api_webhook_authorization` for the fixture entity.
-#   2. Give ZAZU_STAGING_API_KEY the extra scopes `beneficiaries:write`
+#   2. Give MANZA_STAGING_API_KEY the extra scopes `beneficiaries:write`
 #      and `beneficiaries:request_trust`.
-#   3. Create ZAZU_STAGING_AUTHORIZER_API_KEY with `transfers:authorize`.
+#   3. Create MANZA_STAGING_AUTHORIZER_API_KEY with `transfers:authorize`.
 #      Its creator must be an active member allowed to authorize and
 #      delete payments.
 #   4. Create a webhook endpoint at a stable tunnel URL (cloudflared /
-#      ngrok reserved domain) forwarding to ZAZU_STAGING_AUTHORIZER_PORT,
+#      ngrok reserved domain) forwarding to MANZA_STAGING_AUTHORIZER_PORT,
 #      enrol it as the transfer authorizer with limits covering 10.00 MAD (the API minimum),
-#      and store its secret as ZAZU_STAGING_AUTHORIZER_SECRET.
+#      and store its secret as MANZA_STAGING_AUTHORIZER_SECRET.
 #   5. Mark a beneficiary's default bank account as a trusted payee and
-#      store the beneficiary's id as ZAZU_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so the money comes
-#      back, and keep a balance on ZAZU_FIXTURE_ACCOUNT_ID.
+#      store the beneficiary's id as MANZA_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so the money comes
+#      back, and keep a balance on MANZA_FIXTURE_ACCOUNT_ID.
 #
 # MONEY MOVES: the authorize cassette executes a real 10.00 MAD transfer
 # to the trusted payee on every re-record.
@@ -68,12 +68,12 @@
 require "dotenv"
 # Use overload so the file's values beat any stale exports in the
 # developer's shell — `rake fixtures:seed` rewrites IDs into .env on
-# every run, and a stale exported $ZAZU_FIXTURE_CUSTOMER_ID would
+# every run, and a stale exported $MANZA_FIXTURE_CUSTOMER_ID would
 # otherwise mask the freshly seeded one.
 Dotenv.overload
 
 # All seeding logic lives in the namespace below. Kept inline rather
-# than pulled into lib/zazu/* because this is purely a development
+# than pulled into lib/manza/* because this is purely a development
 # tool — it has no place in the gem itself.
 module Fixtures
   class Seeder
@@ -81,10 +81,10 @@ module Fixtures
     FIXTURE_TAG = "zazu-ruby-fixture"
     FIXTURE_VERSION = "1" # bump when seed shape changes meaningfully
 
-    REQUIRED_ENV = %w[ZAZU_STAGING_API_KEY ZAZU_STAGING_URL ZAZU_FIXTURE_ACCOUNT_ID].freeze
+    REQUIRED_ENV = %w[MANZA_STAGING_API_KEY MANZA_STAGING_URL MANZA_FIXTURE_ACCOUNT_ID].freeze
     # Only seeding needs these; teardown must work without them.
     SEED_ENV = %w[
-      ZAZU_FIXTURE_BENEFICIARY_ID ZAZU_STAGING_AUTHORIZER_API_KEY ZAZU_STAGING_AUTHORIZER_SECRET
+      MANZA_FIXTURE_BENEFICIARY_ID MANZA_STAGING_AUTHORIZER_API_KEY MANZA_STAGING_AUTHORIZER_SECRET
     ].freeze
 
     # Seconds to wait for the three payment.authorization_requested webhooks.
@@ -100,44 +100,44 @@ module Fixtures
     # later release once the API surfaces an approve endpoint or we
     # build a Rails-side helper that approves fixture invoices.
     EMITTED_KEYS = %w[
-      ZAZU_FIXTURE_TRANSACTION_ID
-      ZAZU_FIXTURE_CUSTOMER_ID
-      ZAZU_FIXTURE_DELETABLE_CUSTOMER_ID
-      ZAZU_FIXTURE_INVOICE_ID
-      ZAZU_FIXTURE_DELETABLE_INVOICE_ID
-      ZAZU_FIXTURE_PAYMENT_LINK_ID
-      ZAZU_FIXTURE_CANCELLABLE_PAYMENT_LINK_ID
-      ZAZU_FIXTURE_WEBHOOK_ID
-      ZAZU_FIXTURE_ENABLED_WEBHOOK_ID
-      ZAZU_FIXTURE_DISABLED_WEBHOOK_ID
-      ZAZU_FIXTURE_DELETABLE_WEBHOOK_ID
-      ZAZU_FIXTURE_CHECKOUT_SESSION_ID
-      ZAZU_FIXTURE_TRANSFER_DRAFT_ID
-      ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID
-      ZAZU_FIXTURE_CREATED_BENEFICIARY_ID
-      ZAZU_FIXTURE_EXTERNAL_ACCOUNT_ID
-      ZAZU_FIXTURE_NEW_ACCOUNT_NUMBER
-      ZAZU_FIXTURE_PAYEE_TRUST_REQUEST_ID
-      ZAZU_FIXTURE_CLIENT_REFERENCE
-      ZAZU_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE
-      ZAZU_FIXTURE_AUTHORIZABLE_DRAFT_ID
-      ZAZU_FIXTURE_DECLINABLE_DRAFT_ID
-      ZAZU_FIXTURE_BAD_SIGNATURE_DRAFT_ID
-      ZAZU_FIXTURE_AUTHORIZABLE_AUTHORIZATION_ID
-      ZAZU_FIXTURE_DECLINABLE_AUTHORIZATION_ID
-      ZAZU_FIXTURE_BAD_SIGNATURE_AUTHORIZATION_ID
-      ZAZU_FIXTURE_AUTHORIZABLE_NONCE
+      MANZA_FIXTURE_TRANSACTION_ID
+      MANZA_FIXTURE_CUSTOMER_ID
+      MANZA_FIXTURE_DELETABLE_CUSTOMER_ID
+      MANZA_FIXTURE_INVOICE_ID
+      MANZA_FIXTURE_DELETABLE_INVOICE_ID
+      MANZA_FIXTURE_PAYMENT_LINK_ID
+      MANZA_FIXTURE_CANCELLABLE_PAYMENT_LINK_ID
+      MANZA_FIXTURE_WEBHOOK_ID
+      MANZA_FIXTURE_ENABLED_WEBHOOK_ID
+      MANZA_FIXTURE_DISABLED_WEBHOOK_ID
+      MANZA_FIXTURE_DELETABLE_WEBHOOK_ID
+      MANZA_FIXTURE_CHECKOUT_SESSION_ID
+      MANZA_FIXTURE_TRANSFER_DRAFT_ID
+      MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID
+      MANZA_FIXTURE_CREATED_BENEFICIARY_ID
+      MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID
+      MANZA_FIXTURE_NEW_ACCOUNT_NUMBER
+      MANZA_FIXTURE_PAYEE_TRUST_REQUEST_ID
+      MANZA_FIXTURE_CLIENT_REFERENCE
+      MANZA_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE
+      MANZA_FIXTURE_AUTHORIZABLE_DRAFT_ID
+      MANZA_FIXTURE_DECLINABLE_DRAFT_ID
+      MANZA_FIXTURE_BAD_SIGNATURE_DRAFT_ID
+      MANZA_FIXTURE_AUTHORIZABLE_AUTHORIZATION_ID
+      MANZA_FIXTURE_DECLINABLE_AUTHORIZATION_ID
+      MANZA_FIXTURE_BAD_SIGNATURE_AUTHORIZATION_ID
+      MANZA_FIXTURE_AUTHORIZABLE_NONCE
     ].freeze
 
     def initialize
       check_env!
       $LOAD_PATH.unshift(File.expand_path("../..", __dir__))
-      require "zazu"
-      @client = Zazu::Client.new(
-        api_key: ENV.fetch("ZAZU_STAGING_API_KEY"),
-        base_url: ENV.fetch("ZAZU_STAGING_URL")
+      require "manza"
+      @client = Manza::Client.new(
+        api_key: ENV.fetch("MANZA_STAGING_API_KEY"),
+        base_url: ENV.fetch("MANZA_STAGING_URL")
       )
-      @account_id = ENV.fetch("ZAZU_FIXTURE_ACCOUNT_ID")
+      @account_id = ENV.fetch("MANZA_FIXTURE_ACCOUNT_ID")
       @ids = {}
     end
 
@@ -242,25 +242,25 @@ module Fixtures
       first = page.data.first
       raise "No transactions found on fixture account — cannot record get_transaction cassette" unless first
 
-      @ids["ZAZU_FIXTURE_TRANSACTION_ID"] = first["id"]
+      @ids["MANZA_FIXTURE_TRANSACTION_ID"] = first["id"]
     end
 
     def seed_customers!
-      @ids["ZAZU_FIXTURE_CUSTOMER_ID"] = create_customer!("primary").body["id"]
-      @ids["ZAZU_FIXTURE_DELETABLE_CUSTOMER_ID"] = create_customer!("deletable").body["id"]
+      @ids["MANZA_FIXTURE_CUSTOMER_ID"] = create_customer!("primary").body["id"]
+      @ids["MANZA_FIXTURE_DELETABLE_CUSTOMER_ID"] = create_customer!("deletable").body["id"]
     end
 
     def create_customer!(suffix)
       @client.customers.create(
         customer_type: "business",
-        company_name: "Zazu Fixture Co — #{suffix} (#{fixture_marker})",
+        company_name: "Manza Fixture Co — #{suffix} (#{fixture_marker})",
         email: "fixture-#{suffix}-#{SecureRandom.hex(4)}@example.com",
         ice_number: random_ice_number
       )
     end
 
     def seed_invoices!
-      customer_id = @ids.fetch("ZAZU_FIXTURE_CUSTOMER_ID")
+      customer_id = @ids.fetch("MANZA_FIXTURE_CUSTOMER_ID")
 
       # Two invoices in the API's default starting state
       # (`pending_approval`): one for read-only specs (list/get/
@@ -271,8 +271,8 @@ module Fixtures
       # cannot transition into. Those specs are skipped in v0.1.0.
       drafts = Array.new(2) { |i| create_draft_invoice!(customer_id, i) }
 
-      @ids["ZAZU_FIXTURE_INVOICE_ID"] = drafts[0]
-      @ids["ZAZU_FIXTURE_DELETABLE_INVOICE_ID"] = drafts[1]
+      @ids["MANZA_FIXTURE_INVOICE_ID"] = drafts[0]
+      @ids["MANZA_FIXTURE_DELETABLE_INVOICE_ID"] = drafts[1]
     end
 
     def create_draft_invoice!(customer_id, idx)
@@ -284,22 +284,22 @@ module Fixtures
         reference: fixture_marker("inv-#{idx}"),
         notes: "[#{FIXTURE_TAG}] draft #{idx}",
         items: [
-          { description: "Zazu fixture line item", quantity: 1, unit_price: "100.00" }
+          { description: "Manza fixture line item", quantity: 1, unit_price: "100.00" }
         ]
       )
       response.body["id"]
     end
 
     def seed_payment_links!
-      @ids["ZAZU_FIXTURE_PAYMENT_LINK_ID"] = create_payment_link!("primary")
-      @ids["ZAZU_FIXTURE_CANCELLABLE_PAYMENT_LINK_ID"] = create_payment_link!("cancellable")
+      @ids["MANZA_FIXTURE_PAYMENT_LINK_ID"] = create_payment_link!("primary")
+      @ids["MANZA_FIXTURE_CANCELLABLE_PAYMENT_LINK_ID"] = create_payment_link!("cancellable")
     end
 
     def create_payment_link!(suffix)
       response = @client.payment_links.create(
         account_id: @account_id,
         amount: "100.00",
-        title: "Zazu Fixture — #{suffix}",
+        title: "Manza Fixture — #{suffix}",
         description: "[#{FIXTURE_TAG}] #{suffix}",
         payment_reference: "fixture-#{suffix}-#{SecureRandom.hex(4)}",
         link_type: "single"
@@ -308,15 +308,15 @@ module Fixtures
     end
 
     def seed_webhook_endpoints!
-      @ids["ZAZU_FIXTURE_WEBHOOK_ID"] = create_webhook_endpoint!("primary")
-      @ids["ZAZU_FIXTURE_ENABLED_WEBHOOK_ID"] = create_webhook_endpoint!("enabled")
+      @ids["MANZA_FIXTURE_WEBHOOK_ID"] = create_webhook_endpoint!("primary")
+      @ids["MANZA_FIXTURE_ENABLED_WEBHOOK_ID"] = create_webhook_endpoint!("enabled")
 
       # disabled: create then disable.
       disabled_id = create_webhook_endpoint!("disabled")
       @client.webhook_endpoints.disable(disabled_id)
-      @ids["ZAZU_FIXTURE_DISABLED_WEBHOOK_ID"] = disabled_id
+      @ids["MANZA_FIXTURE_DISABLED_WEBHOOK_ID"] = disabled_id
 
-      @ids["ZAZU_FIXTURE_DELETABLE_WEBHOOK_ID"] = create_webhook_endpoint!("deletable")
+      @ids["MANZA_FIXTURE_DELETABLE_WEBHOOK_ID"] = create_webhook_endpoint!("deletable")
     end
 
     def create_webhook_endpoint!(suffix)
@@ -343,7 +343,7 @@ module Fixtures
         customer_email: "fixture-checkout-#{SecureRandom.hex(4)}@example.com",
         metadata: { fixture_marker: fixture_marker("checkout") }
       )
-      @ids["ZAZU_FIXTURE_CHECKOUT_SESSION_ID"] = response.body["id"]
+      @ids["MANZA_FIXTURE_CHECKOUT_SESSION_ID"] = response.body["id"]
     end
 
     # The machine-authorization path needs a *trusted* payee, and only a
@@ -351,19 +351,19 @@ module Fixtures
     # seeding one, we reuse the hand-provided beneficiary whose default
     # bank account was marked trusted once (setup step 5).
     def discover_trusted_external_account_id!
-      beneficiary_id = ENV.fetch("ZAZU_FIXTURE_BENEFICIARY_ID")
+      beneficiary_id = ENV.fetch("MANZA_FIXTURE_BENEFICIARY_ID")
       beneficiary = @client.beneficiaries.get(beneficiary_id).body
       trusted = beneficiary["external_accounts"].find { |a| a["default"] }
       raise "Beneficiary #{beneficiary_id} has no default bank account — see setup step 5" unless trusted
 
-      @ids["ZAZU_FIXTURE_BENEFICIARY_ID"] = beneficiary_id
-      @ids["ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"] = trusted["id"]
+      @ids["MANZA_FIXTURE_BENEFICIARY_ID"] = beneficiary_id
+      @ids["MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"] = trusted["id"]
     end
 
     def start_authorization_receiver!
       @receiver = AuthorizationReceiver.start(
-        port: Integer(ENV.fetch("ZAZU_STAGING_AUTHORIZER_PORT", "4599")),
-        secret: ENV.fetch("ZAZU_STAGING_AUTHORIZER_SECRET")
+        port: Integer(ENV.fetch("MANZA_STAGING_AUTHORIZER_PORT", "4599")),
+        secret: ENV.fetch("MANZA_STAGING_AUTHORIZER_SECRET")
       )
     end
 
@@ -375,12 +375,12 @@ module Fixtures
     def seed_transfer_draft!
       response = @client.transfer_drafts.create(
         account_id: @account_id,
-        beneficiary_id: @ids.fetch("ZAZU_FIXTURE_BENEFICIARY_ID"),
+        beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
         amount: "10.00",
         payment_reference: fixture_marker("transfer"),
         internal_notes: "[#{FIXTURE_TAG}] transfer draft — do not approve"
       )
-      @ids["ZAZU_FIXTURE_TRANSFER_DRAFT_ID"] = response.body["id"]
+      @ids["MANZA_FIXTURE_TRANSFER_DRAFT_ID"] = response.body["id"]
     end
 
     # There is no delete endpoint for beneficiaries, bank accounts or
@@ -390,7 +390,7 @@ module Fixtures
     def seed_beneficiary!
       beneficiary = @client.beneficiaries.create(
         beneficiary_type: "business",
-        company_name: "Zazu Fixture Beneficiary - created (#{fixture_marker})",
+        company_name: "Manza Fixture Beneficiary - created (#{fixture_marker})",
         email: "fixture-created-beneficiary-#{SecureRandom.hex(4)}@example.com"
       ).body
       account = @client.beneficiaries.create_external_account(
@@ -398,14 +398,14 @@ module Fixtures
       ).body
       trust_request = @client.payee_trust_requests.create(external_account_ids: [account["id"]]).body
 
-      @ids["ZAZU_FIXTURE_CREATED_BENEFICIARY_ID"] = beneficiary["id"]
-      @ids["ZAZU_FIXTURE_EXTERNAL_ACCOUNT_ID"] = account["id"]
-      @ids["ZAZU_FIXTURE_PAYEE_TRUST_REQUEST_ID"] = trust_request["id"]
+      @ids["MANZA_FIXTURE_CREATED_BENEFICIARY_ID"] = beneficiary["id"]
+      @ids["MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID"] = account["id"]
+      @ids["MANZA_FIXTURE_PAYEE_TRUST_REQUEST_ID"] = trust_request["id"]
       # Account numbers are unique per entity: the create_external_account
       # spec needs a fresh one on every record.
-      @ids["ZAZU_FIXTURE_NEW_ACCOUNT_NUMBER"] = random_rib
+      @ids["MANZA_FIXTURE_NEW_ACCOUNT_NUMBER"] = random_rib
       # Unused here: the transfer_drafts#create spec sends it.
-      @ids["ZAZU_FIXTURE_CLIENT_REFERENCE"] = random_client_reference("create")
+      @ids["MANZA_FIXTURE_CLIENT_REFERENCE"] = random_client_reference("create")
     end
 
     # Three drafts to the trusted payee, each answered by a different
@@ -421,23 +421,23 @@ module Fixtures
       drafts = %w[authorizable declinable bad_signature].to_h do |kind|
         [kind, create_machine_draft!(kind)]
       end
-      @ids["ZAZU_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE"] = drafts["authorizable"]["client_reference"]
+      @ids["MANZA_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE"] = drafts["authorizable"]["client_reference"]
 
       challenges = @receiver.wait_for(drafts.values.map { |d| d["id"] }, timeout: AUTHORIZATION_WEBHOOK_TIMEOUT)
 
       drafts.each do |kind, draft|
-        prefix = "ZAZU_FIXTURE_#{kind.upcase}"
+        prefix = "MANZA_FIXTURE_#{kind.upcase}"
         @ids["#{prefix}_DRAFT_ID"] = draft["id"]
         @ids["#{prefix}_AUTHORIZATION_ID"] = challenges.fetch(draft["id"]).fetch("authorization_id")
       end
-      @ids["ZAZU_FIXTURE_AUTHORIZABLE_NONCE"] = challenges.fetch(drafts["authorizable"]["id"]).fetch("nonce")
+      @ids["MANZA_FIXTURE_AUTHORIZABLE_NONCE"] = challenges.fetch(drafts["authorizable"]["id"]).fetch("nonce")
     end
 
     def create_machine_draft!(kind)
       draft = @client.transfer_drafts.create(
         account_id: @account_id,
-        beneficiary_id: @ids.fetch("ZAZU_FIXTURE_BENEFICIARY_ID"),
-        external_account_id: @ids.fetch("ZAZU_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),
+        beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
+        external_account_id: @ids.fetch("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),
         amount: "10.00",
         payment_reference: fixture_marker(kind.tr("_", "-")),
         client_reference: random_client_reference(kind)
@@ -520,20 +520,20 @@ module Fixtures
       ids.each do |id|
         yield(id)
         log "  ✓ deleted #{id}"
-      rescue Zazu::Error => e
+      rescue Manza::Error => e
         log "  ! failed to delete #{id}: #{e.class.name.split("::").last}: #{e.message}"
       end
     end
 
     def try_delete_customer(id)
       @client.customers.delete(id)
-    rescue Zazu::ValidationError => e
+    rescue Manza::ValidationError => e
       # Customers with invoices cannot be hard-deleted. Drop the fixture
       # tag instead, so the next seed does not count it as stale, and free
       # the email (unique per entity) the customers#update spec sets.
       log "  - customer #{id}: #{e.message} (retiring instead)"
       @client.customers.update(
-        id, company_name: "Zazu Fixture Co — retired #{id[0, 8]}", email: "fixture-retired-#{id}@example.com"
+        id, company_name: "Manza Fixture Co — retired #{id[0, 8]}", email: "fixture-retired-#{id}@example.com"
       )
     end
 
@@ -543,14 +543,14 @@ module Fixtures
       # and the lingering sent/paid ones will be rediscovered as
       # "stale" on the next teardown.
       @client.invoices.delete(id)
-    rescue Zazu::ValidationError, Zazu::ForbiddenError => e
+    rescue Manza::ValidationError, Manza::ForbiddenError => e
       log "  - invoice #{id}: #{e.message} (cancelling instead)"
       @client.invoices.cancel(id)
     end
 
     def try_cancel_payment_link(id)
       @client.payment_links.cancel(id)
-    rescue Zazu::Error => e
+    rescue Manza::Error => e
       log "  - payment link #{id}: #{e.message}"
     end
 
@@ -573,7 +573,7 @@ module Fixtures
     end
 
     # Rewrites every EMITTED_KEYS line in .env (preserving everything
-    # else — comments, ZAZU_STAGING_API_KEY, ZAZU_FIXTURE_ACCOUNT_ID,
+    # else — comments, MANZA_STAGING_API_KEY, MANZA_FIXTURE_ACCOUNT_ID,
     # etc.). If a key is missing from .env, it gets appended. This
     # lets `rake fixtures:record` chain teardown → seed → spec without
     # any manual paste step in between.

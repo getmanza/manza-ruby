@@ -13,9 +13,9 @@
 #     VCR_RECORD=all and runs the entire spec suite.
 #
 # Sensitive data is filtered before cassettes hit disk:
-#   - Authorization bearer tokens → "<ZAZU_API_KEY>"
+#   - Authorization bearer tokens → "<MANZA_API_KEY>"
 #   - X-Request-Id response headers → "<REQUEST_ID>"
-#   - Zazu-Version / Manza-Version response headers → "<ZAZU_VERSION>"
+#   - Manza-Version / Zazu-Version response headers → "<MANZA_VERSION>"
 #   - `signature` in transfer-authorization request bodies → "<SIGNATURE>"
 #   - List endpoints: non-fixture entries dropped from the response
 #     so we don't ship real customer PII / live webhook URLs from the
@@ -37,7 +37,7 @@ require "json"
 # Only ours survive cassette recording — everything else is real
 # customer / invoice / webhook data and would leak PII to a public
 # repo if committed.
-FIXTURE_REAL_IDS = Zazu::SpecFixtures::IDS.keys.filter_map { |k| ENV.fetch(k, nil) }.reject(&:empty?).to_set
+FIXTURE_REAL_IDS = Manza::SpecFixtures::IDS.keys.filter_map { |k| ENV.fetch(k, nil) }.reject(&:empty?).to_set
 
 # VCR scrubber that removes non-fixture records from list-endpoint
 # response bodies and strips `signing_secret` from webhook responses.
@@ -148,7 +148,7 @@ VCR.configure do |config|
   end
 
   # Scrubbers — run on every interaction before write.
-  config.filter_sensitive_data("<ZAZU_API_KEY>") do |interaction|
+  config.filter_sensitive_data("<MANZA_API_KEY>") do |interaction|
     auth = interaction.request.headers["Authorization"]
     next nil unless auth.is_a?(Array) && auth.first
 
@@ -159,12 +159,12 @@ VCR.configure do |config|
     interaction.response.headers["X-Request-Id"]&.first
   end
 
-  config.filter_sensitive_data("<ZAZU_VERSION>") do |interaction|
-    interaction.response.headers["Zazu-Version"]&.first
+  config.filter_sensitive_data("<MANZA_VERSION>") do |interaction|
+    interaction.response.headers["Manza-Version"]&.first
   end
 
-  config.filter_sensitive_data("<ZAZU_VERSION>") do |interaction|
-    interaction.response.headers["Manza-Version"]&.first
+  config.filter_sensitive_data("<MANZA_VERSION>") do |interaction|
+    interaction.response.headers["Zazu-Version"]&.first
   end
 
   # The authorize signature is an HMAC over the real nonce under the
@@ -194,7 +194,7 @@ VCR.configure do |config|
   # deterministically on machines without an .env (CI, contributors).
   # The placeholder must match the spec's `ENV.fetch` fallback exactly
   # — see spec/support/fixture_ids.rb for the canonical table.
-  Zazu::SpecFixtures::IDS.each do |env_var, placeholder|
+  Manza::SpecFixtures::IDS.each do |env_var, placeholder|
     real = ENV.fetch(env_var, nil)
     next if real.nil? || real.empty?
 

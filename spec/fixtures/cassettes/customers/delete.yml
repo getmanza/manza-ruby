@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer <ZAZU_API_KEY>
+      - Bearer <MANZA_API_KEY>
       User-Agent:
       - zazu-ruby/0.2.1
       Accept:
@@ -91,7 +91,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
         /csp-violation-reports'
       Manza-Version:
-      - "<ZAZU_VERSION>"
+      - "<MANZA_VERSION>"
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Strict-Transport-Security:
@@ -109,7 +109,7 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       Zazu-Version:
-      - "<ZAZU_VERSION>"
+      - "<MANZA_VERSION>"
       Report-To:
       - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tX0JQhoyQxApZcPvn7C1rwtEXv0oeQ2daJeQf4Oje503HTfbdiExKZJIw6yzvCwaStqSF4PIhI8CBwgftcZ5xoXqhIng8lo%2BvA%2FT7RGtb0pAHgBV5zScUYOQj4F71fhF0jYcLzlSWxBJVmo%3D"}]}'
       Nel:

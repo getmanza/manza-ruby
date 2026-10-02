@@ -8,7 +8,7 @@ http_interactions:
       string: '{"customer_type":"business","company_name":"Zazu SDK Fixture Co (zazu-ruby-fixture-v1-spec)","email":"create-spec@zazu-ruby-fixture.example.com","ice_number":"000000000000000"}'
     headers:
       Authorization:
-      - Bearer <ZAZU_API_KEY>
+      - Bearer <MANZA_API_KEY>
       User-Agent:
       - zazu-ruby/0.2.1
       Accept:
@@ -97,7 +97,7 @@ http_interactions:
       Etag:
       - W/"9efdf2a988afccc3089d950fd0200591"
       Manza-Version:
-      - "<ZAZU_VERSION>"
+      - "<MANZA_VERSION>"
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Strict-Transport-Security:
@@ -115,7 +115,7 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       Zazu-Version:
-      - "<ZAZU_VERSION>"
+      - "<MANZA_VERSION>"
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:

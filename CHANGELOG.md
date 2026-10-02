@@ -1,11 +1,47 @@
 # Changelog
 
-All notable changes to `zazu-ruby` are documented here.
+All notable changes to `manza` (formerly `zazu-ruby`) are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+The SDK is renamed from Zazu to Manza and released as `manza` 1.0.0.
+The API surface is otherwise unchanged.
+
+### Migration from `zazu-ruby` 0.x
+
+| Was | Now |
+|---|---|
+| `gem "zazu-ruby"` | `gem "manza"` |
+| `require "zazu"` | `require "manza"` |
+| `Zazu.new`, `Zazu::Client`, `Zazu::Error`, … | `Manza.new`, `Manza::Client`, `Manza::Error`, … |
+| `ZAZU_API_KEY` | `MANZA_API_KEY` |
+| `ZAZU_BASE_URL` | `MANZA_BASE_URL` |
+| `ZAZU_API_VERSION` | `MANZA_API_VERSION` |
+| `ZAZU_TIMEOUT` | `MANZA_TIMEOUT` |
+| `Zazu-Version` request header | `Manza-Version` |
+| User-Agent `zazu-ruby/x` | `manza-ruby/x` |
+
+The `ZAZU_*` environment variables keep working for all of 1.x: when
+the `MANZA_*` one is unset, the client reads the old name and prints a
+one-time deprecation warning per variable.
+
+### Changed
+
+- Gem `zazu-ruby` → `manza`, namespace `Zazu` → `Manza`, repository
+  `getmanza/zazu-ruby` → `getmanza/manza-ruby`.
+- Requests send `Manza-Version` and User-Agent `manza-ruby/<version>`.
+- `Response#api_version` reads `Manza-Version`, falling back to
+  `Zazu-Version`.
+- Cassettes use the placeholders `<MANZA_API_KEY>` and `<MANZA_VERSION>`
+  (were `<ZAZU_API_KEY>`, `<ZAZU_VERSION>`). Other SDKs replaying them
+  must rename their placeholders in lockstep.
+- Fixture and staging env vars for recording are `MANZA_FIXTURE_*` and
+  `MANZA_STAGING_*`, with no fallback. Rename them in your `.env`.
+
+## [0.3.0]
 
 ### Added
 

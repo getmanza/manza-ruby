@@ -2,14 +2,14 @@
 
 require "bundler/setup"
 require "dotenv"
-# Use overload so ZAZU_FIXTURE_* values written by `rake fixtures:seed`
+# Use overload so MANZA_FIXTURE_* values written by `rake fixtures:seed`
 # beat any stale exports lingering in the developer's shell.
 Dotenv.overload
 require "vcr"
 require "webmock/rspec"
 require "httpx"
 require "httpx/adapters/webmock"
-require "zazu"
+require "manza"
 
 require_relative "support/fixture_ids"
 require_relative "support/vcr"
@@ -22,5 +22,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
   config.include ClientHelpers
-  config.include Zazu::SpecFixtures
+  config.include Manza::SpecFixtures
 end

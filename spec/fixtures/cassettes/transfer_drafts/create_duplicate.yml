@@ -8,7 +8,7 @@ http_interactions:
       string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"10.00","client_reference":"fixture-authorizable-client-reference"}'
     headers:
       Authorization:
-      - Bearer <ZAZU_API_KEY>
+      - Bearer <MANZA_API_KEY>
       User-Agent:
       - zazu-ruby/0.2.1
       Accept:
