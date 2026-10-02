@@ -18,11 +18,6 @@ RSpec.describe Manza::Client do
       client = described_class.new(api_key: "k", base_url: "https://api.manza.example/")
       expect(client.base_url).to eq("https://api.manza.example")
     end
-
-    it "defaults base_url to https://ma.manza.finance" do
-      client = described_class.new(api_key: "k")
-      expect(client.base_url).to eq("https://ma.manza.finance")
-    end
   end
 
   describe "environment configuration" do
@@ -81,6 +76,10 @@ RSpec.describe Manza::Client do
       ENV["ZAZU_API_KEY"] = "legacy"
 
       expect { described_class.new(api_key: "k") }.not_to output.to_stderr
+    end
+
+    it "defaults base_url to https://ma.manza.finance" do
+      expect(described_class.new(api_key: "k").base_url).to eq("https://ma.manza.finance")
     end
 
     it "names MANZA_API_KEY when no key is configured" do
