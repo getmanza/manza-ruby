@@ -1,0 +1,53 @@
+name: Cassettes
+
+# Publishes the recorded API interactions as a release asset
+# (cassettes-vX.Y.Z.tar.gz) so the other-language SDKs replay the same
+# cassettes. Kept out of release.yml, which is the shared release kit and
+# stays byte-identical across gems (see RELEASE_KIT.md in docs-kit).
+#
+# Fired by the same GitHub Release that bin/release / rake release publishes.
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
+        with:
+          ruby-version: "3.4"
+
+      - run: bundle install
+
+      - name: Verify tag matches gem version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          GEM_VERSION=$(ruby -r ./lib/zazu/version -e "puts Zazu::VERSION")
+          if [ "v$GEM_VERSION" != "$RELEASE_TAG" ]; then
+            echo "::error::Tag $RELEASE_TAG does not match gem version $GEM_VERSION"
+            exit 1
+          fi
+
+      - name: Pack cassette tarball
+        run: |
+          bundle exec rake fixtures:pack
+          cd pkg && sha256sum cassettes-*.tar.gz > "$(ls cassettes-*.tar.gz).sha256"
+
+      - name: Upload to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REPO: ${{ github.repository }}
+        run: gh release upload "$RELEASE_TAG" pkg/cassettes-*.tar.gz pkg/cassettes-*.tar.gz.sha256 --repo "$REPO" --clobber
