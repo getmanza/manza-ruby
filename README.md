@@ -234,6 +234,8 @@ cloudflared tunnel create zazu-sdk-authorizer
 cloudflared tunnel route dns zazu-sdk-authorizer sdk-authorizer.manza.dev
 ```
 
+The tunnel's `service` port must match `ZAZU_STAGING_AUTHORIZER_PORT`: if you change one, change the other, or deliveries never reach the seeder and `fixtures:record` times out waiting for them.
+
 Check it end to end: with the tunnel running and nothing on port 4599, `curl -X POST https://sdk-authorizer.manza.dev/` returns 502. During a record run the seeder answers unsigned requests with 401.
 
 Cassettes are scrubbed before write — bearer tokens and request IDs are rewritten to placeholders. Even if a real key is in `.env`, the committed cassette never contains it.
