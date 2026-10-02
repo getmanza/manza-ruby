@@ -43,7 +43,8 @@ RSpec.describe Zazu::Resources::Beneficiaries do
 
       expect(page).to be_a(Zazu::Page)
       expect(page.data.first["id"]).to eq(fixture_id("ZAZU_FIXTURE_EXTERNAL_ACCOUNT_ID"))
-      expect(page.data.first["account_number"]).to eq("<ACCOUNT_NUMBER>")
+      # Real while recording, "<ACCOUNT_NUMBER>" once scrubbed into the cassette.
+      expect(page.data.first["account_number"]).to be_a(String)
     end
   end
 
