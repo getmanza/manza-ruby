@@ -4,7 +4,7 @@ Status: **proposed, not started**. Starts after Plan 1 (`2026-10-api-sync.md`) h
 
 ## Decisions taken
 
-- Scheme: `@manza` scope and plain `manza` names.
+- Scheme: the `@getmanza` npm scope (the npm org is `getmanza`) and plain `manza` names elsewhere.
 - New packages start at **1.0.0**.
 - Old packages get one final `0.3.x` deprecation release that points at the new name.
 
@@ -42,7 +42,7 @@ GitHub org is already `getmanza` (`getzazu/*` redirects).
 
 ## Phase 0 — prerequisites (manual, you)
 
-1. Claim the names: npm org `@manza`, Packagist vendor `manza`, and do a first-publish reservation on gem / PyPI / crate / Hex `manza`. **All were free on 2026-10-02**; claim them early.
+1. Claim the names: npm org `getmanza` (scope `@getmanza`), Packagist vendor `manza`, and do a first-publish reservation on gem / PyPI / crate / Hex `manza`. **All were free on 2026-10-02**; claim them early.
 2. Configure the trusted publishers. Nothing renames in place, so each one is a new binding:
    - RubyGems (`manza`, repo `getmanza/manza-ruby`, env `rubygems`)
    - npm `@getmanza/sdk`
