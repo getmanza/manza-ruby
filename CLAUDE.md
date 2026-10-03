@@ -176,5 +176,5 @@ If the contract breaks (e.g., new request shape), it's a coordinated change acro
 
 - This repo: https://github.com/getmanza/manza-ruby
 - RubyGems: https://rubygems.org/gems/manza
-- TypeScript SDK: https://github.com/getmanza/manza-ts (https://www.npmjs.com/package/@manza/sdk)
+- TypeScript SDK: https://github.com/getmanza/manza-ts (https://www.npmjs.com/package/@getmanza/sdk)
 - CLI consumer: https://github.com/getmanza/cli

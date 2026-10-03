@@ -4,7 +4,7 @@ Status: **proposed, not started**. Starts after Plan 1 (`2026-10-api-sync.md`) h
 
 ## Decisions taken
 
-- Scheme: `@manza` scope and plain `manza` names.
+- Scheme: the `@getmanza` npm scope (the npm org is `getmanza`) and plain `manza` names elsewhere.
 - New packages start at **1.0.0**.
 - Old packages get one final `0.3.x` deprecation release that points at the new name.
 
@@ -15,14 +15,14 @@ GitHub org is already `getmanza` (`getzazu/*` redirects).
 | Repo (now → new) | Registry id (now → new) | Namespace (now → new) |
 |---|---|---|
 | `zazu-ruby` → `manza-ruby` | gem `zazu-ruby` → `manza` | `require "zazu"`/`Zazu::` → `require "manza"`/`Manza::` |
-| `zazu-ts` → `manza-ts` | npm `@getzazu/sdk` → `@manza/sdk` | `Zazu`, `ZazuError`… → `Manza`, `ManzaError`… |
+| `zazu-ts` → `manza-ts` | npm `@getzazu/sdk` → `@getmanza/sdk` | `Zazu`, `ZazuError`… → `Manza`, `ManzaError`… |
 | `zazu-python` → `manza-python` | PyPI `zazu-sdk` → `manza` | `zazu_sdk` → `manza` |
 | `zazu-go` → `manza-go` | module `github.com/getzazu/zazu-go` → `github.com/getmanza/manza-go` | `package zazu` → `package manza` |
 | `zazu-php` → `manza-php` | Packagist `getzazu/zazu-php` → `manza/manza-php` | `Zazu\` → `Manza\` |
 | `zazu-rust` → `manza-rust` | crate `zazu-sdk` → `manza` | `zazu_sdk::` → `manza::` |
 | `zazu-crystal` → `manza-crystal` | shard `zazu` → `manza` | `Zazu::` → `Manza::` |
 | `zazu-elixir` → `manza-elixir` | Hex `zazu` → `manza` | `Zazu.` → `Manza.`, app `:zazu` → `:manza` |
-| `cli` (unchanged) | npm `@getzazu/cli` + 4 arch pkgs → `@manza/cli` + `@manza/cli-<arch>` | binary `zazu` → `manza` |
+| `cli` (unchanged) | npm `@getzazu/cli` + 4 arch pkgs → `@getmanza/cli` + `@getmanza/cli-<arch>` | binary `zazu` → `manza` |
 | `homebrew-tap` (unchanged) | `Formula/zazu.rb` → `Formula/manza.rb` | |
 
 ## Wire and runtime renames (all SDKs + CLI)
@@ -42,11 +42,11 @@ GitHub org is already `getmanza` (`getzazu/*` redirects).
 
 ## Phase 0 — prerequisites (manual, you)
 
-1. Claim the names: npm org `@manza`, Packagist vendor `manza`, and do a first-publish reservation on gem / PyPI / crate / Hex `manza`. **All were free on 2026-10-02**; claim them early.
+1. Claim the names: npm org `getmanza` (scope `@getmanza`), Packagist vendor `manza`, and do a first-publish reservation on gem / PyPI / crate / Hex `manza`. **All were free on 2026-10-02**; claim them early.
 2. Configure the trusted publishers. Nothing renames in place, so each one is a new binding:
    - RubyGems (`manza`, repo `getmanza/manza-ruby`, env `rubygems`)
-   - npm `@manza/sdk`
-   - npm `@manza/cli` plus the 4 arch packages
+   - npm `@getmanza/sdk`
+   - npm `@getmanza/cli` plus the 4 arch packages
    - PyPI `manza` (pending publisher, env `pypi`)
    - crates.io `manza` (env `crates-io`)
    - Hex: a new `HEX_API_KEY` for the `manza` package
@@ -75,7 +75,7 @@ GitHub org is already `getmanza` (`getzazu/*` redirects).
 ## Phase 2 — deprecation release of `zazu-ruby` (0.3.1)
 
 - Ship from a `zazu-legacy` branch: `post_install_message` plus a `warn` on `require "zazu"` pointing to `manza`.
-- Same pattern for each old package: npm `npm deprecate @getzazu/sdk "moved to @manza/sdk"` (no release needed), PyPI 0.3.1 with a warning, crates.io `cargo yank` is *not* used (only a README notice plus a 0.3.1 with a warning), Hex `mix hex.retire zazu 0.3.0 renamed --message`, Packagist mark abandoned → `manza/manza-php`, Go: add `// Deprecated: use github.com/getmanza/manza-go` to the old module's package doc and tag v0.3.1.
+- Same pattern for each old package: npm `npm deprecate @getzazu/sdk "moved to @getmanza/sdk"` (no release needed), PyPI 0.3.1 with a warning, crates.io `cargo yank` is *not* used (only a README notice plus a 0.3.1 with a warning), Hex `mix hex.retire zazu 0.3.0 renamed --message`, Packagist mark abandoned → `manza/manza-php`, Go: add `// Deprecated: use github.com/getmanza/manza-go` to the old module's package doc and tag v0.3.1.
 
 ## Phase 3 — consumer SDKs 1.0.0 (parallel, one PR each, after manza-ruby 1.0.0)
 
@@ -96,7 +96,7 @@ Per repo:
 
 ## Phase 4 — CLI 1.0.0
 
-- Depends on `@manza/sdk` ^1.0.0. Imports `Manza`/`ManzaError`.
+- Depends on `@getmanza/sdk` ^1.0.0. Imports `Manza`/`ManzaError`.
 - Binary `manza`. Update `scripts/build`, `scripts/npm-publish`, the `release.yml` awk patterns and `test/cli.test.js`. **Keep a `zazu` shim** in `package.json` `bin` for 1.x that prints a deprecation notice and execs `manza`.
 - Config path migration (above). `MANZA_*` env with fallback, and `MANZA_STAGING_*`.
 - Homebrew: a new `Formula/manza.rb`. Keep `Formula/zazu.rb` as a deprecated formula pointing to `manza` (`deprecate!`).
@@ -117,7 +117,7 @@ Phase 0 (manual), then Phase 1 → 2 (Ruby), then Phase 3 (7 SDKs in parallel), 
 
 - Every repo: CI green replaying `cassettes-v1.0.0` from `getmanza/manza-ruby`.
 - `grep -rIi zazu` returns only intentional hits: the env fallback, the CLI shim, config migration, CHANGELOG history and migration docs.
-- Install smoke test from each registry under the new name, in a clean environment (`gem install manza`, `npm i @manza/sdk`, `pip install manza`, `go get github.com/getmanza/manza-go@v1.0.0`, `composer require manza/manza-php`, `cargo add manza`, `mix` dep `{:manza, "~> 1.0"}`, shard `github: getmanza/manza-crystal`, `brew install getmanza/tap/manza`).
+- Install smoke test from each registry under the new name, in a clean environment (`gem install manza`, `npm i @getmanza/sdk`, `pip install manza`, `go get github.com/getmanza/manza-go@v1.0.0`, `composer require manza/manza-php`, `cargo add manza`, `mix` dep `{:manza, "~> 1.0"}`, shard `github: getmanza/manza-crystal`, `brew install getmanza/tap/manza`).
 - Old names: an install shows the deprecation notice.
 
 ## Open questions (non-blocking; answer before Phase 1)
