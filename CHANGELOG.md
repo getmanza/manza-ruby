@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.0.0]
+
 The SDK is renamed from Zazu to Manza and released as `manza` 1.0.0.
 The API surface is otherwise unchanged.
 
@@ -40,6 +42,16 @@ one-time deprecation warning per variable.
   must rename their placeholders in lockstep.
 - Fixture and staging env vars for recording are `MANZA_FIXTURE_*` and
   `MANZA_STAGING_*`, with no fallback. Rename them in your `.env`.
+
+## [0.3.1]
+
+Final release under the old `zazu-ruby` name, published from the
+`zazu-legacy` branch.
+
+### Deprecated
+
+- `require "zazu"` prints a deprecation warning, and the gem shows a
+  post-install message pointing to `gem "manza"`.
 
 ## [0.3.0]
 
