@@ -40,7 +40,7 @@ manza.webhook_endpoints.list
 1. **Tests come first.** Every change to `lib/` ships with a spec. Cassette-replay tests are the contract — they enforce the same wire format across Ruby, TS, and future SDKs.
 2. **Use the SDK's primitives.** `Manza::Page`, `Manza::Error` subclasses, the `Resources::Base` http_get/post/patch/delete helpers, `encode_path` for URL construction. Don't hand-roll Faraday calls or string-interpolate URLs.
 3. **Snake-case stays.** Response keys are wire-format. We don't camelCase them.
-4. **Rubocop must be clean.** `bundle exec rubocop` is gated in CI. Don't add `# rubocop:disable` to silence — fix the issue. `Metrics` is intentionally disabled (long methods are sometimes the right answer in a thin SDK); don't fight that.
+4. **Rubocop must be clean.** `bundle exec rubocop` is gated in CI. Don't add `# rubocop:disable` to silence — fix the issue. `Metrics` is intentionally disabled (long methods are sometimes the right answer in a thin SDK); don't fight that. A `Metrics` offense means an inline `# rubocop:enable Metrics/…` crept in.
 
 ## Critical rules
 
@@ -154,13 +154,13 @@ bin/release minor       # or patch (default), major, an explicit 0.3.0; --force 
 
 - **Verify:** `bundle exec rake default` (rspec + rubocop, as in CI) · after `rake fixtures:record`: `bundle exec rspec` with `VCR_RECORD` unset
 - **Specs:** fast loop `bundle exec rspec <file>`; full suite `bundle exec rspec` (replay: no network, no `.env`); two worktrees at once: yes, one `rake fixtures:record` at a time (it re-seeds the shared staging fixtures)
-- **CI:** required none; jobs `test (3.3)` `test (3.4)` `test (4.0)`, `cubic · AI code reviewer`; full suite on the PR; failure report none
+- **CI:** required none; jobs `test (3.3)` `test (3.4)` `test (4.0)` (`ci.yml`), check `cubic · AI code reviewer`; full suite on the PR; failure report none
 - **Review bot:** cubic; push back, citing this file, on mocks instead of cassettes, camelCased wire keys, "method too long" (`Metrics` is off), speculative abstractions
 - **Merge:** squash — `gh pr merge <PR> --squash --delete-branch`; fallback after the gate: `--admin` for the required approving review
 - **PR contract:** `## Summary` (`Closes #N`), `## Fable validation` (verdict, Not verified), `## Test plan`; backticks unescaped; labels none; screenshots none
-- **Conflicts:** `CHANGELOG.md` — both sides under `## [Unreleased]`, main's first; `lib/manza/version.rb` — main's; `spec/fixtures/cassettes/**` — one side whole, or re-record; `bin/release` `rakelib/release.rake` `release.yml` — main's
+- **Conflicts:** `CHANGELOG.md` — both sides under `## [Unreleased]`, main's first; `lib/manza/version.rb` — main's; `spec/fixtures/cassettes/**` — one side whole, or re-record; `bin/release` `rakelib/release.rake`, `release.yml` outside its `test` job — main's (release kit)
 - **Worktree setup:** `bundle install` (`Gemfile.lock` is gitignored); undo none
-- **Release:** `bin/release [patch|minor|major|X.Y.Z]` from a clean, current main (prompts y/N; unattended `bundle exec rake "release[X.Y.Z]"`); changelog `CHANGELOG.md`, `[Unreleased]` headed `## [X.Y.Z]` by hand; lockfiles none
+- **Release:** `bin/release [patch|minor|major|X.Y.Z]` from a clean, current main (prompts y/N; unattended `bundle exec rake "release[X.Y.Z]"`) → `release.yml` publishes, `cassettes.yml` attaches `rake fixtures:pack`'s tarball; changelog `CHANGELOG.md`, `[Unreleased]` headed `## [X.Y.Z]` by hand; lockfiles none
 - **Main health:** `gh run list --workflow ci.yml --branch main --event push --limit 1 --json conclusion,headSha`
 - **Upstream:** libraries we own `getmanza/*`, `zoolutions/*` (release kit); scrub none
 
