@@ -29,6 +29,10 @@ manza.customers.create(...)
 manza.invoices.list
 manza.payment_links.cancel(id)
 manza.webhook_endpoints.list
+manza.checkout_sessions.create(...)
+manza.beneficiaries.list
+manza.payee_trust_requests.create(external_account_ids: [...])
+manza.transfer_drafts.create(...)
 ```
 
 - `Manza::Page` — cursor-based pagination, hard cap of 100/page (`MAX_PER_PAGE`)
