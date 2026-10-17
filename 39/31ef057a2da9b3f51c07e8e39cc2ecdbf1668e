@@ -1,0 +1,24 @@
+AGENTS.md
+  s_707f05896d2adc::t_4bed3051f979d7 55
+  s_707f05896d2adc::t_e9e8db191a5984 51-52
+  s_707f05896d2adc::t_778928e25aae63 5-6
+  s_707f05896d2adc::t_39617df4e49269 49
+.claude/settings.json
+  s_707f05896d2adc::t_99e5d3074b0371 4-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3931ef057a2da9b3f51c07e8e39cc2ecdbf1668e",
+  "prompts": {},
+  "sessions": {
+    "s_707f05896d2adc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "882973f7-72ec-475c-b8ff-7f7f6099c58c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
