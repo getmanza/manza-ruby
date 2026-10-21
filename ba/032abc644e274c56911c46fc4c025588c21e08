@@ -1,0 +1,11 @@
+examples/transfer_authorizer/README.md
+  ai_agent 45
+examples/transfer_authorizer/create_transfer.rb
+  ai_agent 28-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ba032abc644e274c56911c46fc4c025588c21e08",
+  "prompts": {}
+}
