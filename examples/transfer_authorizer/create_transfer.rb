@@ -25,7 +25,10 @@ begin
     client_reference: client_reference
   ).body
 rescue Manza::Error => e
-  abort "create failed: #{e.class.name}: #{e.message} (type #{e.type.inspect}, request_id #{e.request_id.inspect})"
+  # A timeout may still have created the draft: look for this client_reference
+  # in the app before rerunning, or the rerun creates a second transfer.
+  abort "create failed for client_reference #{client_reference}: #{e.class.name}: #{e.message} " \
+        "(type #{e.type.inspect}, request_id #{e.request_id.inspect})"
 end
 
 begin

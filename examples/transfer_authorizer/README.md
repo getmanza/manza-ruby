@@ -42,7 +42,7 @@ bundle exec ruby create_transfer.rb 250.00   # any amount within your limits
 | `created payment … (client_reference …)` | The draft exists and is in `ledger.json` |
 | `challenge sent, waiting for the authorizer` | The draft is inside your envelope: the webhook is on its way to terminal 1 |
 | `sent to your approvers, not the authorizer` | The draft is outside the envelope (untrusted payee, over a limit, suspended, …). See Troubleshooting |
-| `create failed: … (type …, request_id …)` | The API refused the draft. Quote the `request_id` to support |
+| `create failed for client_reference …: … (type …, request_id …)` | The API refused the draft, or did not answer. After a timeout the draft may exist anyway: look for that `client_reference` before rerunning, or the rerun creates a second transfer. Quote the `request_id` to support |
 
 The authorizer (`rackup`):
 
