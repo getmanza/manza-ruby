@@ -1,0 +1,21 @@
+examples/transfer_authorizer/authorizer.rb
+  s_57a5631dd702b8::t_ec98e8c447550d 35,150
+examples/transfer_authorizer/config.ru
+  s_57a5631dd702b8::t_ec98e8c447550d 11-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "8877b2f6f03eac1ff527768eabda3460365f46ad",
+  "prompts": {},
+  "sessions": {
+    "s_57a5631dd702b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cdd57989-40d7-4a49-bc1e-1edc40e25072",
+        "model": "unknown"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
