@@ -40,11 +40,16 @@ rescue Manza::ArgumentError
   abort "payment #{draft["id"]} names neither an external_account_id nor a destination_account_id, so it was not " \
         "written to the ledger: if it reaches the authorizer, the authorizer declines it"
 end
-ledger.record(
-  client_reference,
-  payment_id: draft["id"], amount: draft["amount"], currency_code: draft["currency_code"],
-  account_id: draft["account_id"], payee: payee
-)
+begin
+  ledger.record(
+    client_reference,
+    payment_id: draft["id"], amount: draft["amount"], currency_code: draft["currency_code"],
+    account_id: draft["account_id"], payee: payee
+  )
+rescue StandardError => e
+  abort "payment #{draft["id"]} (client_reference #{client_reference}) was created but not written to the ledger " \
+        "(#{e.class}: #{e.message}): if it reaches the authorizer, the authorizer declines it"
+end
 puts "created payment #{draft["id"]}: #{draft["amount"]} #{draft["currency_code"]} to #{payee} (client_reference #{client_reference})"
 
 if draft["authorization"]
