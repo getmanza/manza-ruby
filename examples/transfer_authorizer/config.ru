@@ -8,6 +8,9 @@ require_relative "authorizer"
 
 $stdout.sync = true
 
+missing = %w[MANZA_AUTHORIZER_API_KEY MANZA_AUTHORIZER_SECRET].select { |name| ENV.fetch(name, "").empty? }
+abort "Set #{missing.join(" and ")} in #{File.expand_path(".env", __dir__)}" unless missing.empty?
+
 run TransferAuthorizer::App.new(
   client: Manza.new(api_key: ENV.fetch("MANZA_AUTHORIZER_API_KEY")),
   secret: ENV.fetch("MANZA_AUTHORIZER_SECRET"),

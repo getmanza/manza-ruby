@@ -32,6 +32,7 @@ module TransferAuthorizer
     # down. Authorize and decline replay idempotently, so a retry is safe.
     TRANSIENT_ERRORS = [Manza::ServerError, Manza::ConnectionError, Manza::RateLimitError].freeze
     ATTEMPTS = 3
+    MAX_RETRY_AFTER = 30 # seconds; a challenge expires, so never park the thread for long
 
     # `ledger_wait`: seconds to wait for the ledger entry. The webhook can
     # arrive before create_transfer.rb has written the entry from the
@@ -146,7 +147,7 @@ module TransferAuthorizer
       rescue *TRANSIENT_ERRORS => e
         raise if attempt >= ATTEMPTS
 
-        delay = e.is_a?(Manza::RateLimitError) && e.retry_after ? e.retry_after : @retry_delay * attempt
+        delay = e.is_a?(Manza::RateLimitError) && e.retry_after ? [e.retry_after, MAX_RETRY_AFTER].min : @retry_delay * attempt
         @logger.warn("#{e.class.name} (request_id #{e.request_id.inspect}), retrying in #{delay}s")
         sleep delay
         attempt += 1
