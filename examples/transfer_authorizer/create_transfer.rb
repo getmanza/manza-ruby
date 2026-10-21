@@ -35,7 +35,7 @@ begin
   )
 rescue Manza::ArgumentError
   abort "payment #{draft["id"]} names neither an external_account_id nor a destination_account_id, so it was not " \
-        "written to the ledger: the authorizer will decline it"
+        "written to the ledger: if it reaches the authorizer, the authorizer declines it"
 end
 ledger.record(
   client_reference,
