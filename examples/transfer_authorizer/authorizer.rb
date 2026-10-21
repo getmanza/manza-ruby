@@ -28,17 +28,23 @@ module TransferAuthorizer
       "payee" => "payee"
     }.freeze
 
+    # Failures worth another try: the API did not answer, or asked us to slow
+    # down. Authorize and decline replay idempotently, so a retry is safe.
+    TRANSIENT_ERRORS = [Manza::ServerError, Manza::ConnectionError, Manza::RateLimitError].freeze
+    ATTEMPTS = 3
+
     # `ledger_wait`: seconds to wait for the ledger entry. The webhook can
     # arrive before create_transfer.rb has written the entry from the
-    # create response.
+    # create response. `retry_delay`: base seconds between attempts.
     def initialize(client:, secret:, ledger:, executor: ->(&job) { Thread.new(&job) },
-                   logger: Logger.new($stdout), ledger_wait: 10)
+                   logger: Logger.new($stdout), ledger_wait: 10, retry_delay: 2)
       @client = client
       @secret = secret
       @ledger = ledger
       @executor = executor
       @logger = logger
       @ledger_wait = ledger_wait
+      @retry_delay = retry_delay
     end
 
     def call(env)
@@ -110,20 +116,42 @@ module TransferAuthorizer
         currency_code: entry["currency_code"], account_id: entry["account_id"], payee: entry["payee"],
         client_reference: client_reference
       )
+      # A signature over a different input is sure to fail, and failed
+      # attempts count toward suspending the authorizer. Leave the challenge
+      # unanswered instead: it expires and goes to your approvers.
       unless input == webhook_input
-        @logger.warn("signature input differs from the webhook's: ledger #{input.inspect}, webhook #{webhook_input.inspect}")
+        @logger.warn("signature input differs from the webhook's: ledger #{input.inspect}, webhook #{webhook_input.inspect}; " \
+                     "not answering, the challenge goes to your approvers when it expires")
+        return
       end
 
       signature = Manza::TransferAuthorization.sign(secret: @secret, signature_input: input)
       @logger.info("signed the challenge for payment #{entry["payment_id"]}")
 
-      response = @client.transfer_drafts.authorize(entry["payment_id"], authorization_id: authorization["id"], signature: signature)
+      response = with_retries do
+        @client.transfer_drafts.authorize(entry["payment_id"], authorization_id: authorization["id"], signature: signature)
+      end
       @logger.info("authorized payment #{entry["payment_id"]} (status #{response.body["status"].inspect})")
     end
 
     def decline(payment_id, authorization_id, reason)
-      @client.transfer_drafts.decline(payment_id, authorization_id: authorization_id, reason: reason)
+      with_retries { @client.transfer_drafts.decline(payment_id, authorization_id: authorization_id, reason: reason) }
       @logger.warn("declined payment #{payment_id}: #{reason}")
+    end
+
+    def with_retries
+      attempt = 1
+      begin
+        yield
+      rescue *TRANSIENT_ERRORS => e
+        raise if attempt >= ATTEMPTS
+
+        delay = e.is_a?(Manza::RateLimitError) && e.retry_after ? e.retry_after : @retry_delay * attempt
+        @logger.warn("#{e.class.name} (request_id #{e.request_id.inspect}), retrying in #{delay}s")
+        sleep delay
+        attempt += 1
+        retry
+      end
     end
 
     def respond(status)

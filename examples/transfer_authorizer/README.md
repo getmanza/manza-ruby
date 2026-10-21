@@ -52,7 +52,8 @@ The authorizer (`rackup`):
 | `rejected a delivery: …` | Bad signature, stale timestamp, missing header, or a body that is not a JSON object: answered 401 |
 | `ignoring …` | Any other event: answered 200, nothing done |
 | `ledger match for …` | The draft's id, amount, currency, account and payee match `ledger.json` |
-| `signature input differs from the webhook's: …` | The input built from the ledger is not the webhook's `signature_input`. The authorize that follows will fail with `invalid_signature`; compare the two strings |
+| `signature input differs from the webhook's: …` | The input built from the ledger is not the webhook's `signature_input`, so a signature would fail and count toward suspension. The challenge is left unanswered and goes to your approvers when it expires; compare the two strings |
+| `… retrying in Ns` | The API timed out, answered 5xx or rate-limited. Authorize and decline replay idempotently; after three attempts the `API error` line follows and the challenge goes to your approvers when it expires |
 | `signed the challenge for payment …` | HMAC-SHA256 of the ledger's signature input under the signing secret |
 | `authorized payment … (status "processing")` | Accepted: execution has started. Poll `transfer_drafts.get` (processing → completed / failed) or subscribe to the `transfer.executed` webhook for the outcome |
 | `declined payment …: <reason>` | The draft is not in the ledger, or differs from it. The draft is deleted |

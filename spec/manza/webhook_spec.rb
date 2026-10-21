@@ -76,6 +76,18 @@ RSpec.describe Manza::Webhook do
       expect(verify(payload: nil)).to be(false)
       expect(verify(secret: nil)).to be(false)
     end
+
+    it "rejects an empty secret, even with a signature made under it" do
+      forged = described_class.sign(payload: payload, timestamp: timestamp, secret: "")
+
+      expect(verify(secret: "", signature: forged)).to be(false)
+    end
+
+    it "rejects a non-String payload" do
+      forged = described_class.sign(payload: 42, timestamp: timestamp, secret: secret)
+
+      expect(verify(payload: 42, signature: forged)).to be(false)
+    end
   end
 
   describe ".construct_event" do
@@ -140,6 +152,20 @@ RSpec.describe Manza::Webhook do
                   "X-Manza-Timestamp" => timestamp }
 
       expect { construct(headers, payload: body) }.to raise_error(Manza::ArgumentError, "webhook payload is not JSON")
+    end
+
+    it "raises ArgumentError, not TypeError, on a signed non-String payload" do
+      headers = { "X-Manza-Signature" => described_class.sign(payload: 42, timestamp: timestamp, secret: secret),
+                  "X-Manza-Timestamp" => timestamp }
+
+      expect { construct(headers, payload: 42) }.to raise_error(Manza::ArgumentError, "invalid webhook signature")
+    end
+
+    it "raises on an empty secret" do
+      headers = { "X-Manza-Signature" => described_class.sign(payload: payload, timestamp: timestamp, secret: ""),
+                  "X-Manza-Timestamp" => timestamp }
+
+      expect { construct(headers, secret: "") }.to raise_error(Manza::ArgumentError, "invalid webhook signature")
     end
 
     it "raises on a body that is valid JSON but not an object" do

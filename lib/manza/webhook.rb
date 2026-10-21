@@ -61,10 +61,11 @@ module Manza
     end
 
     def signature_matches?(payload, signature, timestamp, secret)
-      return false unless [payload, signature, timestamp, secret].all? { |v| v.is_a?(String) || v.is_a?(Integer) }
+      return false unless payload.is_a?(String) && secret.is_a?(String) && !secret.empty?
+      return false unless [signature, timestamp].all? { |v| v.is_a?(String) || v.is_a?(Integer) }
       return false unless parse_timestamp(timestamp)
 
-      expected = sign(payload: payload, timestamp: timestamp, secret: secret.to_s)
+      expected = sign(payload: payload, timestamp: timestamp, secret: secret)
       return false unless expected.bytesize == signature.to_s.bytesize
 
       OpenSSL.fixed_length_secure_compare(expected, signature.to_s)

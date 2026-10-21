@@ -65,7 +65,8 @@ RSpec.describe TransferAuthorizer::App do
       ledger: ledger,
       executor: ->(&job) { job.call },
       logger: Logger.new(log),
-      ledger_wait: 0
+      ledger_wait: 0,
+      retry_delay: 0
     )
   end
 
@@ -116,17 +117,47 @@ RSpec.describe TransferAuthorizer::App do
       expect(log.string).to include("invalid_signature", "req_123")
     end
 
-    it "logs both signature inputs when the webhook's differs from the ledger's" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
-             .with(body: hash_including("signature" => expected_signature))
-             .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: "{}")
+    it "logs both signature inputs and does not authorize when the webhook's differs from the ledger's" do
       payload = JSON.parse(JSON.generate(example_payload))
       payload["data"]["signature_input"] = "something-else"
 
       deliver(JSON.generate(payload))
 
-      expect(stub).to have_been_requested.once
+      expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
       expect(log.string).to include("something-else", example_payload["data"]["signature_input"])
+    end
+
+    it "retries authorize after a transient failure" do
+      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+             .to_return(
+               { status: 503, headers: { "Content-Type" => "application/json" }, body: "{}" },
+               { status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing") }
+             )
+
+      deliver(JSON.generate(example_payload))
+
+      expect(stub).to have_been_requested.twice
+      expect(log.string).to include("retrying", "authorized")
+    end
+
+    it "gives up after three attempts" do
+      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+             .to_return(status: 503, headers: { "Content-Type" => "application/json" }, body: "{}")
+
+      deliver(JSON.generate(example_payload))
+
+      expect(stub).to have_been_requested.times(3)
+      expect(log.string).to include("API error Manza::ServerError")
+    end
+
+    it "does not retry a validation error" do
+      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+             .to_return(status: 422, headers: { "Content-Type" => "application/json" },
+                        body: JSON.generate("error" => { "type" => "invalid_signature" }))
+
+      deliver(JSON.generate(example_payload))
+
+      expect(stub).to have_been_requested.once
     end
   end
 
