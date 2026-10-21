@@ -28,10 +28,15 @@ rescue Manza::Error => e
   abort "create failed: #{e.class.name}: #{e.message} (type #{e.type.inspect}, request_id #{e.request_id.inspect})"
 end
 
-payee = Manza::TransferAuthorization.payee_for(
-  external_account_id: draft["destination_account_id"] ? nil : draft["external_account_id"],
-  destination_account_id: draft["destination_account_id"]
-)
+begin
+  payee = Manza::TransferAuthorization.payee_for(
+    external_account_id: draft["destination_account_id"] ? nil : draft["external_account_id"],
+    destination_account_id: draft["destination_account_id"]
+  )
+rescue Manza::ArgumentError
+  abort "payment #{draft["id"]} names neither an external_account_id nor a destination_account_id, so it was not " \
+        "written to the ledger: the authorizer will decline it"
+end
 ledger.record(
   client_reference,
   payment_id: draft["id"], amount: draft["amount"], currency_code: draft["currency_code"],
