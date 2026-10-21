@@ -675,6 +675,8 @@ module Fixtures
     def handle(socket)
       headers, body = read_request(socket)
       unless signed?(headers, body)
+        warn "[fixtures] receiver: rejected a delivery (bad signature, or timestamp more than " \
+             "#{Manza::Webhook::DEFAULT_TOLERANCE}s from this clock)"
         respond(socket, 401)
         return
       end

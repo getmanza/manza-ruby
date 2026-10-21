@@ -169,6 +169,15 @@ RSpec.describe TransferAuthorizer::App do
     end
   end
 
+  describe "with a signed body that is not a JSON object" do
+    it "answers 400 and calls nothing" do
+      response = deliver("[]")
+
+      expect(response.status).to eq(400)
+      expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
+    end
+  end
+
   describe "with another event" do
     it "answers 200 and calls nothing" do
       response = deliver(JSON.generate("event" => "test.ping", "event_id" => "0199a1b2-0000-7000-8000-000000000010"))
