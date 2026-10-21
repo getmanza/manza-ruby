@@ -629,8 +629,8 @@ module Fixtures
   # rubocop:enable Metrics/ClassLength
 
   # Minimal HTTP receiver for the authorizer endpoint's tunnel. Verifies
-  # each delivery's signature (HMAC-SHA256 of "<timestamp>.<body>" under
-  # the endpoint secret) and records `payment.authorization_requested`
+  # each delivery with Manza::Webhook.verify? (so every record run proves
+  # the shipped verifier) and records `payment.authorization_requested`
   # challenges by payment id. Runs on a background thread until the
   # process exits.
   class AuthorizationReceiver
@@ -642,7 +642,7 @@ module Fixtures
 
     def initialize(port:, secret:)
       require "socket"
-      require "openssl"
+      require "manza"
       @server = TCPServer.new("127.0.0.1", port)
       @secret = secret
       @challenges = {}
@@ -675,6 +675,8 @@ module Fixtures
     def handle(socket)
       headers, body = read_request(socket)
       unless signed?(headers, body)
+        warn "[fixtures] receiver: rejected a delivery (bad signature, or timestamp more than " \
+             "#{Manza::Webhook::DEFAULT_TOLERANCE}s from this clock)"
         respond(socket, 401)
         return
       end
@@ -701,12 +703,7 @@ module Fixtures
     def signed?(headers, body)
       signature = headers["x-manza-signature"] || headers["x-zazu-signature"]
       timestamp = headers["x-manza-timestamp"] || headers["x-zazu-timestamp"]
-      return false unless signature && timestamp
-
-      expected = OpenSSL::HMAC.hexdigest("SHA256", @secret, "#{timestamp}.#{body}")
-      OpenSSL.fixed_length_secure_compare(expected, signature)
-    rescue ArgumentError # length mismatch
-      false
+      Manza::Webhook.verify?(payload: body, signature: signature, timestamp: timestamp, secret: @secret)
     end
 
     def record(payload)
