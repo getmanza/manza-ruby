@@ -7,6 +7,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
+
+- `Manza::Webhook` verifies incoming webhook deliveries: `verify?` (boolean),
+  `construct_event` (returns the parsed event, raises `Manza::ArgumentError`)
+  and `sign`. Reads `X-Manza-*` headers in any case, the Rack `HTTP_X_MANZA_*`
+  form and the legacy `X-Zazu-*` names; checks the timestamp within 5 minutes
+  (`tolerance: nil` skips it). The spec carries a fixed test vector every SDK
+  reuses.
+- `examples/transfer_authorizer/`: a runnable two-key transfer authorizer
+  (Rack app plus a creator script and a JSON ledger). Not shipped in the gem.
+- README: "Setup, step by step" for machine-authorized transfers.
+
 ## [1.0.0]
 
 The SDK is renamed from Zazu to Manza and released as `manza` 1.0.0.

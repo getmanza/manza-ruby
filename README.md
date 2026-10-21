@@ -110,7 +110,46 @@ manza.webhook_endpoints.disable("01a0...")
 
 ## Machine-authorized transfers
 
-A draft inside your entity's authorization envelope (trusted payee, within limits) is sent to your enrolled authorizer endpoint as a `payment.authorization_requested` webhook carrying an `authorization.id` and a one-time `nonce`. Sign the draft from **your own record** of it with the endpoint's signing secret, and authorize it with a **different API key** from the one that created it (the creating key gets 403 `same_key_forbidden`):
+A draft inside your entity's authorization envelope (trusted payee, within limits) is sent to your enrolled authorizer endpoint as a `payment.authorization_requested` webhook carrying an `authorization.id` and a one-time `nonce`. Your system checks it against its own ledger, signs it and authorizes it with a **different API key** from the one that created it. [`examples/transfer_authorizer/`](examples/transfer_authorizer/) runs the whole flow.
+
+### Setup, step by step
+
+1. **Feature flags.** Ask support to enable API transfers and transfer authorization (`release_api_webhook_authorization`) on your workspace.
+2. **Two API keys.** Key A creates drafts (`transfers:write`; `beneficiaries:request_trust` for step 6). Key B answers the challenges (`transfers:authorize`). The creating key is always refused with 403 `same_key_forbidden`, so keep key B and the signing secret on the system that holds your ledger.
+3. **A stable public URL.** Your authorizer needs an HTTPS URL that never changes: an enrolled endpoint's URL is locked. Use a reserved ngrok domain (`ngrok http --url=your-name.ngrok.app 4599`) or a named Cloudflare tunnel (see [The authorizer tunnel](#the-authorizer-tunnel)). Never a free ngrok URL: it changes on every restart.
+4. **Create the webhook endpoint** at that URL:
+
+   ```ruby
+   manza.webhook_endpoints.create(url: "https://your-name.ngrok.app/", events: ["transfer.executed"])
+   ```
+
+5. **Enrol it in the app**: Settings → Developer → Transfer approval. Pick the endpoint, the currency and both limits, confirm with your two-factor code, and copy the signing secret: it is shown once.
+6. **Trust the payee.** An approver marks the beneficiary's bank account as trusted from the Beneficiaries list, or you ask them to:
+
+   ```ruby
+   manza.payee_trust_requests.create(external_account_ids: ["01a1..."])
+   ```
+
+7. **Run the example**: `bundle exec rackup -p 4599` in one terminal, `bundle exec ruby create_transfer.rb` in another (from `examples/transfer_authorizer/`, after `bundle install` and filling in `.env`).
+8. **Troubleshooting**: a draft that goes to your approvers instead failed one of the checks in "Which transfers qualify"; an API error's `type` is in the errors table. Both are in the [transfer authorization docs](https://ma.manza.finance/docs/api/transfer-authorization).
+
+### Verifying the webhook
+
+Pass the **raw request body**, never re-serialized JSON. `construct_event` reads `X-Manza-Signature` and `X-Manza-Timestamp` (any case, the Rack `HTTP_X_MANZA_*` form, or the legacy `X-Zazu-*` names), checks the signature in constant time and the timestamp within 5 minutes, and returns the parsed event. It raises `Manza::ArgumentError` otherwise:
+
+```ruby
+begin
+  event = Manza::Webhook.construct_event(payload: request.body.read, headers: request.env, secret: signing_secret)
+rescue Manza::ArgumentError => e
+  return [401, {}, [e.message]]
+end
+```
+
+`Manza::Webhook.verify?(payload:, signature:, timestamp:, secret:)` returns a boolean instead. `tolerance: nil` skips the timestamp check, for replaying a captured delivery.
+
+### Signing the challenge
+
+Sign the draft from **your own record** of it with the endpoint's signing secret:
 
 ```ruby
 input = Manza::TransferAuthorization.signature_input(
