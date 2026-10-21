@@ -1,0 +1,19 @@
+examples/transfer_authorizer/create_transfer.rb
+  s_57a5631dd702b8::t_11a2112fb90219 43-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "df843184f62dd17a7e7e977f6c30706035d13788",
+  "prompts": {},
+  "sessions": {
+    "s_57a5631dd702b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cdd57989-40d7-4a49-bc1e-1edc40e25072",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
