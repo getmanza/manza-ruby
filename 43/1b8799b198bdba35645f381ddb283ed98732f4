@@ -1,0 +1,9 @@
+examples/transfer_authorizer/README.md
+  ai_agent 45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "431b8799b198bdba35645f381ddb283ed98732f4",
+  "prompts": {}
+}
