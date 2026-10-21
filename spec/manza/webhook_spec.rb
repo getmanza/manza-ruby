@@ -141,5 +141,15 @@ RSpec.describe Manza::Webhook do
 
       expect { construct(headers, payload: body) }.to raise_error(Manza::ArgumentError, "webhook payload is not JSON")
     end
+
+    it "raises on a body that is valid JSON but not an object" do
+      %w[[] null 42].each do |body|
+        headers = { "X-Manza-Signature" => described_class.sign(payload: body, timestamp: timestamp, secret: secret),
+                    "X-Manza-Timestamp" => timestamp }
+
+        expect { construct(headers, payload: body) }
+          .to raise_error(Manza::ArgumentError, "webhook payload is not a JSON object")
+      end
+    end
   end
 end

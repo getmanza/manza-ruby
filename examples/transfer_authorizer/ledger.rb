@@ -20,32 +20,33 @@ module TransferAuthorizer
       entry = { "payment_id" => payment_id, "amount" => amount, "currency_code" => currency_code,
                 "account_id" => account_id, "payee" => payee }
 
-      File.open(@path, File::RDWR | File::CREAT, 0o600) do |file|
-        file.flock(File::LOCK_EX)
-        entries = parse(file.read)
+      # Serialize writers on a separate lock file, write the new ledger to a
+      # temporary file and rename it over the old one: a reader sees the old
+      # or the new ledger, never a half-written one, and a crash mid-write
+      # leaves the old ledger intact.
+      File.open("#{@path}.lock", File::RDWR | File::CREAT, 0o600) do |lock|
+        lock.flock(File::LOCK_EX)
+        entries = read_entries
         entries[client_reference] = entry
-        file.rewind
-        file.write(JSON.pretty_generate(entries))
-        file.flush
-        file.truncate(file.pos)
+        tmp = "#{@path}.#{Process.pid}.tmp"
+        File.write(tmp, JSON.pretty_generate(entries), perm: 0o600)
+        File.rename(tmp, @path)
       end
       entry
     end
 
     # The entry for `client_reference`, or nil.
     def find(client_reference)
-      return nil unless File.exist?(@path)
-
-      File.open(@path) do |file|
-        file.flock(File::LOCK_SH)
-        parse(file.read)[client_reference]
-      end
+      read_entries[client_reference]
     end
 
     private
 
-    def parse(json)
-      json.to_s.strip.empty? ? {} : JSON.parse(json)
+    def read_entries
+      return {} unless File.exist?(@path)
+
+      json = File.read(@path)
+      json.strip.empty? ? {} : JSON.parse(json)
     end
   end
 end

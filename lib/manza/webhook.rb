@@ -40,7 +40,7 @@ module Manza
     # form too), verifies them, and returns the parsed JSON Hash. Raises
     # Manza::ArgumentError when a header is missing, the signature does
     # not match, the timestamp is outside tolerance, or the body is not
-    # JSON.
+    # a JSON object.
     def construct_event(payload:, headers:, secret:, tolerance: DEFAULT_TOLERANCE, now: Time.now)
       normalized = normalize_headers(headers)
       signature = header(normalized, "signature")
@@ -49,11 +49,15 @@ module Manza
       raise Manza::ArgumentError, "invalid webhook signature" unless signature_matches?(payload, signature, timestamp, secret)
       raise Manza::ArgumentError, "webhook timestamp outside tolerance" unless timestamp_fresh?(timestamp, tolerance, now)
 
-      begin
-        JSON.parse(payload)
-      rescue JSON::ParserError
-        raise Manza::ArgumentError, "webhook payload is not JSON"
-      end
+      event =
+        begin
+          JSON.parse(payload)
+        rescue JSON::ParserError
+          raise Manza::ArgumentError, "webhook payload is not JSON"
+        end
+      raise Manza::ArgumentError, "webhook payload is not a JSON object" unless event.is_a?(Hash)
+
+      event
     end
 
     def signature_matches?(payload, signature, timestamp, secret)

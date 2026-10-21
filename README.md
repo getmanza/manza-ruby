@@ -135,7 +135,7 @@ A draft inside your entity's authorization envelope (trusted payee, within limit
 
 ### Verifying the webhook
 
-Pass the **raw request body**, never re-serialized JSON. `construct_event` reads `X-Manza-Signature` and `X-Manza-Timestamp` (any case, the Rack `HTTP_X_MANZA_*` form, or the legacy `X-Zazu-*` names), checks the signature in constant time and the timestamp within 5 minutes, and returns the parsed event. It raises `Manza::ArgumentError` otherwise:
+Pass the **raw request body**, never re-serialized JSON. `construct_event` reads `X-Manza-Signature` and `X-Manza-Timestamp` (any case, the Rack `HTTP_X_MANZA_*` form, or the legacy `X-Zazu-*` names), checks the signature in constant time and the timestamp within 5 minutes, and returns the parsed event (a Hash). It raises `Manza::ArgumentError` otherwise:
 
 ```ruby
 begin
@@ -145,7 +145,7 @@ rescue Manza::ArgumentError => e
 end
 ```
 
-`Manza::Webhook.verify?(payload:, signature:, timestamp:, secret:)` returns a boolean instead. `tolerance: nil` skips the timestamp check, for replaying a captured delivery.
+`Manza::Webhook.verify?(payload:, signature:, timestamp:, secret:)` returns a boolean instead. Both accept `tolerance: nil` to skip the timestamp check. Use it only to replay a captured delivery in a local tool or test, never on a live endpoint: without the check, anyone holding a captured delivery can replay it.
 
 ### Signing the challenge
 

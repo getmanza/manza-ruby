@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# The authorizer process (key B). Start it with `bundle exec rackup -p $PORT`.
+# The authorizer process (key B). Start it with `bundle exec rackup -p 4599`
+# (rackup reads -p before this file loads .env, so PORT in .env does not set it).
 require "dotenv"
 Dotenv.overload(File.expand_path(".env", __dir__))
 require_relative "authorizer"

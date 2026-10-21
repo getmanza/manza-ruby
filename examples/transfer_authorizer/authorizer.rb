@@ -45,7 +45,6 @@ module TransferAuthorizer
       body = env["rack.input"].read
       event = verify(body, env)
       return respond(401) unless event
-      return reject_shape unless event.is_a?(Hash)
 
       return ignore(event) unless event["event"] == EVENT
 
@@ -57,16 +56,11 @@ module TransferAuthorizer
 
     def verify(body, env)
       event = Manza::Webhook.construct_event(payload: body, headers: env, secret: @secret)
-      @logger.info("received #{event["event"]} (#{event["event_id"]}), signature verified") if event.is_a?(Hash)
+      @logger.info("received #{event["event"]} (#{event["event_id"]}), signature verified")
       event
     rescue Manza::ArgumentError => e
       @logger.warn("rejected a delivery: #{e.message}")
       nil
-    end
-
-    def reject_shape
-      @logger.warn("rejected a delivery: the body is not a JSON object")
-      respond(400)
     end
 
     def ignore(event)
@@ -133,7 +127,7 @@ module TransferAuthorizer
     end
 
     def respond(status)
-      [status, { "content-type" => "text/plain" }, [{ 200 => "ok", 400 => "bad request", 401 => "unauthorized" }.fetch(status)]]
+      [status, { "content-type" => "text/plain" }, [status == 200 ? "ok" : "unauthorized"]]
     end
   end
 end

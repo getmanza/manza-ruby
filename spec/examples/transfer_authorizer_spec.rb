@@ -170,10 +170,10 @@ RSpec.describe TransferAuthorizer::App do
   end
 
   describe "with a signed body that is not a JSON object" do
-    it "answers 400 and calls nothing" do
+    it "answers 401 and calls nothing" do
       response = deliver("[]")
 
-      expect(response.status).to eq(400)
+      expect(response.status).to eq(401)
       expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
     end
   end

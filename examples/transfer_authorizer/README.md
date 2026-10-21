@@ -49,12 +49,12 @@ The authorizer (`rackup`):
 | Line | Meaning |
 |---|---|
 | `received payment.authorization_requested (…), signature verified` | The delivery's `X-Manza-Signature` matches and its timestamp is fresh |
-| `rejected a delivery: …` | Bad signature, stale timestamp, missing header or non-JSON body: answered 401 |
+| `rejected a delivery: …` | Bad signature, stale timestamp, missing header, or a body that is not a JSON object: answered 401 |
 | `ignoring …` | Any other event: answered 200, nothing done |
 | `ledger match for …` | The draft's id, amount, currency, account and payee match `ledger.json` |
 | `signature input differs from the webhook's: …` | The input built from the ledger is not the webhook's `signature_input`. The authorize that follows will fail with `invalid_signature`; compare the two strings |
 | `signed the challenge for payment …` | HMAC-SHA256 of the ledger's signature input under the signing secret |
-| `authorized payment … (status "processing")` | Done: the transfer executes |
+| `authorized payment … (status "processing")` | Accepted: execution has started. Poll `transfer_drafts.get` (processing → completed / failed) or subscribe to the `transfer.executed` webhook for the outcome |
 | `declined payment …: <reason>` | The draft is not in the ledger, or differs from it. The draft is deleted |
 | `API error …: … (type …, request_id …)` | Authorize or decline failed. Look the `type` up in the docs' errors table |
 
