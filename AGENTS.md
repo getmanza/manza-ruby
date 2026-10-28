@@ -164,7 +164,7 @@ The `manza` MCP server (`.mcp.json`, the gateway at `https://mcp.manza.work/mcp`
 
 Before every `rake fixtures:record`:
 
-1. `bundle exec rake fixtures:staging:ensure_arguments` prints the `sdk_fixtures_ensure` arguments as JSON: both 16-character `key_prefix`es from `.env`, `desired` from the JSON file, and this machine's public IPv4 `/32` and IPv6 `/64` (looked up through ipify) on both keys. `CIDR=<a>[,<b>]` replaces the lookup. Never print more than 16 characters of a key.
+1. `bundle exec rake fixtures:staging:ensure_arguments` prints the `sdk_fixtures_ensure` arguments as JSON: both 16-character `key_prefix`es from `.env`, `desired` from the JSON file, and this machine's public IPv4 `/32` and IPv6 `/64` (looked up through ipify) on both keys. The lookup is best effort: a family that fails (no IPv6 on this network, ipify down) is left out with a warning on stderr, and the task aborts only when both fail. Check `desired.creator_key_cidrs` holds what this machine records from, and pass `CIDR=<a>[,<b>]` to replace the lookup when it does not. Never print more than 16 characters of a key.
 2. `sdk_fixtures_status` with the two prefixes from step 1, to see the drift. Its `observed_ip` is the gateway's egress, not this machine: never allowlist it.
 3. `sdk_fixtures_ensure` with the JSON from step 1; `dry_run: true` first if anything looks off. Every line `unchanged` or `changed` is done.
 4. A `failed` `authorizer.secret_expires_at` line: `sdk_fixtures_rotate_secret`, write the returned secret to `.env` as `MANZA_STAGING_AUTHORIZER_SECRET` with an edit, without echoing it, then ensure again.

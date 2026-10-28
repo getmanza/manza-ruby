@@ -803,9 +803,11 @@ module Fixtures
 
     def read_authorizer(env)
       uri = URI.join(env.fetch("MANZA_STAGING_URL"), "/api/transfer_authorizer")
+      abort "MANZA_STAGING_URL must be https: the preflight sends the authorizer key" unless uri.scheme == "https"
+
       request = Net::HTTP::Get.new(uri, "Authorization" => "Bearer #{env.fetch("MANZA_STAGING_AUTHORIZER_API_KEY")}",
                                         "Accept" => "application/json")
-      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: 10, read_timeout: 10) do |http|
+      Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 10) do |http|
         http.request(request)
       end
     rescue URI::Error, SocketError, SystemCallError, Timeout::Error, IOError, OpenSSL::SSL::SSLError => e

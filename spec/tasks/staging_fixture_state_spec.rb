@@ -209,6 +209,14 @@ RSpec.describe "staging fixture state tasks", type: :task do
         .to raise_error(SystemExit).and output(/\Aauthorizer unreachable.*check MANZA_STAGING_URL and the network\n\z/).to_stderr
     end
 
+    it "refuses to send the authorizer key over plain HTTP" do
+      ENV["MANZA_STAGING_URL"] = "http://staging.manza.example"
+
+      expect { run_task("fixtures:preflight") }
+        .to raise_error(SystemExit).and output(/MANZA_STAGING_URL must be https/).to_stderr
+      expect(a_request(:get, /transfer_authorizer/)).not_to have_been_made
+    end
+
     it "aborts when MANZA_STAGING_URL is missing" do
       ENV["MANZA_STAGING_URL"] = ""
 
