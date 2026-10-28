@@ -63,6 +63,12 @@ RSpec.describe "staging fixture state tasks", type: :task do
       $stdout = original
     end
 
+    it "declares transfers:authorize on the creator key too" do
+      # transfer_drafts/authorize_same_key records the creating key refused
+      # as same_key_forbidden; without the scope it records insufficient_scope.
+      expect(declared["creator_key_scopes"]).to include("transfers:authorize")
+    end
+
     it "emits both 16-character key prefixes and the declared state" do
       stub_ipv4
       stub_ipv6

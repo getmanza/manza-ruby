@@ -47,7 +47,10 @@
 #   1. `release_api_transfers` and `release_api_webhook_authorization`
 #      on for the fixture entity.
 #   2. MANZA_STAGING_API_KEY holds the scopes in the declared state,
-#      `beneficiaries:write` and `beneficiaries:request_trust` among them.
+#      `beneficiaries:write` and `beneficiaries:request_trust` among them,
+#      and `transfers:authorize`: the authorize_same_key cassette records
+#      this creating key refused by the same-key rule, which sits behind
+#      the scope check (without the scope it records insufficient_scope).
 #   3. MANZA_STAGING_AUTHORIZER_API_KEY holds `transfers:authorize`, and
 #      both keys allowlist this machine's public addresses.
 #   4. The transfer authorizer is active, with limits covering 10.00 MAD
