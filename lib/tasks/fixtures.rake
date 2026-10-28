@@ -755,6 +755,8 @@ module Fixtures
     # family only, so it answers with that family's address.
     LOOKUPS = { "api.ipify.org" => 32, "api6.ipify.org" => 64 }.freeze
     FIX = "run sdk_fixtures_ensure (AGENTS.md → Staging fixture state)"
+    # Staging answers on manza.dev (ma., za.); production on manza.finance.
+    STAGING_DOMAIN = ".manza.dev"
 
     module_function
 
@@ -804,7 +806,9 @@ module Fixtures
 
     def read_authorizer(env)
       uri = URI.join(env.fetch("MANZA_STAGING_URL"), "/api/transfer_authorizer")
-      abort "MANZA_STAGING_URL must be https: the preflight sends the authorizer key" unless uri.scheme == "https"
+      unless uri.scheme == "https" && uri.host.to_s.end_with?(STAGING_DOMAIN)
+        abort "MANZA_STAGING_URL must be an https staging host (*#{STAGING_DOMAIN}): the preflight sends the authorizer key"
+      end
 
       request = Net::HTTP::Get.new(uri, "Authorization" => "Bearer #{env.fetch("MANZA_STAGING_AUTHORIZER_API_KEY")}",
                                         "Accept" => "application/json")

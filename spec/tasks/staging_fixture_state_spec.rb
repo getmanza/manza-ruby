@@ -15,7 +15,7 @@ end
 RSpec.describe "staging fixture state tasks", type: :task do
   let(:creator_key) { "sk_fake_CREATORa-not-a-real-key-creator" }
   let(:authorizer_key) { "sk_fake_AUTHORIZ-not-a-real-key-authorizer" }
-  let(:staging_url) { "https://staging.manza.example" }
+  let(:staging_url) { "https://ma.manza.dev" }
   let(:declared) { JSON.parse(File.read(File.expand_path("../../lib/tasks/staging_fixture_state.json", __dir__))) }
 
   around do |example|
@@ -213,7 +213,15 @@ RSpec.describe "staging fixture state tasks", type: :task do
       ENV["MANZA_STAGING_URL"] = "http://staging.manza.example"
 
       expect { run_task("fixtures:preflight") }
-        .to raise_error(SystemExit).and output(/MANZA_STAGING_URL must be https/).to_stderr
+        .to raise_error(SystemExit).and output(/MANZA_STAGING_URL must be an https staging host/).to_stderr
+      expect(a_request(:get, /transfer_authorizer/)).not_to have_been_made
+    end
+
+    it "refuses to send the authorizer key to a host that is not staging" do
+      ENV["MANZA_STAGING_URL"] = "https://ma.manza.finance"
+
+      expect { run_task("fixtures:preflight") }
+        .to raise_error(SystemExit).and output(/MANZA_STAGING_URL must be an https staging host/).to_stderr
       expect(a_request(:get, /transfer_authorizer/)).not_to have_been_made
     end
 
