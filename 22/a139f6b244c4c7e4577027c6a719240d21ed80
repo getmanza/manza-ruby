@@ -1,0 +1,9 @@
+lib/tasks/fixtures.rake
+  ai_agent 779-780,811
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "22a139f6b244c4c7e4577027c6a719240d21ed80",
+  "prompts": {}
+}
