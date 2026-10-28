@@ -9,7 +9,6 @@
     "payment_links:write",
     "transfers:read",
     "transfers:write",
-    "transfers:authorize",
     "bulk_payments:read",
     "bulk_payments:write",
     "beneficiaries:read",

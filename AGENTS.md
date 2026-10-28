@@ -160,7 +160,7 @@ bin/release minor       # or patch (default), major, an explicit 0.3.0; --force 
 
 `rake fixtures:record` needs the MA staging fixture entity in a declared state: API flags on, both keys with their scopes and this machine's addresses allowlisted, the transfer authorizer active with its limits and the new-payee toggle on. The declared state is `lib/tasks/staging_fixture_state.json` (not in the gem). Staging drifts (a suspended authorizer, a toggle off, a key without an allowlist); fixing it is the agent's job.
 
-The `manza` MCP server (`.mcp.json`, the gateway at `https://mcp.manza.work/mcp`) exposes the staging-only `sdk_fixtures_*` tools (runbook: getmanza/app `docs/runbooks/sdk-fixtures.md`). Auth is the staff member's Google sign-in, once per machine via `/mcp`; `.claude/settings.json` enables the project server (`enabledMcpjsonServers`), so there is no approval prompt. There is no MCP token, and none goes in `.env`. Call the `ma_staging` tools (`mcp__manza__ma_staging__sdk_fixtures_*`), never `za_staging`.
+The `manza` MCP server (`.mcp.json`, the gateway at `https://mcp.manza.work/mcp`) exposes the staging-only `sdk_fixtures_*` tools (runbook: getmanza/app `docs/runbooks/sdk-fixtures.md`). Auth is the staff member's Google sign-in, once per machine via `/mcp`; `.claude/settings.json` enables the project server (`enabledMcpjsonServers`), which Claude Code honours once the workspace is trusted: a fresh clone asks to trust the folder first, then needs no separate server approval. There is no MCP token, and none goes in `.env`. Call the `ma_staging` tools (`mcp__manza__ma_staging__sdk_fixtures_*`), never `za_staging`.
 
 Before every `rake fixtures:record`:
 

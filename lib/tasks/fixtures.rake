@@ -773,8 +773,9 @@ module Fixtures
       found
     end
 
+    # Direct, never through an env proxy: the proxy's egress is not this machine.
     def public_cidr(host, prefix)
-      body = Net::HTTP.start(host, 443, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get("/").body }
+      body = Net::HTTP.start(host, 443, nil, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get("/").body }
       address = IPAddr.new(body.strip)
       family = prefix == 32 ? "IPv4" : "IPv6"
       return "#{address.mask(prefix)}/#{prefix}" if address.ipv4? == (prefix == 32)
