@@ -776,7 +776,8 @@ module Fixtures
       found
     end
 
-    # Direct, never through an env proxy: the proxy's egress is not this machine.
+    # Direct, never through an env proxy: the proxy's egress is not this
+    # machine. The preflight goes direct too, from the address allowlisted here.
     def public_cidr(host, prefix)
       body = Net::HTTP.start(host, 443, nil, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get("/").body }
       address = IPAddr.new(body.strip)
@@ -807,7 +808,7 @@ module Fixtures
 
       request = Net::HTTP::Get.new(uri, "Authorization" => "Bearer #{env.fetch("MANZA_STAGING_AUTHORIZER_API_KEY")}",
                                         "Accept" => "application/json")
-      Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 10) do |http|
+      Net::HTTP.start(uri.host, uri.port, nil, use_ssl: true, open_timeout: 10, read_timeout: 10) do |http|
         http.request(request)
       end
     rescue URI::Error, SocketError, SystemCallError, Timeout::Error, IOError, OpenSSL::SSL::SSLError => e
