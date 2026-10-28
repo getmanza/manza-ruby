@@ -1,0 +1,42 @@
+spec/tasks/staging_fixture_state_spec.rb
+  s_65c3c5c5f93719::t_70a5f97e5cc735 5-14,29,31,34
+  s_65c3c5c5f93719::t_5c050b605257c0 54
+  s_65c3c5c5f93719::t_c13e54d1928cd3 1-4,15-28,30,32-33,35-48,50-53,55-99,101,105-106,116-117,119-179
+  s_65c3c5c5f93719::t_c57b50aecfc913 49,118
+  s_65c3c5c5f93719::t_1611f574bb8db7 100,102-104
+  s_65c3c5c5f93719::t_9c178d175f7b8b 107-115
+Rakefile
+  s_65c3c5c5f93719::t_22c8c08820c13e 31
+.claude/settings.json
+  s_65c3c5c5f93719::t_ad7f0c93ce0fc2 11-12
+.mcp.json
+  s_65c3c5c5f93719::t_ac519807183463 1-8
+AGENTS.md
+  s_65c3c5c5f93719::t_df7ca1f89471d6 61,146-147,159-174
+lib/tasks/staging_fixture_state.json
+  s_65c3c5c5f93719::t_ac519807183463 1-31
+lib/tasks/fixtures.rake
+  s_65c3c5c5f93719::t_7c87a03828cb22 803-809
+  s_65c3c5c5f93719::t_a60d488813d7e0 29-30,460
+  s_65c3c5c5f93719::t_22c8c08820c13e 78-80
+  s_65c3c5c5f93719::t_8fc95062942e14 751-753,771,776,779-782
+  s_65c3c5c5f93719::t_3f120de985a677 41-45,47-66
+  s_65c3c5c5f93719::t_53fdf974539a8e 739-750,754-770,772-775,783-802,810-811,815-826,828
+  s_65c3c5c5f93719::t_c57b50aecfc913 777-778
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "08ef06ccb53edf25547d2ed1f871e3b4217a008b",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
