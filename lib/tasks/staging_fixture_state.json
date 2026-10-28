@@ -1,0 +1,31 @@
+{
+  "creator_key_scopes": [
+    "invoices:read",
+    "invoices:write",
+    "invoices:send",
+    "customers:read",
+    "customers:write",
+    "payment_links:read",
+    "payment_links:write",
+    "transfers:read",
+    "transfers:write",
+    "transfers:authorize",
+    "bulk_payments:read",
+    "bulk_payments:write",
+    "beneficiaries:read",
+    "beneficiaries:write",
+    "beneficiaries:request_trust",
+    "entity:read",
+    "accounts:read",
+    "checkout_sessions:read",
+    "checkout_sessions:write",
+    "webhook_endpoints:read",
+    "webhook_endpoints:write"
+  ],
+  "authorizer_key_scopes": ["transfers:authorize"],
+  "per_transfer_limit": 10.0,
+  "daily_limit": 500.0,
+  "trust_new_payees": true,
+  "new_payee_limit": 10.0,
+  "secret_min_days": 7
+}

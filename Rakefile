@@ -28,7 +28,7 @@ load File.expand_path("lib/tasks/fixtures.rake", __dir__)
 
 namespace :fixtures do
   desc "Re-record all VCR cassettes against the staging API. Requires .env with MANZA_STAGING_API_KEY."
-  task record: %i[teardown seed] do
+  task record: %i[preflight teardown seed] do
     # `seed` writes fresh IDs into .env. Re-load them here so the
     # spec child process picks up the new values, in case anything
     # in this Rake process already cached the old ones.
