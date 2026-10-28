@@ -1,0 +1,21 @@
+lib/tasks/fixtures.rake
+  s_65c3c5c5f93719::t_ac327a15d8a291 776,778
+AGENTS.md
+  s_65c3c5c5f93719::t_ac327a15d8a291 163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6bcbae0965842cbb871006d38d55a55d31bfecd5",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
