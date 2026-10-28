@@ -1,0 +1,21 @@
+spec/tasks/staging_fixture_state_spec.rb
+  s_65c3c5c5f93719::t_edb4cc2aef4cb6 18,216-224
+lib/tasks/fixtures.rake
+  s_65c3c5c5f93719::t_aaa878bd62cb5f 758-759,809-811
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "8227a3f9dce041361cb8c0c88abd06d7190f1f0c",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
