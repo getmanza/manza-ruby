@@ -1,0 +1,21 @@
+lib/tasks/fixtures.rake
+  ai_agent 29-30,41-45,47-66,78-80,460,739-828,832-843,845
+lib/tasks/staging_fixture_state.json
+  ai_agent 1-31
+.claude/settings.json
+  ai_agent 11-12
+.mcp.json
+  ai_agent 1-8
+AGENTS.md
+  ai_agent 61,146-147,159-174
+Rakefile
+  ai_agent 31
+spec/tasks/staging_fixture_state_spec.rb
+  ai_agent 1-221
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6bf34dd378f98a0a665d8c7291367f19197f6aff",
+  "prompts": {}
+}
