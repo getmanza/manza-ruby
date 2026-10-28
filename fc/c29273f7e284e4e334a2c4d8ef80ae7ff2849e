@@ -1,0 +1,23 @@
+spec/tasks/staging_fixture_state_spec.rb
+  s_65c3c5c5f93719::t_006e9bd41fe91d 66-71
+lib/tasks/fixtures.rake
+  ai_agent 50-53
+lib/tasks/staging_fixture_state.json
+  ai_agent 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "fcc29273f7e284e4e334a2c4d8ef80ae7ff2849e",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
