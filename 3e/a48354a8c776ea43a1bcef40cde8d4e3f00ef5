@@ -1,0 +1,24 @@
+AGENTS.md
+  s_65c3c5c5f93719::t_8dfc94b9717a0d 167
+lib/tasks/fixtures.rake
+  s_65c3c5c5f93719::t_8dfc94b9717a0d 806-807,810
+spec/tasks/staging_fixture_state_spec.rb
+  s_65c3c5c5f93719::t_39bbb4c9ed6850 212-216,218-219
+  ai_agent 217
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3ea48354a8c776ea43a1bcef40cde8d4e3f00ef5",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
