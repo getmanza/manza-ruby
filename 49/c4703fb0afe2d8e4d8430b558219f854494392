@@ -1,0 +1,129 @@
+spec/fixtures/cassettes/accounts/list_transactions.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134,136,138
+spec/fixtures/cassettes/transfer_drafts/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 9,44,103,127,134-136
+spec/fixtures/cassettes/beneficiaries/create_external_account.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 44,103,127,134,136
+spec/fixtures/cassettes/webhook_endpoints/delete.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 39,118,128
+spec/fixtures/cassettes/beneficiaries/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 44,103,127,134-136
+spec/fixtures/cassettes/webhook_endpoints/test.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,124,131-132
+spec/fixtures/cassettes/transfer_drafts/create_duplicate.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,120,129
+examples/transfer_authorizer/preflight.rb
+  s_65c3c5c5f93719::t_9588c0da74631f 28-30,150-151,209
+spec/fixtures/cassettes/accounts/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/beneficiaries/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,126,136
+spec/fixtures/cassettes/payment_links/cancel.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-136,138
+examples/transfer_authorizer/config.ru
+  s_65c3c5c5f93719::t_9588c0da74631f 18
+spec/fixtures/cassettes/checkout_sessions/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-135
+spec/fixtures/cassettes/beneficiaries/get_external_account.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134
+spec/fixtures/cassettes/entity/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,126,134
+spec/fixtures/cassettes/checkout_sessions/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 44,103,127,135-136
+spec/fixtures/cassettes/transfer_drafts/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/transfer_drafts/authorize_new_payee.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-136
+spec/fixtures/cassettes/customers/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134-135
+spec/examples/preflight_spec.rb
+  s_65c3c5c5f93719::t_9588c0da74631f 125-138
+spec/fixtures/cassettes/accounts/list_currency_filtered.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/customers/delete.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 39,118,128
+spec/fixtures/cassettes/invoices/update.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134-135
+spec/fixtures/cassettes/webhook_endpoints/disable.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-137
+spec/fixtures/cassettes/transfer_drafts/authorize_bad_signature.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,120,128
+Rakefile
+  s_65c3c5c5f93719::t_9588c0da74631f 40-41
+spec/fixtures/cassettes/webhook_endpoints/regenerate_secret.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-137
+spec/fixtures/cassettes/customers/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133,135-136
+spec/fixtures/cassettes/beneficiaries/list_external_accounts.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,135
+spec/fixtures/cassettes/payment_links/list.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-136,138
+spec/fixtures/cassettes/customers/update.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,136-137
+spec/fixtures/cassettes/transfer_authorizer/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/payment_links/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 44,103,127,134-135,137
+spec/fixtures/cassettes/transfer_drafts/authorize_same_key.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,122,131
+spec/fixtures/cassettes/payee_trust_requests/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/beneficiaries/list.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133,135,138
+spec/fixtures/cassettes/accounts/get_transaction.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134,136,138
+spec/fixtures/cassettes/transfer_drafts/decline.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 46,105,129,136-137
+spec/fixtures/cassettes/invoices/list.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134-138
+spec/fixtures/cassettes/transfer_drafts/authorize.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-136
+spec/fixtures/cassettes/webhook_endpoints/update.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-137
+spec/fixtures/cassettes/transfer_drafts/get_refused.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/manza/resources/transfer_drafts_spec.rb
+  s_65c3c5c5f93719::t_9588c0da74631f 15
+spec/fixtures/cassettes/payee_trust_requests/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/webhook_endpoints/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-135
+spec/fixtures/cassettes/payment_links/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134,136
+spec/fixtures/cassettes/accounts/list.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,133-134
+spec/fixtures/cassettes/invoices/delete.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 39,118,128
+spec/fixtures/cassettes/webhook_endpoints/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 44,103,127,134-136
+spec/fixtures/cassettes/customers/list_q_filtered.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 41,124,132
+spec/fixtures/cassettes/webhook_endpoints/list.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 41,100,124,131-136
+spec/fixtures/cassettes/invoices/get.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 41,100,124,132-133
+spec/fixtures/cassettes/customers/list.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 41,100,124,132-136
+spec/fixtures/cassettes/invoices/create.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 44,103,127,135-136
+spec/fixtures/cassettes/webhook_endpoints/enable.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 45,104,128,135-137
+spec/fixtures/cassettes/beneficiaries/get_external_account_trusted.yml
+  s_65c3c5c5f93719::t_9414fdc973ec06 43,102,126,134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "49c4703fb0afe2d8e4d8430b558219f854494392",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
