@@ -1,0 +1,9 @@
+lib/manza/resources/transfer_drafts.rb
+  ai_agent 30-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "81bcd79f7e0a09cf58da628444c2105fca1a9a77",
+  "prompts": {}
+}
