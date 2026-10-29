@@ -27,6 +27,9 @@ module Manza
     #   without an authorize: `expired` (no answer within the hour),
     #   `stale` (the draft, its payee's bank details or the endpoint changed
     #   while it was open) or `signature_failed` (five invalid signatures).
+    #   One exception: a member who approves the draft in the app while its
+    #   challenge is open supersedes it (`stale`) and the draft executes;
+    #   the draft's own `status` shows that.
     #
     # `authorization` is nil when no authorizer was enrolled.
     #
