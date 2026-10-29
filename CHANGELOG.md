@@ -41,6 +41,18 @@ example) ship here.
   (Rack app plus a creator script and a JSON ledger). Not shipped in the gem.
 - README: "Setup, step by step" for machine-authorized transfers.
 
+### Changed (cassettes)
+
+Two existing cassettes match a different request body. An SDK that replays
+`cassettes-v1.2.0` sends these exact bodies:
+
+- `transfer_drafts/create`: `amount` `"10.00"` (was `"150.00"`, now over the
+  staging per-transfer limit) and a new `internal_notes`
+  `"[zazu-ruby-fixture] create spec - do not approve"`. The response's
+  `authorization` is a `pending` challenge.
+- `beneficiaries/create`: `company_name` `"Manza Fixture Beneficiary spec"`
+  (staging now accepts only unaccented letters, digits and spaces).
+
 ## [1.0.0]
 
 The SDK is renamed from Zazu to Manza and released as `manza` 1.0.0.

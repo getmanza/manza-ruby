@@ -25,9 +25,10 @@ module TransferAuthorizer
 
     def initialize(env: ENV, amount: "10.00", out: $stdout, now: Time.now)
       @env = env
+      @raw_amount = amount
       # Rational parses the API's decimal strings exactly, without the
       # bigdecimal gem (not a default gem since Ruby 3.4).
-      @amount = Rational(amount)
+      @amount = Rational(amount.to_s, exception: false)
       @out = out
       @now = now
       @ok = true
@@ -35,7 +36,8 @@ module TransferAuthorizer
 
     # Prints one line per step; true when no step failed.
     def run
-      return @ok unless keys?
+      fail_step("amount #{@raw_amount.inspect} is not a decimal", "pass an amount like 10.00 or 250.00") unless @amount
+      return @ok unless @ok && keys?
 
       creator_reaches_entity
       authorizer = enrolled_authorizer

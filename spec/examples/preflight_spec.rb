@@ -45,10 +45,12 @@ RSpec.describe TransferAuthorizer::Preflight do
                                                 .to_return(json(200, { "id" => "e1", "name" => "Acme" }))
     stub_request(:get, "#{base_url}/api/transfer_authorizer").with(headers: { "Authorization" => "Bearer key-b" })
                                                              .to_return { json(200, authorizer) }
-    stub_request(:get, "#{base_url}/api/accounts/#{account_id}").to_return(json(200, { "id" => account_id, "currency_code" => "MAD" }))
-    stub_request(:get, "#{base_url}/api/webhook_endpoints/#{endpoint_id}").to_return { json(200, endpoint) }
-    stub_request(:get, "#{base_url}/api/beneficiaries/#{beneficiary_id}")
-      .to_return { json(200, { "id" => beneficiary_id, "external_accounts" => [payee] }) }
+    key_a = { "Authorization" => "Bearer key-a" }
+    beneficiary = { "id" => beneficiary_id, "external_accounts" => [payee] }
+    stub_request(:get, "#{base_url}/api/accounts/#{account_id}")
+      .with(headers: key_a).to_return(json(200, { "id" => account_id, "currency_code" => "MAD" }))
+    stub_request(:get, "#{base_url}/api/webhook_endpoints/#{endpoint_id}").with(headers: key_a).to_return { json(200, endpoint) }
+    stub_request(:get, "#{base_url}/api/beneficiaries/#{beneficiary_id}").with(headers: key_a).to_return { json(200, beneficiary) }
   end
 
   def run(amount: "10.00")
@@ -84,6 +86,14 @@ RSpec.describe TransferAuthorizer::Preflight do
 
     expect(ok).to be(false)
     expect(failures(output).first).to include("MANZA_BENEFICIARY_ID")
+    expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
+  end
+
+  it "fails when the amount is not a decimal" do
+    ok, output = run(amount: "ten")
+
+    expect(ok).to be(false)
+    expect(failures(output).first).to include("\"ten\"", "10.00")
     expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
   end
 
