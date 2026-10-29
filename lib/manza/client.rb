@@ -91,6 +91,10 @@ module Manza
       @payee_trust_requests ||= Resources::PayeeTrustRequests.new(self)
     end
 
+    def transfer_authorizer
+      @transfer_authorizer ||= Resources::TransferAuthorizer.new(self)
+    end
+
     def transfer_drafts
       @transfer_drafts ||= Resources::TransferDrafts.new(self)
     end

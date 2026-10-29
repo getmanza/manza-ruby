@@ -49,6 +49,16 @@ RSpec.describe Manza::Resources::TransferDrafts do
     end
   end
 
+  describe "#get for a draft refused at create time", vcr: { cassette_name: "transfer_drafts/get_refused" } do
+    it "carries the refused authorization and its reason" do
+      response = client.transfer_drafts.get(fixture_id("MANZA_FIXTURE_REFUSED_DRAFT_ID"))
+
+      expect(response.body["id"]).to eq(fixture_id("MANZA_FIXTURE_REFUSED_DRAFT_ID"))
+      expect(response.body.dig("authorization", "status")).to eq("refused")
+      expect(response.body.dig("authorization", "refusal_reason")).to eq("over_transfer_limit")
+    end
+  end
+
   describe "#authorize with a blank signature" do
     it "raises locally without calling the API" do
       expect { client.transfer_drafts.authorize("draft", authorization_id: "auth", signature: " ") }
@@ -116,6 +126,47 @@ RSpec.describe Manza::Resources::TransferDrafts do
         expect(response.status).to eq(200)
         expect(response.body["id"]).to eq(draft_id)
         expect(response.body.dig("authorization", "status")).to eq("authorized")
+      end
+    end
+
+    # The fresh bank account was never trusted; with "Approve transfers to
+    # new payees" on, the authorizer approves it and the signature trusts it.
+    describe "#authorize a transfer to a new payee",
+             vcr: { cassette_name: "transfer_drafts/authorize_new_payee", match_requests_on: %i[method uri body_without_signature] } do
+      it "executes the draft" do
+        draft_id = fixture_id("MANZA_FIXTURE_NEW_PAYEE_DRAFT_ID")
+        input = Manza::TransferAuthorization.signature_input(
+          payment_id: draft_id,
+          nonce: fixture_id("MANZA_FIXTURE_NEW_PAYEE_NONCE"),
+          amount: "10.0",
+          currency_code: "MAD",
+          account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
+          payee: Manza::TransferAuthorization.payee_for(external_account_id: fixture_id("MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID")),
+          client_reference: fixture_id("MANZA_FIXTURE_NEW_PAYEE_CLIENT_REFERENCE")
+        )
+
+        response = manza_authorizer_client.transfer_drafts.authorize(
+          draft_id,
+          authorization_id: fixture_id("MANZA_FIXTURE_NEW_PAYEE_AUTHORIZATION_ID"),
+          signature: Manza::TransferAuthorization.sign(secret: authorizer_signing_secret, signature_input: input)
+        )
+
+        expect(response.status).to eq(200)
+        expect(response.body["id"]).to eq(draft_id)
+        expect(response.body.dig("authorization", "status")).to eq("authorized")
+      end
+    end
+
+    # Records after the new-payee authorize: its signature trusted the payee.
+    describe "the new payee's bank account afterwards", vcr: { cassette_name: "beneficiaries/get_external_account_trusted" } do
+      it "is trusted" do
+        response = client.beneficiaries.get_external_account(
+          fixture_id("MANZA_FIXTURE_CREATED_BENEFICIARY_ID"),
+          fixture_id("MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID")
+        )
+
+        expect(response.body["id"]).to eq(fixture_id("MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID"))
+        expect(response.body["trusted"]).to be(true)
       end
     end
   end
