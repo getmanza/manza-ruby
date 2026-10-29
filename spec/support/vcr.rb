@@ -27,6 +27,7 @@
 #       bank_identifier → "<BANK_IDENTIFIER>"
 #       next_cursor    → "<NEXT_CURSOR>" (encodes a real non-fixture record)
 #       balance, account_balance_after → "1000.0" (synthetic decimal)
+#       daily_authorized_total → "0.0" (synthetic decimal)
 # Even if a developer pastes a real key into a test or pulls one
 # from .env, the committed cassette is scrubbed.
 
@@ -95,7 +96,9 @@ SENSITIVE_FIELD_PLACEHOLDERS = {
   # Account balances: a synthetic decimal string, so the field keeps the
   # wire type other SDKs parse while the real figure stays out of git.
   "balance" => "1000.0",
-  "account_balance_after" => "1000.0"
+  "account_balance_after" => "1000.0",
+  # The authorizer's last-24-hours usage: grows with every record run.
+  "daily_authorized_total" => "0.0"
 }.freeze
 
 # Recursively replace sensitive field values with placeholders.

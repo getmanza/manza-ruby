@@ -53,8 +53,8 @@ module Manza
       # scope on a key other than the draft's creator (otherwise 403
       # `same_key_forbidden`), bound to an IP allowlist (otherwise 403
       # `unrestricted_api_key`). A 409 {Manza::ConflictError} with `type`
-      # `authorization_busy` means a bank-detail edit or trust was in
-      # flight: retry. A blank signature is refused locally: the API counts
+      # `authorization_busy` means a bank-detail edit, trust or trust
+      # revocation on the payee was in flight: retry. A blank signature is refused locally: the API counts
       # it as a failed attempt, and five fail the challenge.
       def authorize(id, authorization_id:, signature:)
         raise Manza::ArgumentError, "signature cannot be blank" if signature.to_s.strip.empty?

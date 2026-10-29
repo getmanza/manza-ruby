@@ -130,6 +130,6 @@ http_interactions:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"currency_code":"MAD","webhook_endpoint_id":"01a0fcf7-cf63-798e-9d22-855756ccf684","status":"active","suspension_reason":null,"per_transfer_limit":"10.0","daily_limit":"500.0","daily_authorized_total":"40.0","secret_expires_at":"2026-12-31T15:23:26+00:00","enrolled_at":"2026-10-02T14:22:54+00:00"}'
+      string: '{"currency_code":"MAD","webhook_endpoint_id":"01a0fcf7-cf63-798e-9d22-855756ccf684","status":"active","suspension_reason":null,"per_transfer_limit":"10.0","daily_limit":"500.0","daily_authorized_total":"0.0","secret_expires_at":"2026-12-31T15:23:26+00:00","enrolled_at":"2026-10-02T14:22:54+00:00"}'
   recorded_at: Thu, 29 Oct 2026 06:57:07 GMT
 recorded_with: VCR 6.4.0

@@ -46,14 +46,15 @@ example) ship here.
 Two existing cassettes match a different request body. An SDK that replays
 `cassettes-v1.2.0` sends these exact bodies:
 
-- `transfer_drafts/create`: `amount` `"10.00"` (was `"150.00"`, now over the
-  staging per-transfer limit) and a new `internal_notes`
+- `transfer_drafts/create`: `amount` `"10.00"`, the staging per-transfer
+  limit (the old `"150.00"` exceeds it and was refused), and a new `internal_notes`
   `"[zazu-ruby-fixture] create spec - do not approve"`. The response's
   `authorization` is a `pending` challenge.
 - `beneficiaries/create`: `company_name` `"Manza Fixture Beneficiary spec"`
   (staging now accepts only unaccented letters, digits and spaces).
 - Account `balance` and transaction `account_balance_after` are scrubbed to
-  the synthetic decimal `"1000.0"` in every cassette.
+  the synthetic decimal `"1000.0"`, and the authorizer's
+  `daily_authorized_total` to `"0.0"`, in every cassette.
 
 ## [1.0.0]
 
