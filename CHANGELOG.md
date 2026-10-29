@@ -7,8 +7,30 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.2.0]
+
+1.1.0 was never published: its changes (the webhook verifier and the
+example) ship here.
+
 ### Added
 
+- `manza.transfer_authorizer.get` (`GET /api/transfer_authorizer`): the
+  enrolled authorizer's `status`, `suspension_reason`, limits,
+  `daily_authorized_total`, `secret_expires_at` and `webhook_endpoint_id`.
+  Raises `Manza::NotFoundError` when none is enrolled.
+- Documented the new pass-through fields: a draft's `authorization` carries
+  `refusal_reason` (status `refused` when it went to the approvers at
+  create time), bank accounts carry `trusted`, and the challenge webhook's
+  `payment.payee_trusted` says whether the payee was trusted already.
+- `examples/transfer_authorizer/`: `preflight.rb` checks every setup step
+  and prints the fix; `create_transfer.rb` prints the authorization status
+  and refusal reason in words; the authorizer logs a new payee, declines it
+  with `ALLOW_NEW_PAYEES=false`, and retries 409 `authorization_busy`.
+- README: setup step 6 is "Approve transfers to new payees" (or trust each
+  payee), step 7 the preflight.
+- Cassettes re-recorded against `ma.manza.dev`, with new ones for
+  `transfer_authorizer/get`, a refused draft, a new-payee authorize and the
+  payee trusted afterwards.
 - `Manza::Webhook` verifies incoming webhook deliveries: `verify?` (boolean),
   `construct_event` (returns the parsed event, raises `Manza::ArgumentError`)
   and `sign`. Reads `X-Manza-*` headers in any case, the Rack `HTTP_X_MANZA_*`
@@ -18,6 +40,22 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - `examples/transfer_authorizer/`: a runnable two-key transfer authorizer
   (Rack app plus a creator script and a JSON ledger). Not shipped in the gem.
 - README: "Setup, step by step" for machine-authorized transfers.
+
+### Changed (cassettes)
+
+Two existing cassettes match a different request body. An SDK that replays
+`cassettes-v1.2.0` sends these exact bodies:
+
+- `transfer_drafts/create`: `amount` `"10.00"`, the staging per-transfer
+  limit (the old `"150.00"` exceeds it and was refused), and a new `internal_notes`
+  `"[zazu-ruby-fixture] create spec - do not approve"`. The response's
+  `authorization` is a `pending` challenge.
+- `beneficiaries/create`: `company_name` `"Manza Fixture Beneficiary spec"`
+  (staging now accepts only unaccented letters, digits and spaces).
+
+Responses are scrubbed further: account `balance` and transaction
+`account_balance_after` read the synthetic decimal `"1000.0"`, and the
+authorizer's `daily_authorized_total` reads `"0.0"`, in every cassette.
 
 ## [1.0.0]
 

@@ -38,7 +38,7 @@
 #   MANZA_STAGING_AUTHORIZER_PORT — local port the authorizer endpoint's
 #                              tunnel forwards to (default 4599).
 #
-# Staging setup. Steps 1-4 are kept in place by `sdk_fixtures_ensure`
+# Staging setup. Steps 1-4 and 6 are kept in place by `sdk_fixtures_ensure`
 # through the `manza` MCP gateway (AGENTS.md → Staging fixture state);
 # `rake fixtures:preflight` (run by seed and record) aborts before
 # anything is deleted when the authorizer is not active. Declared state:
@@ -52,15 +52,20 @@
 #      this creating key refused by the same-key rule, which sits behind
 #      the scope check (without the scope it records insufficient_scope).
 #   3. MANZA_STAGING_AUTHORIZER_API_KEY holds `transfers:authorize`, and
-#      both keys allowlist this machine's public addresses.
-#   4. The transfer authorizer is active, with limits covering 10.00 MAD
-#      (the API minimum) and its signing secret in
-#      MANZA_STAGING_AUTHORIZER_SECRET (`sdk_fixtures_rotate_secret` when
-#      it nears expiry).
+#      both keys allowlist this machine's public addresses. The creating
+#      key needs its allowlist for the new-payee draft too: one created by
+#      a key without one is refused `unrestricted_api_key`.
+#   4. The transfer authorizer is active, with a per-transfer limit of
+#      10.00 MAD (the API minimum: the refused draft goes over it) and its
+#      signing secret in MANZA_STAGING_AUTHORIZER_SECRET
+#      (`sdk_fixtures_rotate_secret` when it nears expiry).
 #   5. A beneficiary's default bank account is a trusted payee
 #      (`sdk_fixtures_trust_payee`), and the beneficiary's id is stored as
 #      MANZA_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so
 #      the money comes back, and keep a balance on MANZA_FIXTURE_ACCOUNT_ID.
+#   6. "Approve transfers to new payees" is on, with a new-payee limit of
+#      at least 10.00 MAD (`trust_new_payees` / `new_payee_limit` in the
+#      declared state).
 #
 # The one human step left: enrolling the authorizer in the app (OTP),
 # with a webhook endpoint at a stable tunnel URL (cloudflared / ngrok
@@ -68,8 +73,10 @@
 # creator must be an active member allowed to authorize and delete
 # payments.
 #
-# MONEY MOVES: the authorize cassette executes a real 10.00 MAD transfer
-# to the trusted payee on every re-record.
+# MONEY MOVES: every re-record executes two real 10.00 MAD transfers. The
+# authorize cassette pays the trusted payee (an entity-owned account, so
+# the money comes back); authorize_new_payee pays the freshly seeded
+# bank account, a random RIB, and that money does not come back.
 #
 # The machine-authorization challenge expires after 1h, so seed and
 # record must run in the same `rake fixtures:record`. Seed and record
@@ -102,7 +109,7 @@ module Fixtures
       MANZA_FIXTURE_BENEFICIARY_ID MANZA_STAGING_AUTHORIZER_API_KEY MANZA_STAGING_AUTHORIZER_SECRET
     ].freeze
 
-    # Seconds to wait for the three payment.authorization_requested webhooks.
+    # Seconds to wait for the four payment.authorization_requested webhooks.
     AUTHORIZATION_WEBHOOK_TIMEOUT = 120
 
     # Keys we will print to stdout, in .env-paste-ready order.
@@ -142,6 +149,11 @@ module Fixtures
       MANZA_FIXTURE_DECLINABLE_AUTHORIZATION_ID
       MANZA_FIXTURE_BAD_SIGNATURE_AUTHORIZATION_ID
       MANZA_FIXTURE_AUTHORIZABLE_NONCE
+      MANZA_FIXTURE_REFUSED_DRAFT_ID
+      MANZA_FIXTURE_NEW_PAYEE_DRAFT_ID
+      MANZA_FIXTURE_NEW_PAYEE_AUTHORIZATION_ID
+      MANZA_FIXTURE_NEW_PAYEE_NONCE
+      MANZA_FIXTURE_NEW_PAYEE_CLIENT_REFERENCE
     ].freeze
 
     def initialize
@@ -201,6 +213,9 @@ module Fixtures
 
       log "Seeding machine-authorization drafts (waiting for webhooks)…"
       seed_machine_authorizations!
+
+      log "Seeding a draft over the per-transfer limit…"
+      seed_refused_draft!
 
       emit_env_block
     end
@@ -401,11 +416,13 @@ module Fixtures
     # There is no delete endpoint for beneficiaries, bank accounts or
     # trust requests. API-created ones stay on staging, inert, and are
     # excluded from teardown. The trust request stays `pending`: nobody
-    # approves it, so the seeded account never becomes a trusted payee.
+    # approves it. The account becomes a trusted payee only when the
+    # authorize_new_payee spec authorizes the new-payee draft to it.
     def seed_beneficiary!
       beneficiary = @client.beneficiaries.create(
         beneficiary_type: "business",
-        company_name: "Manza Fixture Beneficiary - created (#{fixture_marker})",
+        # Letters without accents, digits and spaces only: no fixture marker.
+        company_name: "Manza Fixture Beneficiary created",
         email: "fixture-created-beneficiary-#{SecureRandom.hex(4)}@example.com"
       ).body
       account = @client.beneficiaries.create_external_account(
@@ -425,20 +442,32 @@ module Fixtures
 
     # Three drafts to the trusted payee, each answered by a different
     # spec: authorize (200, executes 10.00 MAD), decline (200), and a bad
-    # signature (422). The authorization id and nonce arrive only in the
-    # payment.authorization_requested webhook, so the local receiver
-    # captures them.
+    # signature (422). A fourth goes to the freshly seeded bank account,
+    # whose bank details were never trusted: with "Approve transfers to new
+    # payees" on (setup step 6) it is challenged too, and authorize_new_payee
+    # executes it and trusts the account. The authorization id and nonce
+    # arrive only in the payment.authorization_requested webhook, so the
+    # local receiver captures them.
     #
     # Like the seed draft, the bad-signature draft is left with a failed
     # attempt and falls back to the in-app approvers after 1h; the
     # declined one is deleted. Do not approve leftovers.
     def seed_machine_authorizations!
-      drafts = %w[authorizable declinable bad_signature].to_h do |kind|
-        [kind, create_machine_draft!(kind)]
-      end
+      trusted = { beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
+                  external_account_id: @ids.fetch("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID") }
+      new_payee = { beneficiary_id: @ids.fetch("MANZA_FIXTURE_CREATED_BENEFICIARY_ID"),
+                    external_account_id: @ids.fetch("MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID") }
+      drafts = { "authorizable" => trusted, "declinable" => trusted, "bad_signature" => trusted, "new_payee" => new_payee }
+               .to_h { |kind, payee| [kind, create_machine_draft!(kind, **payee)] }
       @ids["MANZA_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE"] = drafts["authorizable"]["client_reference"]
+      @ids["MANZA_FIXTURE_NEW_PAYEE_CLIENT_REFERENCE"] = drafts["new_payee"]["client_reference"]
 
       challenges = @receiver.wait_for(drafts.values.map { |d| d["id"] }, timeout: AUTHORIZATION_WEBHOOK_TIMEOUT)
+      new_payee_challenge = challenges.fetch(drafts["new_payee"]["id"])
+      unless new_payee_challenge["payee_trusted"] == false
+        raise "The new-payee challenge says payee_trusted #{new_payee_challenge["payee_trusted"].inspect}, not false: " \
+              "the seeded bank account was already trusted, so authorize_new_payee would not record a new payee."
+      end
 
       drafts.each do |kind, draft|
         prefix = "MANZA_FIXTURE_#{kind.upcase}"
@@ -446,21 +475,48 @@ module Fixtures
         @ids["#{prefix}_AUTHORIZATION_ID"] = challenges.fetch(draft["id"]).fetch("authorization_id")
       end
       @ids["MANZA_FIXTURE_AUTHORIZABLE_NONCE"] = challenges.fetch(drafts["authorizable"]["id"]).fetch("nonce")
+      @ids["MANZA_FIXTURE_NEW_PAYEE_NONCE"] = new_payee_challenge.fetch("nonce")
     end
 
-    def create_machine_draft!(kind)
+    # A refusal at create time is recorded on the draft (`authorization`
+    # with status `refused` and a `refusal_reason`), so `authorization`
+    # being present does not mean a challenge went out: check `pending`.
+    def create_machine_draft!(kind, beneficiary_id:, external_account_id:)
       draft = @client.transfer_drafts.create(
         account_id: @account_id,
-        beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
-        external_account_id: @ids.fetch("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),
+        beneficiary_id: beneficiary_id,
+        external_account_id: external_account_id,
         amount: "10.00",
         payment_reference: fixture_marker(kind.tr("_", "-")),
         client_reference: random_client_reference(kind)
       ).body
-      return draft if draft["authorization"]
+      authorization = draft["authorization"] || {}
+      return draft if authorization["status"] == "pending"
 
-      raise "Draft #{draft["id"]} (#{kind}) went to the in-app approvers instead of the authorizer. " \
-            "Run sdk_fixtures_ensure (AGENTS.md → Staging fixture state), then check setup step 5 in lib/tasks/fixtures.rake."
+      raise "Draft #{draft["id"]} (#{kind}) went to the in-app approvers instead of the authorizer " \
+            "(authorization #{authorization["status"].inspect}, refusal_reason #{authorization["refusal_reason"].inspect}). " \
+            "Run sdk_fixtures_ensure (AGENTS.md → Staging fixture state), then check setup steps 5 and 6 in lib/tasks/fixtures.rake."
+    end
+
+    # Over the 10.00 MAD per-transfer limit (setup step 4), to the trusted
+    # payee: the limit is checked before the payee, so the reason is always
+    # over_transfer_limit. It goes to the in-app approvers. Do not approve it.
+    def seed_refused_draft!
+      draft = @client.transfer_drafts.create(
+        account_id: @account_id,
+        beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
+        external_account_id: @ids.fetch("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),
+        amount: "11.00",
+        payment_reference: fixture_marker("refused"),
+        internal_notes: "[#{FIXTURE_TAG}] refused draft — do not approve"
+      ).body
+      authorization = draft["authorization"] || {}
+      unless authorization.values_at("status", "refusal_reason") == %w[refused over_transfer_limit]
+        raise "Draft #{draft["id"]} was not refused over_transfer_limit (authorization #{authorization.inspect}): " \
+              "is the per-transfer limit still 10.00 MAD? Run sdk_fixtures_ensure."
+      end
+
+      @ids["MANZA_FIXTURE_REFUSED_DRAFT_ID"] = draft["id"]
     end
 
     # --- Teardown steps -----------------------------------------------------
@@ -490,10 +546,11 @@ module Fixtures
 
     def stale_payment_links
       stale_records(@client.payment_links) do |pl|
-        # Payment links can't be hard-deleted via the API. Once
-        # cancelled, treat them as gone for the purpose of seed-time
+        # Payment links can't be hard-deleted via the API, and only an
+        # active one can be cancelled. Once cancelled, paid or otherwise
+        # closed, treat it as gone for the purpose of seed-time
         # staleness — the next seed will create fresh ones.
-        next false if pl["status"] == "cancelled"
+        next false unless pl["status"] == "active"
 
         fixture_record?(pl["title"]) || fixture_record?(pl["description"])
       end
@@ -670,7 +727,7 @@ module Fixtures
       end
     end
 
-    # Returns { payment_id => { "authorization_id", "nonce" } } once
+    # Returns { payment_id => { "authorization_id", "nonce", "payee_trusted" } } once
     # every id has arrived.
     def wait_for(payment_ids, timeout:)
       deadline = Time.now + timeout
@@ -728,7 +785,8 @@ module Fixtures
       @mutex.synchronize do
         @challenges[data.dig("payment", "id")] = {
           "authorization_id" => data.dig("authorization", "id"),
-          "nonce" => data.dig("authorization", "nonce")
+          "nonce" => data.dig("authorization", "nonce"),
+          "payee_trusted" => data.dig("payment", "payee_trusted")
         }
       end
     end

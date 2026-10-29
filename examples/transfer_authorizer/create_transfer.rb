@@ -10,6 +10,7 @@ Dotenv.overload(File.expand_path(".env", __dir__))
 require "securerandom"
 require "manza"
 require_relative "ledger"
+require_relative "routing"
 
 amount = ARGV.fetch(0, "10.00")
 client_reference = "example-#{SecureRandom.hex(6)}"
@@ -52,8 +53,4 @@ rescue StandardError => e
 end
 puts "created payment #{draft["id"]}: #{draft["amount"]} #{draft["currency_code"]} to #{payee} (client_reference #{client_reference})"
 
-if draft["authorization"]
-  puts "challenge sent, waiting for the authorizer: watch the rackup terminal"
-else
-  puts "sent to your approvers, not the authorizer: see Troubleshooting in README.md"
-end
+puts TransferAuthorizer::Routing.describe(draft["authorization"])

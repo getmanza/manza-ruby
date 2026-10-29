@@ -20,6 +20,8 @@ RSpec.describe Manza::Resources::Beneficiaries do
 
       expect(response.body["id"]).to be_a(String)
       expect(response.body["external_accounts"]).to be_an(Array)
+      # Setup step 5: the default bank account is a trusted payee.
+      expect(response.body["external_accounts"].find { |a| a["default"] }["trusted"]).to be(true)
     end
   end
 
@@ -27,7 +29,7 @@ RSpec.describe Manza::Resources::Beneficiaries do
     it "creates a beneficiary" do
       response = client.beneficiaries.create(
         beneficiary_type: "business",
-        company_name: "Zazu Fixture Beneficiary - spec (zazu-ruby-fixture)",
+        company_name: "Manza Fixture Beneficiary spec",
         email: "fixture-beneficiary-spec@example.com"
       )
 
@@ -57,6 +59,8 @@ RSpec.describe Manza::Resources::Beneficiaries do
 
       expect(response.body["id"]).to eq(fixture_id("MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID"))
       expect(response.body).to have_key("default")
+      # Fresh per seed and never trusted; the new-payee authorize trusts it later.
+      expect(response.body["trusted"]).to be(false)
     end
   end
 
