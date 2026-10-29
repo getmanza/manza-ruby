@@ -58,6 +58,7 @@ manza.transfer_drafts.create(...)
 - **No new error classes without updating other SDKs.** The 10-class hierarchy is shared across SDKs. Adding to it means coordinating manza-ruby + manza-ts at minimum.
 - **Public API breaks are deliberate.** A change that breaks the gem's public API or its compatibility with the Manza API is made only on purpose, named in `CHANGELOG.md` and released as a major version.
 - **`Dotenv.overload`, not `Dotenv.load`.** A stale shell-exported `MANZA_FIXTURE_*` variable will mask the freshly-seeded value otherwise. Both `spec_helper.rb` and `lib/tasks/fixtures.rake` do this.
+- **Staging fixture state is agents' to fix, never production.** Before `rake fixtures:record`, bring MA staging to the declared state yourself ("Staging fixture state" below) without asking. The `sdk_fixtures_*` tools exist on staging only; never point any of it at a production host.
 - **Never escape backticks in PR bodies.** With `<<'EOF'` (single-quoted heredoc) the shell passes everything through verbatim. Typing `` \` `` produces literal `` \` `` in the rendered PR. See "PR descriptions" below.
 
 ## PR descriptions
@@ -142,7 +143,8 @@ bundle exec rubocop                            # lint
 bundle exec rake default                       # spec + rubocop, the canonical pre-commit check
 
 # Re-record cassettes (only when the wire format actually changed)
-bundle exec rake fixtures:record               # teardown → seed → record
+# First bring staging to the declared state: "Staging fixture state" below
+bundle exec rake fixtures:record               # preflight → teardown → seed → record
 bundle exec rspec                              # verify replay-only is green
 
 # Release (after PR merge, from a clean, up-to-date main)
@@ -153,6 +155,23 @@ bin/release minor       # or patch (default), major, an explicit 0.3.0; --force 
 # → release.yml: RubyGems publish + sigstore attestation (shared kit file)
 # → cassettes.yml: cassette tarball uploaded as a release asset for other-language SDKs
 ```
+
+## Staging fixture state
+
+`rake fixtures:record` needs the MA staging fixture entity in a declared state: API flags on, both keys with their scopes and this machine's addresses allowlisted, the transfer authorizer active with its limits and the new-payee toggle on. The declared state is `lib/tasks/staging_fixture_state.json` (not in the gem). Staging drifts (a suspended authorizer, a toggle off, a key without an allowlist); fixing it is the agent's job.
+
+The `manza` MCP server (`.mcp.json`, the gateway at `https://mcp.manza.work/mcp`) exposes the staging-only `sdk_fixtures_*` tools (runbook: getmanza/app `docs/runbooks/sdk-fixtures.md`). Auth is the staff member's Google sign-in, once per machine via `/mcp`; `.claude/settings.json` enables the project server (`enabledMcpjsonServers`), which Claude Code honours once the workspace is trusted: a fresh clone asks to trust the folder first, then needs no separate server approval. There is no MCP token, and none goes in `.env`. Call the `ma_staging` tools (`mcp__manza__ma_staging__sdk_fixtures_*`), never `za_staging`.
+
+Before every `rake fixtures:record`:
+
+1. `bundle exec rake fixtures:staging:ensure_arguments` prints the `sdk_fixtures_ensure` arguments as JSON: both 16-character `key_prefix`es from `.env`, `desired` from the JSON file, and this machine's public IPv4 `/32` and IPv6 `/64` (looked up through ipify) on both keys. The lookup is best effort: a family that fails (no IPv6 on this network, ipify down) is left out with a warning on stderr, and the task aborts only when both fail. Check `desired.creator_key_cidrs` holds what this machine records from, and pass `CIDR=<a>[,<b>]` to replace the lookup when it does not. Never print more than 16 characters of a key.
+2. `sdk_fixtures_status` with the two prefixes from step 1, to see the drift. Its `observed_ip` is the gateway's egress, not this machine: never allowlist it.
+3. `sdk_fixtures_ensure` with the JSON from step 1; `dry_run: true` first if anything looks off. Every line `unchanged` or `changed` is done.
+4. A `failed` `authorizer.secret_expires_at` line: `sdk_fixtures_rotate_secret`, write the returned secret to `.env` as `MANZA_STAGING_AUTHORIZER_SECRET` with an edit, without echoing it, then ensure again.
+5. Any other `failed` line: follow its `fix`. When the tools do not cover it, use `bin/dash app exec -d ma-staging -p -r web --reuse "bin/rails runner '…'"` from `~/Code/manza/app` (its `.ruby-version` Ruby), checking that the destination is `*-staging`, and file a getmanza/app issue to add the gap to the toolset. The same path runs the app's `sdk_fixtures:status` / `sdk_fixtures:ensure` rake tasks when the session has no `manza` MCP tools.
+6. `bundle exec rake fixtures:record`. Its `fixtures:preflight` (also run by `fixtures:seed`) reads `GET /api/transfer_authorizer` with the authorizer key and aborts before teardown deletes anything unless the authorizer is `active`. It cannot see the new-payee toggle; ensure covers that.
+
+The one human step left is enrolling the transfer authorizer in the app (OTP). A trusted payee for `MANZA_FIXTURE_BENEFICIARY_ID` is `sdk_fixtures_trust_payee`.
 
 ## Workflow
 

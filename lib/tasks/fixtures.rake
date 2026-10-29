@@ -26,8 +26,8 @@
 #                              banking-side operation), so this one
 #                              ID has to come from outside.
 #   MANZA_FIXTURE_BENEFICIARY_ID — the beneficiary whose default bank
-#                              account was marked a trusted payee by
-#                              hand (setup step 5). Hand-provided, like
+#                              account is a trusted payee (setup
+#                              step 5). Hand-provided, like
 #                              the account: API-created beneficiaries
 #                              pile up (no delete) and are never trusted.
 #   MANZA_STAGING_AUTHORIZER_API_KEY — a second key with
@@ -38,23 +38,35 @@
 #   MANZA_STAGING_AUTHORIZER_PORT — local port the authorizer endpoint's
 #                              tunnel forwards to (default 4599).
 #
-# One-time manual staging setup (in the staging UI) before the first
-# record of the machine-authorization cassettes:
+# Staging setup. Steps 1-4 are kept in place by `sdk_fixtures_ensure`
+# through the `manza` MCP gateway (AGENTS.md → Staging fixture state);
+# `rake fixtures:preflight` (run by seed and record) aborts before
+# anything is deleted when the authorizer is not active. Declared state:
+# lib/tasks/staging_fixture_state.json.
 #
-#   1. Turn on `release_api_transfers` and
-#      `release_api_webhook_authorization` for the fixture entity.
-#   2. Give MANZA_STAGING_API_KEY the extra scopes `beneficiaries:write`
-#      and `beneficiaries:request_trust`.
-#   3. Create MANZA_STAGING_AUTHORIZER_API_KEY with `transfers:authorize`.
-#      Its creator must be an active member allowed to authorize and
-#      delete payments.
-#   4. Create a webhook endpoint at a stable tunnel URL (cloudflared /
-#      ngrok reserved domain) forwarding to MANZA_STAGING_AUTHORIZER_PORT,
-#      enrol it as the transfer authorizer with limits covering 10.00 MAD (the API minimum),
-#      and store its secret as MANZA_STAGING_AUTHORIZER_SECRET.
-#   5. Mark a beneficiary's default bank account as a trusted payee and
-#      store the beneficiary's id as MANZA_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so the money comes
-#      back, and keep a balance on MANZA_FIXTURE_ACCOUNT_ID.
+#   1. `release_api_transfers` and `release_api_webhook_authorization`
+#      on for the fixture entity.
+#   2. MANZA_STAGING_API_KEY holds the scopes in the declared state,
+#      `beneficiaries:write` and `beneficiaries:request_trust` among them,
+#      and `transfers:authorize`: the authorize_same_key cassette records
+#      this creating key refused by the same-key rule, which sits behind
+#      the scope check (without the scope it records insufficient_scope).
+#   3. MANZA_STAGING_AUTHORIZER_API_KEY holds `transfers:authorize`, and
+#      both keys allowlist this machine's public addresses.
+#   4. The transfer authorizer is active, with limits covering 10.00 MAD
+#      (the API minimum) and its signing secret in
+#      MANZA_STAGING_AUTHORIZER_SECRET (`sdk_fixtures_rotate_secret` when
+#      it nears expiry).
+#   5. A beneficiary's default bank account is a trusted payee
+#      (`sdk_fixtures_trust_payee`), and the beneficiary's id is stored as
+#      MANZA_FIXTURE_BENEFICIARY_ID. Make it an entity-owned account so
+#      the money comes back, and keep a balance on MANZA_FIXTURE_ACCOUNT_ID.
+#
+# The one human step left: enrolling the authorizer in the app (OTP),
+# with a webhook endpoint at a stable tunnel URL (cloudflared / ngrok
+# reserved domain) forwarding to MANZA_STAGING_AUTHORIZER_PORT. Its
+# creator must be an active member allowed to authorize and delete
+# payments.
 #
 # MONEY MOVES: the authorize cassette executes a real 10.00 MAD transfer
 # to the trusted payee on every re-record.
@@ -66,6 +78,9 @@
 # exits, so the authorizer endpoint does not collect failed deliveries.
 
 require "dotenv"
+require "ipaddr"
+require "json"
+require "net/http"
 # Use overload so the file's values beat any stale exports in the
 # developer's shell — `rake fixtures:seed` rewrites IDs into .env on
 # every run, and a stale exported $MANZA_FIXTURE_CUSTOMER_ID would
@@ -445,7 +460,7 @@ module Fixtures
       return draft if draft["authorization"]
 
       raise "Draft #{draft["id"]} (#{kind}) went to the in-app approvers instead of the authorizer. " \
-            "Check the one-time setup in lib/tasks/fixtures.rake: flags, authorizer enrolment and limits, trusted payee."
+            "Run sdk_fixtures_ensure (AGENTS.md → Staging fixture state), then check setup step 5 in lib/tasks/fixtures.rake."
     end
 
     # --- Teardown steps -----------------------------------------------------
@@ -724,11 +739,121 @@ module Fixtures
       nil
     end
   end
+
+  # The staging fixture state that `sdk_fixtures_ensure` keeps in place
+  # (AGENTS.md → Staging fixture state), and the record preflight. The
+  # MCP gateway's Google sign-in happens in the agent session, never in
+  # this process: here we only build the tool's arguments and check the
+  # one thing the public API shows, the authorizer's status.
+  module StagingState
+    STATE_FILE = File.expand_path("staging_fixture_state.json", __dir__)
+    # A key_prefix: the first 16 characters of the raw key, not a secret.
+    PREFIX_LENGTH = 16
+    KEYS = { "creator" => "MANZA_STAGING_API_KEY", "authorizer" => "MANZA_STAGING_AUTHORIZER_API_KEY" }.freeze
+    # ma.manza.dev is dual-stack: allow the machine's IPv4 and the /64 its
+    # rotating IPv6 privacy addresses live in. Each host has records in one
+    # family only, so it answers with that family's address.
+    LOOKUPS = { "api.ipify.org" => 32, "api6.ipify.org" => 64 }.freeze
+    FIX = "run sdk_fixtures_ensure (AGENTS.md → Staging fixture state)"
+    # Staging answers on manza.dev (ma., za.); production on manza.finance.
+    STAGING_DOMAIN = ".manza.dev"
+
+    module_function
+
+    def ensure_arguments(env = ENV)
+      missing = KEYS.values.select { |k| env.fetch(k, "").empty? }
+      abort "Missing required env vars: #{missing.join(", ")}" unless missing.empty?
+
+      cidrs = cidrs(env)
+      desired = JSON.parse(File.read(STATE_FILE)).merge("creator_key_cidrs" => cidrs, "authorizer_key_cidrs" => cidrs)
+      KEYS.to_h { |role, var| ["#{role}_key_prefix", env.fetch(var)[0, PREFIX_LENGTH]] }.merge("desired" => desired)
+    end
+
+    def cidrs(env)
+      override = env.fetch("CIDR", "").split(",").map(&:strip).reject(&:empty?)
+      return override unless override.empty?
+
+      found = LOOKUPS.filter_map { |host, prefix| public_cidr(host, prefix) }
+      abort "Could not look up this machine's public address: pass CIDR=<address>[,<address>]" if found.empty?
+      found
+    end
+
+    # Direct, never through an env proxy: the proxy's egress is not this
+    # machine. The preflight goes direct too, from the address allowlisted here.
+    def public_cidr(host, prefix)
+      body = Net::HTTP.start(host, 443, nil, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get("/").body }
+      address = IPAddr.new(body.strip)
+      family = prefix == 32 ? "IPv4" : "IPv6"
+      return "#{address.mask(prefix)}/#{prefix}" if address.ipv4? == (prefix == 32)
+
+      warn "[fixtures] #{host} answered #{address}: no #{family} to allowlist"
+    rescue SocketError, SystemCallError, Timeout::Error, IOError, OpenSSL::SSL::SSLError, IPAddr::InvalidAddressError => e
+      warn "[fixtures] #{host}: #{e.class}: #{e.message}"
+    end
+
+    # Fails before teardown deletes anything when the authorizer is not
+    # active. It cannot see the new-payee toggle; ensure covers that.
+    def preflight!(env = ENV)
+      missing = %w[MANZA_STAGING_URL MANZA_STAGING_AUTHORIZER_API_KEY].select { |k| env.fetch(k, "").empty? }
+      abort "Missing required env vars: #{missing.join(", ")}" unless missing.empty?
+
+      status, reason = authorizer_state(read_authorizer(env))
+      return if status == "active"
+
+      fix = status == "HTTP 401" ? "check MANZA_STAGING_AUTHORIZER_API_KEY in .env" : FIX
+      abort "authorizer #{status}/#{reason || "none"}: #{fix}"
+    end
+
+    def read_authorizer(env)
+      uri = URI.join(env.fetch("MANZA_STAGING_URL"), "/api/transfer_authorizer")
+      unless uri.scheme == "https" && uri.host.to_s.end_with?(STAGING_DOMAIN)
+        abort "MANZA_STAGING_URL must be an https staging host (*#{STAGING_DOMAIN}): the preflight sends the authorizer key"
+      end
+
+      request = Net::HTTP::Get.new(uri, "Authorization" => "Bearer #{env.fetch("MANZA_STAGING_AUTHORIZER_API_KEY")}",
+                                        "Accept" => "application/json")
+      Net::HTTP.start(uri.host, uri.port, nil, use_ssl: true, open_timeout: 10, read_timeout: 10) do |http|
+        http.request(request)
+      end
+    rescue URI::Error, SocketError, SystemCallError, Timeout::Error, IOError, OpenSSL::SSL::SSLError => e
+      abort "authorizer unreachable/#{e.class}: #{e.message}: check MANZA_STAGING_URL and the network"
+    end
+
+    # [status, reason]: the authorizer's own on a 200, else the HTTP status
+    # and the API error's type.
+    def authorizer_state(response)
+      body = parse_json(response.body)
+      case response.code.to_i
+      when 200 then [body["status"], body["suspension_reason"]]
+      when 404 then ["not enrolled (HTTP 404)", nil]
+      else ["HTTP #{response.code}", (body["error"]["type"] if body["error"].is_a?(Hash))]
+      end
+    end
+
+    def parse_json(text)
+      parsed = JSON.parse(text.to_s)
+      parsed.is_a?(Hash) ? parsed : {}
+    rescue JSON::ParserError
+      {}
+    end
+  end
 end
 
 namespace :fixtures do
+  desc "Abort unless the staging transfer authorizer is active (runs before seed and record)"
+  task :preflight do
+    Fixtures::StagingState.preflight!
+  end
+
+  namespace :staging do
+    desc "Print sdk_fixtures_ensure arguments as JSON (CIDR=<a>[,<b>] overrides the address lookup)"
+    task :ensure_arguments do
+      puts JSON.pretty_generate(Fixtures::StagingState.ensure_arguments)
+    end
+  end
+
   desc "Create fixture records on staging and print .env-paste-ready IDs"
-  task :seed do
+  task seed: :preflight do
     Fixtures::Seeder.new.run!
   end
 

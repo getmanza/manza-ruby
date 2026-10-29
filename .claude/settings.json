@@ -8,5 +8,6 @@
       "autoUpdate": true
     }
   },
-  "enabledPlugins": { "flow@zoolutions": true }
+  "enabledPlugins": { "flow@zoolutions": true },
+  "enabledMcpjsonServers": ["manza"]
 }
