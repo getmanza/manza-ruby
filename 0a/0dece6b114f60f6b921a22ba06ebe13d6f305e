@@ -1,0 +1,13 @@
+examples/transfer_authorizer/README.md
+  ai_agent 25,37
+examples/transfer_authorizer/preflight.rb
+  ai_agent 186-187
+lib/manza/resources/transfer_drafts.rb
+  ai_agent 67-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "0a0dece6b114f60f6b921a22ba06ebe13d6f305e",
+  "prompts": {}
+}
