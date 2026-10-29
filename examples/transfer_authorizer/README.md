@@ -22,7 +22,7 @@ bundle exec ruby preflight.rb          # or: bundle exec ruby preflight.rb 250.0
 
 ## Preflight
 
-`preflight.rb` runs each applicable check in order (a missing key or id stops it before any request; without an enrolled authorizer the checks that need it are skipped) and prints one line per check: `✓` passed, `✗` failed (followed by the fix; the exit status is 1), `!` a warning the API cannot settle.
+`preflight.rb` runs each applicable check in order (a missing key or id, or the same key twice, stops it before any request; when key B cannot read an enrolled authorizer, the checks that need it are skipped) and prints one line per check: `✓` passed, `✗` failed (followed by the fix; the exit status is 1), `!` a warning the API cannot settle.
 
 | Check | Fails when |
 |---|---|
