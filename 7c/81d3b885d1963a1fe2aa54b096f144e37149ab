@@ -1,0 +1,31 @@
+spec/fixtures/cassettes/accounts/get.yml
+  s_65c3c5c5f93719::t_99b0e892069289 133
+spec/fixtures/cassettes/accounts/list.yml
+  s_65c3c5c5f93719::t_99b0e892069289 133
+spec/fixtures/cassettes/accounts/get_transaction.yml
+  s_65c3c5c5f93719::t_99b0e892069289 134
+spec/fixtures/cassettes/accounts/list_transactions.yml
+  s_65c3c5c5f93719::t_99b0e892069289 134
+spec/fixtures/cassettes/accounts/list_currency_filtered.yml
+  s_65c3c5c5f93719::t_99b0e892069289 133
+spec/support/vcr.rb
+  s_65c3c5c5f93719::t_99b0e892069289 29,94-98
+CHANGELOG.md
+  ai_agent 55-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7c81d3b885d1963a1fe2aa54b096f144e37149ab",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "unknown"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
