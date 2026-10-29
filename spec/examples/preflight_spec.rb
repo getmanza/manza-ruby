@@ -99,9 +99,19 @@ RSpec.describe TransferAuthorizer::Preflight do
   end
 
   it "fails when the amount is not positive" do
-    _, output = run(amount: "-5")
+    %w[-5 0].each do |amount|
+      _, output = run(amount: amount)
 
-    expect(failures(output).first).to include("\"-5\"", "positive")
+      expect(failures(output).first).to include(amount.inspect, "positive")
+    end
+  end
+
+  it "stops before any request on a missing key, even with a bad amount" do
+    env["MANZA_CREATOR_API_KEY"] = ""
+    _, output = run(amount: "0")
+
+    expect(failures(output).size).to eq(2)
+    expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
   end
 
   it "fails when both keys are the same" do
@@ -153,6 +163,20 @@ RSpec.describe TransferAuthorizer::Preflight do
     expect(failures(output).first).to include("key A", "MANZA_BENEFICIARY_ID")
   end
 
+  it "fails once, on the authorizer line, when the secret has expired" do
+    authorizer.merge!("status" => "suspended", "suspension_reason" => "secret_expired", "secret_expires_at" => "2026-10-19T00:00:00Z")
+    _, output = run
+
+    expect(failures(output)).to contain_exactly(a_string_including("suspended (secret_expired)", "rotates the secret"))
+  end
+
+  it "fails when the enrolled webhook endpoint was deleted" do
+    stub_request(:get, "#{base_url}/api/webhook_endpoints/#{endpoint_id}").to_return(error(404, "not_found_error"))
+    _, output = run
+
+    expect(failures(output).first).to include("was deleted", "enrol")
+  end
+
   it "fails with the suspension reason and its fix" do
     authorizer.merge!("status" => "suspended", "suspension_reason" => "endpoint_disabled")
     _, output = run
@@ -185,7 +209,7 @@ RSpec.describe TransferAuthorizer::Preflight do
     endpoint["status"] = "disabled"
     _, output = run
 
-    expect(failures(output).first).to include("disabled", "enable")
+    expect(failures(output).first).to include("disabled", "enable", "if the authorizer stays suspended")
   end
 
   it "warns when the endpoint is on a URL that changes when the tunnel restarts" do

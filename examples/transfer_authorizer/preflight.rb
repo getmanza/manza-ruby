@@ -46,7 +46,8 @@ module TransferAuthorizer
       authorizer = enrolled_authorizer
       if authorizer
         currency_matches(authorizer)
-        secret_fresh(authorizer)
+        # An expired secret already failed the authorizer line, with its fix.
+        secret_fresh(authorizer) unless authorizer["suspension_reason"] == "secret_expired"
       end
       secret_set
       if authorizer
@@ -138,7 +139,8 @@ module TransferAuthorizer
         pass("webhook endpoint #{endpoint["url"]} is enabled")
       else
         fail_step("webhook endpoint #{endpoint["url"]} is #{endpoint["status"]}",
-                  "enable it (webhook_endpoints.enable(#{endpoint["id"].inspect})), then an approver resumes the authorizer")
+                  "enable it (webhook_endpoints.enable(#{endpoint["id"].inspect})); if the authorizer stays suspended, " \
+                  "an approver resumes it in the app")
       end
       host = URI(endpoint["url"].to_s).host.to_s
       unstable = UNSTABLE_TUNNEL_HOSTS.find { |domain| host.end_with?(domain) }
@@ -146,6 +148,9 @@ module TransferAuthorizer
 
       warn_step("webhook endpoint is on #{unstable}, whose URL changes when the tunnel restarts",
                 "use a reserved domain or a named tunnel, then enrol an endpoint at that URL")
+    rescue Manza::NotFoundError
+      fail_step("the enrolled webhook endpoint #{authorizer["webhook_endpoint_id"]} was deleted",
+                "create an endpoint at a stable URL and enrol it in Settings → Developer → Transfer approval")
     rescue Manza::Error => e
       fail_step("key A cannot read the enrolled webhook endpoint: #{describe(e)}",
                 key_fix(e, "MANZA_CREATOR_API_KEY", "webhook_endpoints:read"))
