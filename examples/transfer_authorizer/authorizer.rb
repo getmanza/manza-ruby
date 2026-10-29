@@ -32,7 +32,7 @@ module TransferAuthorizer
     }.freeze
 
     # Failures worth another try: the API did not answer, asked us to slow
-    # down, or was busy with a bank-detail edit or trust on the same payee
+    # down, or was busy with a bank-detail edit, trust or revocation on the same payee
     # (409 `authorization_busy`). Authorize and decline replay idempotently,
     # so a retry is safe.
     TRANSIENT_ERRORS = [Manza::ServerError, Manza::ConnectionError, Manza::RateLimitError].freeze

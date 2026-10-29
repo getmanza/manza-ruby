@@ -75,7 +75,7 @@ The authorizer (`rackup`):
 | `ledger match for …` | The draft's id, amount, currency, account and payee match `ledger.json` |
 | `new payee ext:…, will be trusted on authorize` | The webhook's `payment.payee_trusted` is `false`: *Approve transfers to new payees* is on and these bank details were never trusted. The authorize trusts them |
 | `signature input differs from the webhook's: …` | The input built from the ledger is not the webhook's `signature_input`, so a signature would fail and count toward suspension. The challenge is left unanswered and goes to your approvers when it expires; compare the two strings |
-| `… retrying in Ns` | The API timed out, answered 5xx, rate-limited, or answered 409 `authorization_busy` (the payee's bank details were being edited or trusted). Authorize and decline replay idempotently; after three attempts the `API error` line follows and the challenge goes to your approvers when it expires |
+| `… retrying in Ns` | The API timed out, answered 5xx, rate-limited, or answered 409 `authorization_busy` (the payee's bank details were being edited, trusted or revoked). Authorize and decline replay idempotently; after three attempts the `API error` line follows and the challenge goes to your approvers when it expires |
 | `signed the challenge for payment …` | HMAC-SHA256 of the ledger's signature input under the signing secret |
 | `authorized payment … (status "processing")` | Accepted: execution has started. Poll `transfer_drafts.get` (processing → completed / failed) or subscribe to the `transfer.executed` webhook for the outcome |
 | `declined payment …: <reason>` | The draft is not in the ledger, or differs from it, or (with `ALLOW_NEW_PAYEES=false`) it pays a new payee. The draft is deleted |
