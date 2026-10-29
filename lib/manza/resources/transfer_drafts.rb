@@ -14,13 +14,20 @@ module Manza
     # `transfer.executed` webhook to follow execution.
     #
     # A draft's `authorization` says which way it went: `pending` (a
-    # challenge was sent), `authorized`, `declined`, or `refused` /
-    # `expired` / `superseded` / `failed` with a `refusal_reason` (it went
-    # to the approvers): `untrusted_payee`, `unrestricted_api_key`,
-    # `over_new_payee_limit`, `over_transfer_limit`, `over_daily_limit`,
-    # `currency_mismatch`, `suspended`, `secret_expired`,
-    # `signature_failed`, `stale` (the draft, its payee's bank details or
-    # the endpoint changed while the challenge was open) or `expired`.
+    # challenge was sent), `authorized`, `declined` (the draft is deleted),
+    # or one of two outcomes that send the draft to the in-app approvers,
+    # each with a `refusal_reason`:
+    #
+    # - `refused`: it did not qualify, at create time (no webhook is sent)
+    #   or again when the challenge was answered: `untrusted_payee`,
+    #   `unrestricted_api_key`, `over_new_payee_limit`,
+    #   `over_transfer_limit`, `over_daily_limit`, `currency_mismatch`,
+    #   `suspended` or `secret_expired`.
+    # - `expired` / `superseded` / `failed`: a challenge was sent and closed
+    #   without an authorize: `expired` (no answer within the hour),
+    #   `stale` (the draft, its payee's bank details or the endpoint changed
+    #   while it was open) or `signature_failed` (five invalid signatures).
+    #
     # `authorization` is nil when no authorizer was enrolled.
     #
     # With "Approve transfers to new payees" on (enrolment, in the app),

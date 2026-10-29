@@ -44,7 +44,7 @@ Terminal 1, the authorizer (point your tunnel at the same port):
 bundle exec rackup -p 4599
 ```
 
-It authorizes transfers to new payees (and so trusts them) when *Approve transfers to new payees* is on. Set `ALLOW_NEW_PAYEES=false` in `.env` to decline those instead and pay only payees an approver trusted.
+With the default `ALLOW_NEW_PAYEES=true` it authorizes transfers to new payees (and so trusts them). The API only sends it one when *Approve transfers to new payees* is on, key A has an IP allowlist and the amount is within the limit per transfer to a new payee; otherwise the draft goes to your approvers. Set `ALLOW_NEW_PAYEES=false` in `.env` to decline those instead and pay only payees an approver trusted.
 
 Terminal 2, the creator:
 
