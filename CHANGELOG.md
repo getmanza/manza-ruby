@@ -52,6 +52,8 @@ Two existing cassettes match a different request body. An SDK that replays
   `authorization` is a `pending` challenge.
 - `beneficiaries/create`: `company_name` `"Manza Fixture Beneficiary spec"`
   (staging now accepts only unaccented letters, digits and spaces).
+- Account `balance` and transaction `account_balance_after` are scrubbed to
+  the synthetic decimal `"1000.0"` in every cassette.
 
 ## [1.0.0]
 
