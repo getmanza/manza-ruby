@@ -1,0 +1,22 @@
+lib/manza/resources/transfer_drafts.rb
+  ai_agent 21-23,25
+  s_65c3c5c5f93719::t_63413dbb98c249 17-20,24,26-30
+examples/transfer_authorizer/README.md
+  s_65c3c5c5f93719::t_63413dbb98c249 47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a0bddda5f8febd0f122bbd03939de2a3de4d38e4",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
