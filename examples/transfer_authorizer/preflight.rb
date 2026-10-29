@@ -183,7 +183,8 @@ module TransferAuthorizer
       warn_step("payee #{account["id"]} is not trusted yet",
                 "it qualifies only with \"Approve transfers to new payees\" on in Settings → Developer → Transfer approval " \
                 "(not visible through the API), key A bound to an IP allowlist, and the amount within the limit per " \
-                "transfer to a new payee; otherwise have an approver trust it")
+                "transfer to a new payee, and only if its bank details were never trusted (revoked or edited " \
+                "details always go to your approvers); otherwise have an approver trust it")
     rescue Manza::Error => e
       fail_step("key A cannot read beneficiary #{value("MANZA_BENEFICIARY_ID").inspect}: #{describe(e)}",
                 key_fix(e, "MANZA_CREATOR_API_KEY", "beneficiaries:read", "MANZA_BENEFICIARY_ID"))

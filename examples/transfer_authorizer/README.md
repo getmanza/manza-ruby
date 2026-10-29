@@ -22,7 +22,7 @@ bundle exec ruby preflight.rb          # or: bundle exec ruby preflight.rb 250.0
 
 ## Preflight
 
-`preflight.rb` runs each check in order and prints one line per check: `✓` passed, `✗` failed (followed by the fix; the exit status is 1), `!` a warning the API cannot settle.
+`preflight.rb` runs each applicable check in order (a missing key or id stops it before any request; without an enrolled authorizer the checks that need it are skipped) and prints one line per check: `✓` passed, `✗` failed (followed by the fix; the exit status is 1), `!` a warning the API cannot settle.
 
 | Check | Fails when |
 |---|---|
@@ -34,7 +34,7 @@ bundle exec ruby preflight.rb          # or: bundle exec ruby preflight.rb 250.0
 | Signing secret | `MANZA_AUTHORIZER_SECRET` is empty |
 | Webhook endpoint | the enrolled endpoint (`webhook_endpoint_id`) is not active. On `ngrok-free.app` or `trycloudflare.com` it warns: that URL changes when the tunnel restarts |
 | Amount | over the limit per transfer, or over what is left of the limit per 24 hours (`daily_limit` − `daily_authorized_total`) |
-| Payee | the beneficiary has no default bank account. When that account is not `trusted` it warns: the transfer qualifies only with *Approve transfers to new payees* on (not visible through the API), key A bound to an IP allowlist and the amount within the limit per transfer to a new payee |
+| Payee | the beneficiary has no default bank account. When that account is not `trusted` it warns: the transfer qualifies only with *Approve transfers to new payees* on (not visible through the API), key A bound to an IP allowlist and the amount within the limit per transfer to a new payee, and only for bank details never trusted: revoked or edited details always go to your approvers |
 
 ## Run
 
