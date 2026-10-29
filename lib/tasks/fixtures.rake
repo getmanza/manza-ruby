@@ -69,7 +69,7 @@
 #   7. The fixture entity is plan-exempt (`internal: true` on staging):
 #      with `plan_enforcement` on, its plan caps invoices at 3 a month and
 #      a capped seed fails with a bare 500. `sdk_fixtures_ensure` does not
-#      cover this one yet.
+#      cover this one yet (getmanza/app#5256; adoption: #26).
 #
 # The one human step left: enrolling the authorizer in the app (OTP),
 # with a webhook endpoint at a stable tunnel URL (cloudflared / ngrok
