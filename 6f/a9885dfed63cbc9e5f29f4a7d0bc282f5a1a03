@@ -1,0 +1,23 @@
+examples/transfer_authorizer/preflight.rb
+  s_65c3c5c5f93719::t_9086e18a23fa8c 39-40
+  s_65c3c5c5f93719::t_ef3964e2e217c5 28,31
+spec/examples/preflight_spec.rb
+  s_65c3c5c5f93719::t_ef3964e2e217c5 48,52,92-96
+  s_65c3c5c5f93719::t_b15661db842f74 49-51,53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6fa9885dfed63cbc9e5f29f4a7d0bc282f5a1a03",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "unknown"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
