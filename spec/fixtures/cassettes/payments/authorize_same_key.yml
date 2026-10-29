@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: post
-    uri: https://ma.manza.dev/api/transfer_drafts
+    uri: https://ma.manza.dev/api/payments/fixture-authorizable-draft-id/authorize
     body:
       encoding: UTF-8
-      string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"10.00","client_reference":"fixture-authorizable-client-reference"}'
+      string: '{"authorization_id":"fixture-authorizable-authorization-id","signature":"<SIGNATURE>"}'
     headers:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Content-Type:
@@ -19,11 +19,13 @@ http_interactions:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
     status:
-      code: 409
-      message: Conflict
+      code: 403
+      message: Forbidden
     headers:
       Content-Type:
       - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Cache-Control:
@@ -40,7 +42,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-nhVxkdqXdYseZYSWwu8Vfg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-EM6Owdi7gUxeK4IH7QeCPA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -117,14 +119,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Ual4HXRGCbOuOBACX%2B3CK1LQfklGV9gqVnSF8PLkafToWlO443utWpWxFR2HnhUfAXjEQc9tbqcS96YL0L%2BjN0cC6FTUUk46dWqYexYxLPTE3CpYmKwB7%2F0te%2BS7BhH7DxMrcHEyYSYx2P4%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=vlVBo%2BSQX7IS7lToErWMzjJquFvPyVC%2B%2FIG%2BthxDnHptArgK61ha7qAvgOrpQIEXZUzMuvK1ql%2BguYbqXc7A7km2STlRSHRy8dOOmqeAkQz1zTwJdVlN91VhxtfG3qTEVEJ%2FZIROPBHgFxw%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: UTF-8
-      string: '{"error":{"message":"A transfer with this client_reference already
-        exists","type":"duplicate_client_reference","param":"client_reference","payment_id":"fixture-authorizable-draft-id"}}'
-  recorded_at: Thu, 29 Oct 2026 06:57:08 GMT
+      encoding: ASCII-8BIT
+      string: '{"error":{"message":"The API key that created this transfer cannot
+        authorize it","type":"same_key_forbidden"}}'
+  recorded_at: Thu, 29 Oct 2026 13:54:07 GMT
 recorded_with: VCR 6.4.0

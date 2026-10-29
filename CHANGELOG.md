@@ -7,6 +7,47 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
+
+- `manza.payments` (`Manza::Resources::Payments`): `create`, `get`,
+  `authorize` and `decline` on the API's canonical paths, `POST
+  /api/payments`, `GET /api/payments/:id`, `POST /api/payments/:id/authorize`
+  and `POST /api/payments/:id/decline`. The API renamed transfer drafts to
+  payments; request and response bodies are unchanged, and so is the
+  `Manza::TransferAuthorization` signature input.
+
+### Deprecated
+
+- `manza.transfer_drafts` and `Manza::Resources::TransferDrafts`. Both keep
+  working for all of 1.x: the accessor returns `manza.payments` and the
+  constant names the same class, so the old name now calls `/api/payments`
+  too. They warn only when Ruby's deprecation warnings are on
+  (`Warning[:deprecated] = true` or `ruby -W:deprecated`). The server keeps
+  `/api/transfer_drafts` as a permanent alias.
+
+### Changed (cassettes)
+
+The nine payment cassettes moved from `transfer_drafts/` to `payments/`
+and match a new URI. An SDK that replays `cassettes-v1.3.0` sends:
+
+| Cassette | Request |
+|---|---|
+| `payments/create` | `POST https://ma.manza.dev/api/payments` |
+| `payments/create_duplicate` | `POST https://ma.manza.dev/api/payments` |
+| `payments/get` | `GET https://ma.manza.dev/api/payments/fixture-transfer-draft-id` |
+| `payments/get_refused` | `GET https://ma.manza.dev/api/payments/fixture-refused-draft-id` |
+| `payments/authorize` | `POST https://ma.manza.dev/api/payments/fixture-authorizable-draft-id/authorize` |
+| `payments/authorize_bad_signature` | `POST https://ma.manza.dev/api/payments/fixture-bad-signature-draft-id/authorize` |
+| `payments/authorize_same_key` | `POST https://ma.manza.dev/api/payments/fixture-authorizable-draft-id/authorize` |
+| `payments/authorize_new_payee` | `POST https://ma.manza.dev/api/payments/fixture-new-payee-draft-id/authorize` |
+| `payments/decline` | `POST https://ma.manza.dev/api/payments/fixture-declinable-draft-id/decline` |
+
+Each was `/api/transfer_drafts…` with the same rest of the path, under
+`transfer_drafts/<name>`. The fixture placeholders keep their names
+(`fixture-transfer-draft-id`, …). Every other cassette was re-recorded with
+the same method, URI and request body as in `cassettes-v1.2.0`, and every
+response keeps its status and the same JSON keys.
+
 ## [1.2.0]
 
 1.1.0 was never published: its changes (the webhook verifier and the

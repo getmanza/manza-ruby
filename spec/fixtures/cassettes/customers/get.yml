@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-F5dCl+GySXJYT97Brq0CsQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-hOBheOFYQIZ26B8CA8BTmg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"f6a6c109ddebc690c0c106cb6843a6fd"
+      - W/"5861e9a9fce72c59ca1f36c7c3fc0e4f"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,7 +123,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=pMTyBZOGUEdJJcGdoi10nqCNvTf%2BdDg8oAcbccYZ2PCXF0HZpjfw0jxTcbgY4CKmHTciXrwiTH0ZkiaxUDe0J%2FpdZhRMxfdZckNBWsvBhDe1%2FPWydRo41z6dGzrfFDmYJ4e6XvGKxRwx3WY%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=urEQEN0SeKqtS6qDsVb5k0Om%2F8sL%2FkCL5Bs33BsUT%2BkmqWxS3BeT8hN3EdzDegcx9THSJ%2B6loyvAD70FrStvdVo5IzawBxYG1fginTRLDDS5oSajqVW7MxGBR6uKsVZrtGvQG2ETKaOr6Ng%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -131,6 +131,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJmaXh0dXJlLXByaW1hcnktMzRjZDdhMmJAZXhhbXBsZS5jb20iLCJwaG9uZSI6bnVsbCwiY3VzdG9tZXJfdHlwZSI6ImJ1c2luZXNzIiwidGF4X2lkIjpudWxsLCJpY2VfbnVtYmVyIjoiNzQ5MTEwNzE5NTc0NTU1IiwibmFtZSI6Ik1hbnphIEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjU2OjQwKzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMjlUMDY6NTY6NDArMDA6MDAiLCJiaWxsaW5nX2FkZHJlc3MiOm51bGx9
-  recorded_at: Thu, 29 Oct 2026 06:56:59 GMT
+        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJmaXh0dXJlLXByaW1hcnktNzM3Y2FiNzJAZXhhbXBsZS5jb20iLCJwaG9uZSI6bnVsbCwiY3VzdG9tZXJfdHlwZSI6ImJ1c2luZXNzIiwidGF4X2lkIjpudWxsLCJpY2VfbnVtYmVyIjoiNTk1MjUwNDk5MTU3NTIxIiwibmFtZSI6Ik1hbnphIEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTI5VDEzOjUzOjM1KzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMjlUMTM6NTM6MzUrMDA6MDAiLCJiaWxsaW5nX2FkZHJlc3MiOm51bGx9
+  recorded_at: Thu, 29 Oct 2026 13:53:57 GMT
 recorded_with: VCR 6.4.0

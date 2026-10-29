@@ -1,33 +1,33 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://ma.manza.dev/api/transfer_drafts/fixture-refused-draft-id
+    method: post
+    uri: https://ma.manza.dev/api/payments/fixture-bad-signature-draft-id/authorize
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"authorization_id":"fixture-bad-signature-authorization-id","signature":"<SIGNATURE>"}'
     headers:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
+      - application/json
+      Content-Type:
       - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
     status:
-      code: 200
-      message: OK
+      code: 422
+      message: Unprocessable Entity
     headers:
       Content-Type:
       - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
       Connection:
       - keep-alive
       Cache-Control:
-      - max-age=0, private, must-revalidate
+      - no-cache
       Content-Security-Policy:
       - 'default-src ''self''; script-src ''self'' ''unsafe-eval'' ''wasm-unsafe-eval''
         https://staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev https://zazu.ma
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-KwzhKwlxG+PQbbEKUqU8aA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-tjqFeE8dUCBfHrUHHLTczw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -98,10 +98,6 @@ http_interactions:
         https://*.bankserv.co.za https://*.arcot.com https://*.wlp-acs.com https://oppwa.com
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
-      Etag:
-      - W/"a565d1865182159c0e2f3a6e68a5bb73"
-      Manza-Version:
-      - "<MANZA_VERSION>"
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Strict-Transport-Security:
@@ -118,18 +114,16 @@ http_interactions:
       - "<REQUEST_ID>"
       X-Xss-Protection:
       - '0'
-      Zazu-Version:
-      - "<MANZA_VERSION>"
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qUTSQ5u0AUR0mz0jJU8xFCKg2t%2BJeVjTz%2FxFgFfCpsrDD4HKuQBs%2FE28bG%2BXk10COfpmpXTVVf0M%2ByrygWDvYEG4FKPqKKptmfkoIawAMuC3oX6pg6PYn3CheBJZEa3EtG96z258ub1r910%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=0eFx63dlx%2F%2F6HfdOOACmEl92hRC7ei9oeH2w584uMxPW97COcgvG6JohjjMLNe1FwWxE1o8biYWMtNGLKgIKFtzmOYejuNSyiwNMN97v%2B%2B%2FZDtD3Dg37%2Fovsf4wGAQrR6kvav%2BpuKlH94hw%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: ASCII-8BIT
-      string: '{"id":"fixture-refused-draft-id","status":"requested","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-refused","client_reference":null,"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"11.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a18672-7eda-75c4-9c0b-4764d8cce431","status":"refused","expires_at":"2026-10-29T06:56:52+00:00","refusal_reason":"over_transfer_limit"},"created_at":"2026-10-29T06:56:52+00:00","updated_at":"2026-10-29T06:56:53+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:57:09 GMT
+      encoding: UTF-8
+      string: '{"error":{"message":"Signature does not match","type":"invalid_signature"}}'
+  recorded_at: Thu, 29 Oct 2026 13:54:07 GMT
 recorded_with: VCR 6.4.0

@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-R+psFs9l+3KFwQ0vh1YZqg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-JiBM3QYyeAunEm8DXdHSog==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -123,7 +123,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=y7ExiHaHB1U%2BRXD6UPi3mVosOaDe4QjqG9ieQX55D%2Fzz%2FHTYoP%2FyLPGbkhc76lMq8j%2FMAX3pPIeY24imXSa7dX2zGXgJR1YSigOsblXQNpDHcZpSpF4vUBvjqNOvvc4UOMDRpqv35oQ4Z1s%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=swcZEn9lVaXI9K9e2UkaBY8jKErg0YuI9YzX11xLMBInQOEPbcXYei9WZEhv7o6QpxqCKYn9uY5kj9umJAmFx8rddc09BUXGIyxZHzUjJS8SruU01vh%2BDSywhDzm5u%2BfyYhyE409piA66%2F0%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -131,5 +131,5 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: '{"id":"019a95b0-2cf0-7f5c-9462-056370069c93","name":"Zazu","created_at":"2025-11-18T07:39:02+01:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:57:01 GMT
+  recorded_at: Thu, 29 Oct 2026 13:53:58 GMT
 recorded_with: VCR 6.4.0

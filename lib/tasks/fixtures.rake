@@ -66,6 +66,10 @@
 #   6. "Approve transfers to new payees" is on, with a new-payee limit of
 #      at least 10.00 MAD (`trust_new_payees` / `new_payee_limit` in the
 #      declared state).
+#   7. The fixture entity is plan-exempt (`internal: true` on staging):
+#      with `plan_enforcement` on, its plan caps invoices at 3 a month and
+#      a capped seed fails with a bare 500. `sdk_fixtures_ensure` does not
+#      cover this one yet.
 #
 # The one human step left: enrolling the authorizer in the app (OTP),
 # with a webhook endpoint at a stable tunnel URL (cloudflared / ngrok
@@ -397,13 +401,13 @@ module Fixtures
       )
     end
 
-    # There is no delete endpoint for transfer drafts; like checkout
+    # There is no delete endpoint for payments; like checkout
     # sessions, seeded drafts sit on staging and are excluded from
     # find_stale_fixtures/teardown. This one targets the trusted payee,
     # so it gets a machine-authorization challenge that nobody answers:
     # after 1h it falls back to the in-app approvers. Do not approve it.
     def seed_transfer_draft!
-      response = @client.transfer_drafts.create(
+      response = @client.payments.create(
         account_id: @account_id,
         beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
         amount: "10.00",
@@ -436,7 +440,7 @@ module Fixtures
       # Account numbers are unique per entity: the create_external_account
       # spec needs a fresh one on every record.
       @ids["MANZA_FIXTURE_NEW_ACCOUNT_NUMBER"] = random_rib
-      # Unused here: the transfer_drafts#create spec sends it.
+      # Unused here: the payments#create spec sends it.
       @ids["MANZA_FIXTURE_CLIENT_REFERENCE"] = random_client_reference("create")
     end
 
@@ -482,7 +486,7 @@ module Fixtures
     # with status `refused` and a `refusal_reason`), so `authorization`
     # being present does not mean a challenge went out: check `pending`.
     def create_machine_draft!(kind, beneficiary_id:, external_account_id:)
-      draft = @client.transfer_drafts.create(
+      draft = @client.payments.create(
         account_id: @account_id,
         beneficiary_id: beneficiary_id,
         external_account_id: external_account_id,
@@ -502,7 +506,7 @@ module Fixtures
     # payee: the limit is checked before the payee, so the reason is always
     # over_transfer_limit. It goes to the in-app approvers. Do not approve it.
     def seed_refused_draft!
-      draft = @client.transfer_drafts.create(
+      draft = @client.payments.create(
         account_id: @account_id,
         beneficiary_id: @ids.fetch("MANZA_FIXTURE_BENEFICIARY_ID"),
         external_account_id: @ids.fetch("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID"),

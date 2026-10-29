@@ -94,7 +94,7 @@ RSpec.describe TransferAuthorizer::App do
     before { ledger.record("po_8812", **ledger_entry) }
 
     it "signs from the ledger and authorizes with key B" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
              .with(
                headers: { "Authorization" => "Bearer key-b" },
                body: { "authorization_id" => authorization_id, "signature" => expected_signature }
@@ -110,7 +110,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "logs the API error type and request id when authorize fails" do
-      stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
         .to_return(status: 422, headers: { "Content-Type" => "application/json", "X-Request-Id" => "req_123" },
                    body: JSON.generate("error" => { "message" => "Signature does not match", "type" => "invalid_signature" }))
 
@@ -131,7 +131,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "retries authorize after a transient failure" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
              .to_return(
                { status: 503, headers: { "Content-Type" => "application/json" }, body: "{}" },
                { status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing") }
@@ -144,7 +144,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "gives up after three attempts" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
              .to_return(status: 503, headers: { "Content-Type" => "application/json" }, body: "{}")
 
       deliver(JSON.generate(example_payload))
@@ -154,7 +154,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "retries authorize while the API answers authorization_busy" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
              .to_return(
                { status: 409, headers: { "Content-Type" => "application/json" },
                  body: JSON.generate("error" => { "type" => "authorization_busy" }) },
@@ -168,7 +168,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "does not retry another conflict" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
              .to_return(status: 409, headers: { "Content-Type" => "application/json" },
                         body: JSON.generate("error" => { "type" => "already_answered" }))
 
@@ -179,7 +179,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "logs that a new payee will be trusted on authorize" do
-      stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
         .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing"))
 
       deliver(JSON.generate(example_payload))
@@ -188,7 +188,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "does not log a new payee when the payee is already trusted" do
-      stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
         .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing"))
       payload = JSON.parse(JSON.generate(example_payload))
       payload["data"]["payment"]["payee_trusted"] = true
@@ -202,7 +202,7 @@ RSpec.describe TransferAuthorizer::App do
       let(:allow_new_payees) { false }
 
       it "declines a webhook that does not say whether the payee is trusted" do
-        stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/decline")
+        stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/decline")
                .with(body: hash_including("authorization_id" => authorization_id, "reason" => /new payee/))
                .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: "{}")
         payload = JSON.parse(JSON.generate(example_payload))
@@ -214,7 +214,7 @@ RSpec.describe TransferAuthorizer::App do
       end
 
       it "declines a transfer to a payee that is not trusted yet" do
-        stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/decline")
+        stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/decline")
                .with(body: hash_including("authorization_id" => authorization_id, "reason" => /new payee/))
                .to_return(status: 200, headers: { "Content-Type" => "application/json" },
                           body: JSON.generate("id" => authorization_id, "status" => "declined"))
@@ -227,7 +227,7 @@ RSpec.describe TransferAuthorizer::App do
       end
 
       it "authorizes a trusted payee" do
-        stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+        stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
                .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing"))
         payload = JSON.parse(JSON.generate(example_payload))
         payload["data"]["payment"]["payee_trusted"] = true
@@ -239,7 +239,7 @@ RSpec.describe TransferAuthorizer::App do
     end
 
     it "does not retry a validation error" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/authorize")
              .to_return(status: 422, headers: { "Content-Type" => "application/json" },
                         body: JSON.generate("error" => { "type" => "invalid_signature" }))
 
@@ -253,7 +253,7 @@ RSpec.describe TransferAuthorizer::App do
     before { ledger.record("po_8812", **ledger_entry, amount: "25000.0") }
 
     it "declines with a reason naming the field" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/decline")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/decline")
              .with(body: hash_including("authorization_id" => authorization_id, "reason" => /amount/))
              .to_return(status: 200, headers: { "Content-Type" => "application/json" },
                         body: JSON.generate("id" => authorization_id, "status" => "declined"))
@@ -269,7 +269,7 @@ RSpec.describe TransferAuthorizer::App do
 
   describe "without a ledger entry" do
     it "declines a client_reference this authorizer never issued" do
-      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/decline")
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/decline")
              .with(body: hash_including("reason" => /po_8812/))
              .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: "{}")
 

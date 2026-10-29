@@ -2,15 +2,16 @@
 http_interactions:
 - request:
     method: post
-    uri: https://ma.manza.dev/api/transfer_drafts/fixture-authorizable-draft-id/authorize
+    uri: https://ma.manza.dev/api/payments
     body:
       encoding: UTF-8
-      string: '{"authorization_id":"fixture-authorizable-authorization-id","signature":"<SIGNATURE>"}'
+      string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"10.00","payment_reference":"SDK
+        fixture","internal_notes":"[zazu-ruby-fixture] create spec - do not approve","client_reference":"fixture-client-reference"}'
     headers:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Content-Type:
@@ -19,13 +20,11 @@ http_interactions:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
     status:
-      code: 200
-      message: OK
+      code: 201
+      message: Created
     headers:
       Content-Type:
       - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
       Connection:
       - keep-alive
       Cache-Control:
@@ -42,7 +41,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-UHEkLE/dNr8Tn0m2Z69TYw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-QWF6r9AhxE+q+Ezu7GWNsw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -101,7 +100,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"8d1112efa4957456016c2be99c1ced58"
+      - W/"ecc9f539f99878f50dda8fca09e39513"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -125,13 +124,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fcaqIHwO993iXFfuX%2BQINRqqCRfuBRZvlAGBIWUN7laJ8C%2BLzT%2BCoZVOlYcdrmS5fgOXKtZ1gytgUev%2FzBXI1LKylGfUogE02bKHW1tBYFN3vGjzrecHAbIobuUAFwSj8AlNtDTfL0%2FQQHQ%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kvZLlimPwXUfkqmZhtsANVjvGniHDK202PxlwH58cYnShm4va%2BCx94N5kI3M2IgFKImTPUDH%2FHfpyj%2B%2B1uLDrHoFxdaoUX2yElzEw8pLTxdZNvhCkOE3IxGDHyhYfWnIIHdJfdPCPHbFw%2B0%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: ASCII-8BIT
-      string: '{"id":"fixture-authorizable-draft-id","status":"processing","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-authorizable","client_reference":"fixture-authorizable-client-reference","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"10.0","destination_account_id":null,"transfer":{"id":"01a18672-c31c-7607-b694-69f5ad9052bb","status":"submitted"},"authorization":{"id":"fixture-authorizable-authorization-id","status":"authorized","expires_at":"2026-10-29T07:56:48+00:00","refusal_reason":null},"created_at":"2026-10-29T06:56:48+00:00","updated_at":"2026-10-29T06:57:11+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:57:12 GMT
+      encoding: UTF-8
+      string: '{"id":"01a187f0-7596-79b1-9699-9c41cfec5521","status":"requested","currency_code":"MAD","payment_reference":"SDK
+        fixture","client_reference":"fixture-client-reference","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"10.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a187f0-75df-7c1f-8e1c-edad53ea20a7","status":"pending","expires_at":"2026-10-29T14:54:05+00:00","refusal_reason":null},"created_at":"2026-10-29T13:54:05+00:00","updated_at":"2026-10-29T13:54:05+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 13:54:06 GMT
 recorded_with: VCR 6.4.0

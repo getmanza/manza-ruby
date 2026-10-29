@@ -18,7 +18,7 @@ ledger = TransferAuthorizer::Ledger.new(File.expand_path("ledger.json", __dir__)
 creator = Manza.new(api_key: ENV.fetch("MANZA_CREATOR_API_KEY"))
 
 begin
-  draft = creator.transfer_drafts.create(
+  draft = creator.payments.create(
     account_id: ENV.fetch("MANZA_ACCOUNT_ID"),
     beneficiary_id: ENV.fetch("MANZA_BENEFICIARY_ID"),
     amount: amount,

@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -38,7 +38,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-755WtruZ+RjtZiCZZ0dcIA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-D/BtHa9z7/FT6IDv8Gtopg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -97,7 +97,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"26309a354cc672d34733668a804a0bed"
+      - W/"3a690a722bee91dfd10e06ebc2995334"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -121,7 +121,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=28v6jeGKlRcxsdQEBBuUDhFWxfUL5GbN9pc24ssGZla%2Fjv3vf3dIL3Bp4fdFm%2BmgVMaqe1tGA9sC5glPgTAzA6r0V20RVeiqrnszLXKsheoedRDc1H8%2F%2F4qxagwnpF%2FQUA3HFjQ3zUJmfv8%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=dOac%2BU4Lcgjgml6u2bYK%2BkKf0pAuUneV77drCl4IPumT7%2BXnlc%2Be0w5KoyfWAPjXXSCYf1pBr%2FeIy2E1QDoFVQab2GOBrJF%2FXn%2BjPSdkbQLQjtWVcPC3u%2FTUSenzO6E6QAbbESE0VmE4lXs%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -129,9 +129,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"fixture-deletable-customer-id","person_name":null,"company_name":"Manza
-        Fixture Co — deletable (zazu-ruby-fixture-v1)","email":"fixture-deletable-39b7c123@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"543607512617184","name":"Manza
-        Fixture Co — deletable (zazu-ruby-fixture-v1)","invoices_count":0,"created_at":"2026-10-29T06:56:40+00:00","updated_at":"2026-10-29T06:56:40+00:00","billing_address":null},{"id":"fixture-customer-id","person_name":null,"company_name":"Manza
-        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-34cd7a2b@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"749110719574555","name":"Manza
-        Fixture Co — primary (zazu-ruby-fixture-v1)","invoices_count":2,"created_at":"2026-10-29T06:56:40+00:00","updated_at":"2026-10-29T06:56:40+00:00","billing_address":null}],"has_more":false,"next_cursor":null}'
-  recorded_at: Thu, 29 Oct 2026 06:56:59 GMT
+        Fixture Co — deletable (zazu-ruby-fixture-v1)","email":"fixture-deletable-919e47e0@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"206661612834239","name":"Manza
+        Fixture Co — deletable (zazu-ruby-fixture-v1)","invoices_count":0,"created_at":"2026-10-29T13:53:35+00:00","updated_at":"2026-10-29T13:53:35+00:00","billing_address":null},{"id":"fixture-customer-id","person_name":null,"company_name":"Manza
+        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-737cab72@example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"595250499157521","name":"Manza
+        Fixture Co — primary (zazu-ruby-fixture-v1)","invoices_count":2,"created_at":"2026-10-29T13:53:35+00:00","updated_at":"2026-10-29T13:53:35+00:00","billing_address":null}],"has_more":false,"next_cursor":null}'
+  recorded_at: Thu, 29 Oct 2026 13:53:56 GMT
 recorded_with: VCR 6.4.0

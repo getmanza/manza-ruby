@@ -1,19 +1,17 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: https://ma.manza.dev/api/transfer_drafts/fixture-new-payee-draft-id/authorize
+    method: get
+    uri: https://ma.manza.dev/api/payments/fixture-refused-draft-id
     body:
-      encoding: UTF-8
-      string: '{"authorization_id":"fixture-new-payee-authorization-id","signature":"<SIGNATURE>"}'
+      encoding: US-ASCII
+      string: ''
     headers:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
-      - application/json
-      Content-Type:
       - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -42,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-FGjmssv0dNgIamWNFDFTlA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-imu5ilCoYB7bnxArzv6qxg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -101,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"babc1a587ddc7e95bf97f42da339d6a9"
+      - W/"2821aa8eecc9ee09ef7d2b1e68df88d8"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -125,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=nfSUC9yoQZaJVqkiMLerQPNHPxFU9Ylnk0r7SNVhs8q3JRNvkVOgtC3Wr8%2FahdeEdoGXbIG0sBwoqi8UiAM1QKCJFBQzqeOxNTI1vVqKnWMo4BGyHnpH4yJ20b1VnTd73XeLMipWLmpSRAg%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qb6WQiQXgfGeU39g6obxJ%2FPDS7uZRbpBIP%2BdoLeNSoTraNb%2FoBEEgfN8tqW4XfMQ86b1cmxERxXi0YSAh0bx4hxP3s2ks3GmRD6hpBYblVk8mX3EDCQ95XALFDZTmT4w%2B4IhDbeGTiBC6PE%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"id":"fixture-new-payee-draft-id","status":"processing","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-new-payee","client_reference":"fixture-new-payee-client-reference","account_id":"fixture-account-id","beneficiary_id":"fixture-created-beneficiary-id","external_account_id":"fixture-external-account-id","amount":"10.0","destination_account_id":null,"transfer":{"id":"01a18672-ccc8-7c65-abe5-fa96d84dc742","status":"submitted"},"authorization":{"id":"fixture-new-payee-authorization-id","status":"authorized","expires_at":"2026-10-29T07:56:51+00:00","refusal_reason":null},"created_at":"2026-10-29T06:56:51+00:00","updated_at":"2026-10-29T06:57:13+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:57:14 GMT
+      string: '{"id":"fixture-refused-draft-id","status":"requested","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-refused","client_reference":null,"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"11.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a187f0-3782-7c31-a560-b4c19c716a9e","status":"refused","expires_at":"2026-10-29T13:53:49+00:00","refusal_reason":"over_transfer_limit"},"created_at":"2026-10-29T13:53:49+00:00","updated_at":"2026-10-29T13:53:49+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 13:54:07 GMT
 recorded_with: VCR 6.4.0
