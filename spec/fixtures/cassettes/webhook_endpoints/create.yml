@@ -41,7 +41,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-i2tBmkZMyC7pS4bTi0zywA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-MyLNmxxt8+JgPHcQu9mWjg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -100,7 +100,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"35f334dc4fc1413b0b9c0e7d2948fe64"
+      - W/"63d4f45e3b15598a6fef97c9733bfaec"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -124,14 +124,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=1%2BdupPcVpXgRnETuqCmAcj1wa1Ko2ea3WewExsbTmta3OR6PCrpS5FJzUJ2C9vWcAVNmES5j99APEklRqDQP3WLMu6BCT7vXUbeIkgcFx47m3f5JuuN7iHZExFULAz4rE3H6N5Vs81yns%2FY%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=UxkqEPPXRw87vZEmxPHSrqVhaNWU9yF8r7MxnCBI22SZ2C6eIu7Nekk8%2BNPhuq%2B4hGoCwKsiMvPh3DgH3997p61isC13eIAaoNRL69CqLmmdTqFJsB4mfpXpcuwmq9c5nRuc92LY6Fg7BIk%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a1865b-a9d2-75a8-89bd-31fcb8e27744","url":"https://example.com/zazu-webhooks","description":"SDK
-        fixture endpoint","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:31:56+00:00","updated_at":"2026-10-29T06:31:56+00:00","signing_secret":"<WEBHOOK_SIGNING_SECRET>"}'
-  recorded_at: Thu, 29 Oct 2026 06:31:57 GMT
+      string: '{"id":"01a1866b-0515-7992-a800-7be759c2d019","url":"https://example.com/zazu-webhooks","description":"SDK
+        fixture endpoint","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:48:43+00:00","updated_at":"2026-10-29T06:48:43+00:00","signing_secret":"<WEBHOOK_SIGNING_SECRET>"}'
+  recorded_at: Thu, 29 Oct 2026 06:48:43 GMT
 recorded_with: VCR 6.4.0

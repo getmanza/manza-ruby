@@ -42,7 +42,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-jpXQPtHdGiJtNkiB30h9Fw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-RJfIcUuF/A6SuUkM7grFOQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -101,7 +101,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"63a1ec3bed6ebc315c952c6b5ecdf110"
+      - W/"bc1c1b1282a81e913c73f0f9627e4762"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -125,7 +125,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9I0%2FuBsyhvabMkoV%2Brgz0ZfW%2FVaLS7hDdtC0exhmyNloGBL%2FvFtXu%2BI%2FYZqYKkPJqn8YAXrjDKYtEDTOrPSnL93b%2FUGqNGyk3iOhljuSkUzsjH0sx0UHsEvD5QyUTCknaa%2BN%2Fm1XgwYef7Y%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fFG03%2FRY06cRlKw3rY5BK3Uo3h8hPJ2If4ek80sWGEQQEk%2BP14pJ1tV2ViZuNfFvlCYHaQsLMUbpTGDtzYuEW5eTbucLDKrE75YbAoVuN1ZtXtkLbgI%2BU1cZBj%2Frk1mch2%2FlwFNqON7Ai2Y%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -133,6 +133,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJ1cGRhdGVkQGV4YW1wbGUuY29tIiwicGhvbmUiOm51bGwsImN1c3RvbWVyX3R5cGUiOiJidXNpbmVzcyIsInRheF9pZCI6bnVsbCwiaWNlX251bWJlciI6IjQ1MzgwMjM1NTIwMjMxOSIsIm5hbWUiOiJNYW56YSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0yOVQwNjozMToxMyswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjMxOjM2KzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
-  recorded_at: Thu, 29 Oct 2026 06:31:36 GMT
+        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJ1cGRhdGVkQGV4YW1wbGUuY29tIiwicGhvbmUiOm51bGwsImN1c3RvbWVyX3R5cGUiOiJidXNpbmVzcyIsInRheF9pZCI6bnVsbCwiaWNlX251bWJlciI6IjQ5NDc5MDUyMDgxNDk2NiIsIm5hbWUiOiJNYW56YSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0yOVQwNjo0ODowNSswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjQ4OjI2KzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
+  recorded_at: Thu, 29 Oct 2026 06:48:27 GMT
 recorded_with: VCR 6.4.0

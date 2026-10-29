@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-j5H1YoXGkguQKXbK9GADDg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-2us2QM4Mw0Qcrr1r4jYBPg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"11251d6cebf963ca5e91033dc230461a"
+      - W/"635b3c304b2844d519f3b4303c236e8a"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,15 +123,15 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=jRtWqef5JZI2BHxG9Tn0xhBLUlIJTLDVre4hDSm7MFxhlpKmSRGGZGcDA0xkrB52tcwmbp1HJhhH6K1dCmFuDiSOP6cqTQeIWjJtnDYM1z1OmfUN7ct%2BoFjQSylPDmKUENPKKr4XQPZnAIw%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=GVdfuAsS40wSvUAh97juCXNUWXntkerDmTVaX0asJTimgk9hnFL%2F1R5GuGROC3sMxR78vx5QV1m6vAkLW%2FyW7rukrazrN8KxNDnzwlEXtsnbWD6O1DDxbMi1WlgEUHdKfeRPzi8u8OhS8DY%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a1865b-5921-71f2-b546-f34eb1f036a6","person_name":null,"company_name":"Zazu
+      string: '{"id":"01a1866a-c509-7e36-8b95-219c6404efcf","person_name":null,"company_name":"Zazu
         SDK Fixture Co (zazu-ruby-fixture-v1-spec)","email":"create-spec@zazu-ruby-fixture.example.com","phone":null,"customer_type":"business","tax_id":null,"ice_number":"000000000000000","name":"Zazu
-        SDK Fixture Co (zazu-ruby-fixture-v1-spec)","created_at":"2026-10-29T06:31:35+00:00","updated_at":"2026-10-29T06:31:35+00:00","billing_address":null}'
-  recorded_at: Thu, 29 Oct 2026 06:31:36 GMT
+        SDK Fixture Co (zazu-ruby-fixture-v1-spec)","created_at":"2026-10-29T06:48:26+00:00","updated_at":"2026-10-29T06:48:26+00:00","billing_address":null}'
+  recorded_at: Thu, 29 Oct 2026 06:48:27 GMT
 recorded_with: VCR 6.4.0

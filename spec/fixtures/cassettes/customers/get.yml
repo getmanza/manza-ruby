@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-SAobmDfrjfKylOsqTAEM7g==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-r8wj0u6gBrCdbGUiXMmtXA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"6c930001f702ece4a3f16826ac756b40"
+      - W/"bad305799d294967bcc2f59243a9e9a5"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,7 +123,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=WuP4d1khxhTxxlTdbbTBoNJtF5ihU4R1mVUNcF668vvsYghxCpXwFcWTL2fcgXkBHwwXqfvJrm23eU498zhKHW9FDQwIvrUJgzZecfR%2BaI1j4V6Mc0yY6QoR83qrIhrsWHl4tUIMay%2FKE5k%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=y%2FnDp46YDfV48VnXO2ZfDiNIjV5io0DKqkIfg0kxXpXbGFC0CHLEbn%2BJyIFQxxYdH0F4yM4OU9gh%2Fw%2B1Z9JJbkz7PQ54Q%2BvWtNocR6JKLM8leRHdUFejJplBQjmvKqsdz0R4YB3baiAz3XU%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -131,6 +131,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJmaXh0dXJlLXByaW1hcnktNmM2NzYwNWRAZXhhbXBsZS5jb20iLCJwaG9uZSI6bnVsbCwiY3VzdG9tZXJfdHlwZSI6ImJ1c2luZXNzIiwidGF4X2lkIjpudWxsLCJpY2VfbnVtYmVyIjoiNDUzODAyMzU1MjAyMzE5IiwibmFtZSI6Ik1hbnphIEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjMxOjEzKzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMjlUMDY6MzE6MTMrMDA6MDAiLCJiaWxsaW5nX2FkZHJlc3MiOm51bGx9
-  recorded_at: Thu, 29 Oct 2026 06:31:35 GMT
+        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJmaXh0dXJlLXByaW1hcnktOGI4MTU0ZTlAZXhhbXBsZS5jb20iLCJwaG9uZSI6bnVsbCwiY3VzdG9tZXJfdHlwZSI6ImJ1c2luZXNzIiwidGF4X2lkIjpudWxsLCJpY2VfbnVtYmVyIjoiNDk0NzkwNTIwODE0OTY2IiwibmFtZSI6Ik1hbnphIEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjQ4OjA1KzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMjlUMDY6NDg6MDUrMDA6MDAiLCJiaWxsaW5nX2FkZHJlc3MiOm51bGx9
+  recorded_at: Thu, 29 Oct 2026 06:48:26 GMT
 recorded_with: VCR 6.4.0

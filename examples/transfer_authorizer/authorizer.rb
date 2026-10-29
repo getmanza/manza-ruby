@@ -92,7 +92,9 @@ module TransferAuthorizer
       mismatch = entry ? mismatch_reason(entry, payment) : "client_reference #{client_reference.inspect} is not in the ledger"
       return decline(payment["id"], authorization["id"], mismatch) if mismatch
 
-      if payment["payee_trusted"] == false
+      # Anything but true counts as new, so a webhook without the field is
+      # declined under ALLOW_NEW_PAYEES=false rather than trusted blindly.
+      unless payment["payee_trusted"] == true
         unless @allow_new_payees
           return decline(payment["id"], authorization["id"],
                          "new payee #{payment["payee"]}: ALLOW_NEW_PAYEES=false declines payees not trusted yet")

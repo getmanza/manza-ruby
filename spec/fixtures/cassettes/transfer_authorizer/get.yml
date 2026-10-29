@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-chXk6C6G/uzkaOeFfkxupg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-UYo0tvnwxE+pkSj68E7z7w==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"c90f2ac2bffdf0496651b2e70ff74120"
+      - W/"901f377018aa434b439325aa3dfcace3"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=5DXbQMGtHi0ARUtJ23iJabRCMPLsIfDoPh1qsIKDj53Vn5Sdx3Z9bytXK5AMWkJ6fQglpH7oOwaXz47NGwC0AgSy%2Bg6nZXNvGfLIVjrJ52djVRphwEJlzPS4JqEasBc8u5uvNvPJXSEhLRQ%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=GAlLSpl0LzwW6TNwIc3XsGCs1uAlgylbs4%2BQ8ScLZgW8Agwa5GvADnB%2BoMrxTCIlN9Dspzd6M9m%2B5Oz7q7jXgs6%2FgOAauzb9xbHTvzltEwaTIHDsZH00qGa%2Fe%2FOkMvdCzyIky77vUU%2FQ%2BXs%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"currency_code":"MAD","webhook_endpoint_id":"01a0fcf7-cf63-798e-9d22-855756ccf684","status":"active","suspension_reason":null,"per_transfer_limit":"10.0","daily_limit":"500.0","daily_authorized_total":"0.0","secret_expires_at":"2026-12-31T15:23:26+00:00","enrolled_at":"2026-10-02T14:22:54+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:31:45 GMT
+      string: '{"currency_code":"MAD","webhook_endpoint_id":"01a0fcf7-cf63-798e-9d22-855756ccf684","status":"active","suspension_reason":null,"per_transfer_limit":"10.0","daily_limit":"500.0","daily_authorized_total":"20.0","secret_expires_at":"2026-12-31T15:23:26+00:00","enrolled_at":"2026-10-02T14:22:54+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 06:48:34 GMT
 recorded_with: VCR 6.4.0

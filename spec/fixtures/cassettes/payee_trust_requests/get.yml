@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-PCfGJ6ojKlbgB1Syfkhz6g==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-x7IODl2iXvKs7yb8tv4euQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"7e28d9e0370bdf6cb303de6180c065fd"
+      - W/"1a53397c1219bdab96b88e62c7b43fd9"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=NTTYqX2bD7%2BqaGaxVT1xjoHu54JgkStXaibJqDyxotNVhijozGS5P9PseNvvGPTbFXAqKS0Mcztihk%2FhD7GDN5sq89%2BmfEzHBctkE%2FbcgEAdVINsCIdF2asHR0hKA1cHP4aEDssHAsHXzPA%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=I7CkQvhIOvMw5Aj7gyy2X%2FIWSoAod8E%2FNFyXzGt4KZDxKz551yhxtOHhRBg40LU3xOU%2BpWlQVZqsJ31j%2FrjwcgCc07qdnAgOAcK4t0zRElEZ8Fp2w8PzLI6CPECt3LJDGFYtgRjyHdS%2Bfd4%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"id":"fixture-payee-trust-request-id","status":"pending","external_account_ids":["fixture-external-account-id"],"created_at":"2026-10-29T06:31:22+00:00","resolved_at":null}'
-  recorded_at: Thu, 29 Oct 2026 06:31:42 GMT
+      string: '{"id":"fixture-payee-trust-request-id","status":"pending","external_account_ids":["fixture-external-account-id"],"created_at":"2026-10-29T06:48:13+00:00","resolved_at":null}'
+  recorded_at: Thu, 29 Oct 2026 06:48:32 GMT
 recorded_with: VCR 6.4.0

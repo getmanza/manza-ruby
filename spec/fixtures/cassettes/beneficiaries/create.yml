@@ -5,136 +5,6 @@ http_interactions:
     uri: https://ma.manza.dev/api/beneficiaries
     body:
       encoding: UTF-8
-      string: '{"beneficiary_type":"business","company_name":"Zazu Fixture Beneficiary
-        - spec (zazu-ruby-fixture)","email":"fixture-beneficiary-spec@example.com"}'
-    headers:
-      Authorization:
-      - Bearer <MANZA_API_KEY>
-      User-Agent:
-      - zazu-ruby/0.2.1
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Content-Type:
-      - application/json; charset=utf-8
-      Connection:
-      - keep-alive
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      Content-Security-Policy:
-      - 'default-src ''self''; script-src ''self'' ''unsafe-eval'' ''wasm-unsafe-eval''
-        https://staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev https://zazu.ma
-        https://zazu.africa https://app.intercom.io https://widget.intercom.io https://js.intercomcdn.com
-        https://js.intercomdcn.eu https://static.sumsub.com https://js.evervault.com
-        https://*.peachpayments.com https://oppwa.com https://*.oppwa.com https://pay.google.com
-        https://*.jscrambler.com https://jscrambler.com https://ajax.googleapis.com
-        https://www.google.com https://play.google.com https://applepay.cdn-apple.com
-        https://*.basistheory.com https://pay.google.com/gp/p/js/pay.js https://applepay.cdn-apple.com
-        https://js.stripe.com https://www.google-analytics.com https://www.googletagmanager.com
-        https://assets.calendly.com https://app.cal.com https://challenges.cloudflare.com
-        https://assets.ma.manza.dev ''strict-dynamic'' ''nonce-p6UuEuUQ7ML+WBpkMHCjjQ=='';
-        style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://assets.ma.manza.dev
-        https://*.peachpayments.com https://oppwa.com https://*.oppwa.com; font-src
-        ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com https://oppwa.com
-        https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com https://js.intercomdcn.eu
-        https://fonts.intercomcdn.com https://assets.ma.manza.dev; img-src ''self''
-        data: blob: https://staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev
-        https://fsn1.your-objectstorage.com https://js.intercomcdn.com https://js.intercomdcn.eu
-        https://static.intercomassets.com https://static.intercomassets.eu https://downloads.intercomcdn.com
-        https://downloads.intercomcdn.eu https://downloads.intercomdcn.eu https://uploads.intercomusercontent.com
-        https://gifs.intercomcdn.com https://gifs.intercomdcn.eu https://*.intercom-attachments.eu
-        https://*.sumsub.com https://www.google.com https://*.gstatic.com https://www.google-analytics.com
-        https://app.cal.com https://cal.com https://assets.ma.manza.dev https://assets.ma.manza.dev
-        https://*.peachpayments.com https://oppwa.com https://*.oppwa.com https://pay.google.com;
-        media-src ''self'' blob: https://*.sumsub.com https://*.stripe.com https://js.intercomcdn.com
-        https://js.intercomdcn.eu; connect-src ''self'' wss://staging.zazu.ma https://pay.staging.zazu.ma
-        https://ma.manza.dev https://pay.ma.manza.dev https://assets.ma.manza.dev
-        https://api.sumsub.com https://*.sumsub.com https://api.charimoney.com https://api.eu.intercom.io
-        https://api-iam.eu.intercom.io https://api-ping.intercom.io https://nexus-europe-websocket.intercom.io
-        wss://nexus-europe-websocket.intercom.io https://*.intercom-messenger.com
-        wss://*.intercom-messenger.com https://uploads.intercomcdn.com https://uploads.intercomdcn.eu
-        https://uploads.intercomcdn.eu https://uploads.eu.intercomcdn.com https://uploads.intercomusercontent.com
-        https://*.intercom-attachments.eu https://keys.evervault.com https://*.peachpayments.com
-        https://oppwa.com https://*.oppwa.com https://pay.google.com https://*.jscrambler.com
-        https://jscrambler.com https://www.google.com https://play.google.com https://*.ingest.us.sentry.io
-        https://api.evervault.com https://*.basistheory.com https://*.stripe.com https://www.google-analytics.com
-        https://www.googletagmanager.com https://calendly.com https://app.cal.com
-        https://cal.com; frame-src ''self'' https://staging.zazu.ma https://pay.staging.zazu.ma
-        https://ma.manza.dev https://pay.ma.manza.dev https://docs.google.com https://*.sumsub.com
-        https://intercom-sheets.com https://www.intercom-reporting.com https://www.youtube.com
-        https://www.youtube-nocookie.com https://player.vimeo.com https://www.loom.com
-        https://www.tella.tv https://challenges.cloudflare.com https://ui-components.evervault.com
-        https://*.evervault.com https://*.peachpayments.com https://oppwa.com https://*.oppwa.com
-        https://pay.google.com https://*.myeft.co.za https://myeft.co.za https://*.payflex.co.za
-        https://payflex.co.za https://*.ftapp.co.za https://ftapp.co.za https://happypay.co.za
-        https://*.happypay.co.za https://cryptogr.net https://*.cryptogr.net https://*.float.co.za
-        https://float.co.za https://acs-challenge.apata.io https://eu-prod.ppipe.net
-        https://*.bankserv.co.za https://*.arcot.com https://*.wlp-acs.com https://*.basistheory.com
-        https://js.stripe.com https://hooks.stripe.com https://calendly.com https://app.cal.com
-        https://cal.com https://pay.chari.com; frame-ancestors ''self'' https://staging.zazu.ma
-        https://pay.staging.zazu.ma https://ma.manza.dev https://pay.ma.manza.dev;
-        object-src ''none''; base-uri ''self''; form-action ''self'' https://pay.staging.zazu.ma
-        https://ma.manza.dev https://pay.ma.manza.dev https://calendly.com https://app.cal.com
-        https://cal.com; worker-src ''self'' blob: https://oppwa.com https://*.oppwa.com
-        https://ajax.googleapis.com; child-src ''self'' blob: https://intercom-sheets.com
-        https://www.intercom-reporting.com https://*.sumsub.com https://www.youtube-nocookie.com
-        https://www.loom.com https://player.vimeo.com https://www.tella.tv https://calendly.com
-        https://app.cal.com https://cal.com https://*.peachpayments.com https://oppwa.com
-        https://*.oppwa.com https://pay.google.com https://*.myeft.co.za https://myeft.co.za
-        https://*.payflex.co.za https://payflex.co.za https://*.ftapp.co.za https://ftapp.co.za
-        https://happypay.co.za https://*.happypay.co.za https://cryptogr.net https://*.cryptogr.net
-        https://*.float.co.za https://float.co.za https://acs-challenge.apata.io https://eu-prod.ppipe.net
-        https://*.bankserv.co.za https://*.arcot.com https://*.wlp-acs.com https://oppwa.com
-        https://*.oppwa.com https://ajax.googleapis.com; manifest-src ''self''; report-uri
-        /csp-violation-reports'
-      Etag:
-      - W/"9a1fb9f517eb3a68195f06c5dcc19788"
-      Manza-Version:
-      - "<MANZA_VERSION>"
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      X-Request-Id:
-      - "<REQUEST_ID>"
-      X-Xss-Protection:
-      - '0'
-      Zazu-Version:
-      - "<MANZA_VERSION>"
-      Nel:
-      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
-      Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=jrQTv4af6jjWvRPHp%2FSDOfYF26YJN%2Fd6RSNLUcBH2irfjj3pdBT%2B29uF4odwXaQ%2B4B30Iv8xPV5ssjlGm6k1Yf%2Fs37j4hmjhvrlDi%2FegGEgJHkt8lrxMEil9Piwy88K%2B6nkShA9fTdGTz5c%3D"}]}'
-      Server:
-      - cloudflare
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: UTF-8
-      string: '{"id":"01a0fd37-c9ad-791e-a45b-bf87592b4214","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Zazu
-        Fixture Beneficiary - spec (zazu-ruby-fixture)","external_accounts":[],"created_at":"2026-10-02T15:24:46+00:00"}'
-  recorded_at: Fri, 02 Oct 2026 15:24:47 GMT
-- request:
-    method: post
-    uri: https://ma.manza.dev/api/beneficiaries
-    body:
-      encoding: UTF-8
       string: '{"beneficiary_type":"business","company_name":"Manza Fixture Beneficiary
         spec","email":"fixture-beneficiary-spec@example.com"}'
     headers:
@@ -171,7 +41,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-wljlGMeaM0/VcJYbYI5yLg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-ghiO1ZsRQPabHFeqoIXJXw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -230,7 +100,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"901bdba7e744b45d2fb6ceafb206e441"
+      - W/"ef07175b1e3dfddca95212313109c706"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -254,14 +124,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Tz69NvBeXDdqPciuzkJh5PfT%2Bl3I7JZFEhSHvHsQ5QeR2Oj4Hv5YzOEaNamz5eGs30WEoyj8yEUi56Xc7waNDgo992oy9%2FJKwPGnfMvX4rPq0uwL9qMm4s4nqMWWIKcZrlC7sFHbPWC0IMA%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2FHfbaIFmE%2FepJJUbrhmb2EnwmvewPlxQj8W4xg8ciVcpkQXi%2B0TjzmCw68h6WZcLX7sIxkCkK6RCGNB5E9yt6aDrKZHUuoPyhcGfaOPWkQYwfdqAGbQuMdUyKlqlNibs%2FWRGqS17EKXHtD8%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a1865b-4b87-7df3-a6b5-31a4748788dd","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Manza
-        Fixture Beneficiary spec","external_accounts":[],"created_at":"2026-10-29T06:31:32+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:31:32 GMT
+      string: '{"id":"01a1866a-b975-7967-8503-6e18632b4f1a","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Manza
+        Fixture Beneficiary spec","external_accounts":[],"created_at":"2026-10-29T06:48:23+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 06:48:24 GMT
 recorded_with: VCR 6.4.0

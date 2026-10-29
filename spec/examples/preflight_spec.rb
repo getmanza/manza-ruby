@@ -78,6 +78,15 @@ RSpec.describe TransferAuthorizer::Preflight do
     expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
   end
 
+  it "fails when the account or beneficiary id is missing" do
+    env["MANZA_BENEFICIARY_ID"] = ""
+    ok, output = run
+
+    expect(ok).to be(false)
+    expect(failures(output).first).to include("MANZA_BENEFICIARY_ID")
+    expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
+  end
+
   it "fails when both keys are the same" do
     env["MANZA_AUTHORIZER_API_KEY"] = "key-a"
     _, output = run
@@ -97,6 +106,20 @@ RSpec.describe TransferAuthorizer::Preflight do
     _, output = run
 
     expect(failures(output).first).to include("no transfer authorizer is enrolled", "Transfer approval")
+  end
+
+  it "fails when key B cannot read the authorizer" do
+    stub_request(:get, "#{base_url}/api/transfer_authorizer").to_return(error(403, "insufficient_scope"))
+    _, output = run
+
+    expect(failures(output).first).to include("key B", "insufficient_scope", "transfers:authorize")
+  end
+
+  it "fails when key A cannot read the account" do
+    stub_request(:get, "#{base_url}/api/accounts/#{account_id}").to_return(error(403, "insufficient_scope"))
+    _, output = run
+
+    expect(failures(output).first).to include("key A", "accounts:read")
   end
 
   it "fails with the suspension reason and its fix" do

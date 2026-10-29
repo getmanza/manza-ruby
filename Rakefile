@@ -35,6 +35,12 @@ namespace :fixtures do
     require "dotenv"
     Dotenv.overload
 
+    # VCR's :all mode keeps a recorded interaction whose request no longer
+    # matches (a changed body or query), with its stale response. Start
+    # from empty cassettes so each one holds only this run.
+    require "fileutils"
+    FileUtils.rm_rf(Dir[File.expand_path("spec/fixtures/cassettes/*", __dir__)])
+
     ENV["VCR_RECORD"] = "all"
     Rake::Task["spec"].invoke
   end

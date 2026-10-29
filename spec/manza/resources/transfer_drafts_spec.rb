@@ -10,15 +10,17 @@ RSpec.describe Manza::Resources::TransferDrafts do
       response = client.transfer_drafts.create(
         account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
         beneficiary_id: fixture_id("MANZA_FIXTURE_BENEFICIARY_ID"),
-        amount: "150.00",
+        amount: "10.00",
         payment_reference: "SDK fixture",
+        internal_notes: "[zazu-ruby-fixture] create spec — do not approve",
         client_reference: fixture_id("MANZA_FIXTURE_CLIENT_REFERENCE")
       )
 
       expect(response.status).to eq(201)
       expect(response.body["status"]).to eq("requested")
       expect(response.body["client_reference"]).to eq(fixture_id("MANZA_FIXTURE_CLIENT_REFERENCE"))
-      expect(response.body).to have_key("authorization")
+      # Inside the envelope: the challenge went to the authorizer.
+      expect(response.body.dig("authorization", "status")).to eq("pending")
       expect(response.body["transfer"]).to be_nil
     end
   end

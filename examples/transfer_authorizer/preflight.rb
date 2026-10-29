@@ -53,11 +53,12 @@ module TransferAuthorizer
 
     private
 
-    # 1. Both keys are set and different.
+    # 1. Both keys (and the ids the other steps read) are set, the keys different.
     def keys?
-      missing = %w[MANZA_CREATOR_API_KEY MANZA_AUTHORIZER_API_KEY].select { |name| value(name).empty? }
+      missing = %w[MANZA_CREATOR_API_KEY MANZA_AUTHORIZER_API_KEY MANZA_ACCOUNT_ID MANZA_BENEFICIARY_ID]
+                .select { |name| value(name).empty? }
       if !missing.empty?
-        fail_step("#{missing.join(" and ")} not set", "set key A and key B in .env")
+        fail_step("#{missing.join(", ")} not set", "set them in .env")
       elsif value("MANZA_CREATOR_API_KEY") == value("MANZA_AUTHORIZER_API_KEY")
         fail_step("key A and key B are the same key",
                   "use two different keys: the API refuses to let the key that created a transfer authorize it")

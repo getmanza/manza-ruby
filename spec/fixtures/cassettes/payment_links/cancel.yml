@@ -42,7 +42,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-8e9V2fU5oM46mm3DRvkGHQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-4iTBKf7iZMYuVwSLez6OOg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -101,7 +101,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"d876aaadf0a4601ced516d6a825d909c"
+      - W/"c0d7c70dbd517fe10436c44d541d8255"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -125,15 +125,15 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=cx8kTEp8fdXcTbJ6CJ1b%2B%2F%2BBabKf1G9vrt%2B5FFrJGAd04H9guTou2dqIm8LhvrqmM8buz4CKpK85BMaithnyELG%2FZDoHrgErBXObyRd1vpN%2BxkR3SholKyMl2JO6ve7tbqz4mUkmazuQ4fM%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=XIThv%2B4qwuTg0DGX7s0kfTR9qVJrEbmaqWxDTqe%2FPVpbbUE%2B9aNsIXVCV6il%2BBBUEhTEMIAdKEpfomGsL844gkw7hdC%2FcQ%2Fb94upW6Ilas%2F2nf5%2FRtFzvdSwi7vom6rOA7fwTxDqC4Zp2Ao%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"fixture-cancellable-payment-link-id","slug":"RY4u6FOEjIhH","link_type":"single","currency_code":"MAD","title":"Manza
-        Fixture — cancellable","description":"[zazu-ruby-fixture] cancellable","payment_reference":"fixture-cancellable-49fa8d73","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"cancelled","amount":"100.0","url":"https://pay.ma.manza.dev/payment-link/RY4u6FOEjIhH","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-29T06:31:18+00:00","updated_at":"2026-10-29T06:31:44+00:00","account":{"id":"fixture-account-id","name":"Main
+      string: '{"id":"fixture-cancellable-payment-link-id","slug":"GZLvbCyOXaeQ","link_type":"single","currency_code":"MAD","title":"Manza
+        Fixture — cancellable","description":"[zazu-ruby-fixture] cancellable","payment_reference":"fixture-cancellable-33b4ca72","payments_count":0,"max_payments":null,"redirect_url":null,"invoice_id":null,"collect_billing_address":null,"billing_address":{},"status":"cancelled","amount":"100.0","url":"https://pay.ma.manza.dev/payment-link/GZLvbCyOXaeQ","expires_at":null,"paid_at":null,"settled_at":null,"created_at":"2026-10-29T06:48:09+00:00","updated_at":"2026-10-29T06:48:33+00:00","account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"}}'
-  recorded_at: Thu, 29 Oct 2026 06:31:44 GMT
+  recorded_at: Thu, 29 Oct 2026 06:48:34 GMT
 recorded_with: VCR 6.4.0

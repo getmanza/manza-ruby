@@ -38,7 +38,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-45VbrgH4Gj3DgShvsbNDcg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-bB0+aub8hpWa2cpoinc45w==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -97,7 +97,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"9897747ab8db029c0b4673424d55cc07"
+      - W/"3d5f9cf95bf4a1bfb44a8a3e1b34e6fe"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -121,17 +121,17 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qXzTrlXvX1wogDpeS3fPSBGvNNF34j00%2Fiz7MkIXxpgKFXEKB1%2F1o4yMwGv7L3WeInJ1OUhp%2BsaK1b8JlpLSFlZGBKtxUbsMT06RJ2XWdti%2BSXfoImgKTrBC4bJQfe2rPfKJ6wStfWbBZWc%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=FlLCed0tcdc9nX%2Brp3k3%2B1%2FEAl8%2FRpR%2F5fwNnlNZ%2BMGDZWCPP%2BZzPtfAVMNx64FX1l81HoUwpkawgLDy5hkhVA1AsnhEN5LoK98ZfZhvFvNVv029svgnuO9AgzIN6TMXiFuy8J1gPPiRbKA%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-deletable-webhook-id","url":"https://example.com/zazu-fixture-deletable-a97884d0","description":"[zazu-ruby-fixture]
-        deletable","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:31:19+00:00","updated_at":"2026-10-29T06:31:19+00:00"},{"id":"fixture-disabled-webhook-id","url":"https://example.com/zazu-fixture-disabled-47668336","description":"[zazu-ruby-fixture]
-        disabled","events":["payment_link.paid"],"status":"disabled","disabled_at":"2026-10-29T06:31:19+00:00","last_succeeded_at":null,"created_at":"2026-10-29T06:31:18+00:00","updated_at":"2026-10-29T06:31:18+00:00"},{"id":"fixture-enabled-webhook-id","url":"https://example.com/zazu-fixture-enabled-ea970c14","description":"[zazu-ruby-fixture]
-        enabled","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:31:18+00:00","updated_at":"2026-10-29T06:31:18+00:00"},{"id":"fixture-webhook-id","url":"https://example.com/zazu-fixture-primary-a31ad7a0","description":"[zazu-ruby-fixture]
-        primary","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:31:18+00:00","updated_at":"2026-10-29T06:31:18+00:00"}],"has_more":false,"next_cursor":null}'
-  recorded_at: Thu, 29 Oct 2026 06:31:56 GMT
+      string: '{"data":[{"id":"fixture-deletable-webhook-id","url":"https://example.com/zazu-fixture-deletable-6394fdf6","description":"[zazu-ruby-fixture]
+        deletable","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:48:10+00:00","updated_at":"2026-10-29T06:48:10+00:00"},{"id":"fixture-disabled-webhook-id","url":"https://example.com/zazu-fixture-disabled-370d8eba","description":"[zazu-ruby-fixture]
+        disabled","events":["payment_link.paid"],"status":"disabled","disabled_at":"2026-10-29T06:48:10+00:00","last_succeeded_at":null,"created_at":"2026-10-29T06:48:10+00:00","updated_at":"2026-10-29T06:48:10+00:00"},{"id":"fixture-enabled-webhook-id","url":"https://example.com/zazu-fixture-enabled-3a7998f3","description":"[zazu-ruby-fixture]
+        enabled","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:48:10+00:00","updated_at":"2026-10-29T06:48:10+00:00"},{"id":"fixture-webhook-id","url":"https://example.com/zazu-fixture-primary-11760527","description":"[zazu-ruby-fixture]
+        primary","events":["payment_link.paid"],"status":"active","disabled_at":null,"last_succeeded_at":null,"created_at":"2026-10-29T06:48:09+00:00","updated_at":"2026-10-29T06:48:09+00:00"}],"has_more":false,"next_cursor":null}'
+  recorded_at: Thu, 29 Oct 2026 06:48:42 GMT
 recorded_with: VCR 6.4.0

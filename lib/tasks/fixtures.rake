@@ -416,7 +416,8 @@ module Fixtures
     # There is no delete endpoint for beneficiaries, bank accounts or
     # trust requests. API-created ones stay on staging, inert, and are
     # excluded from teardown. The trust request stays `pending`: nobody
-    # approves it, so the seeded account never becomes a trusted payee.
+    # approves it. The account becomes a trusted payee only when the
+    # authorize_new_payee spec authorizes the new-payee draft to it.
     def seed_beneficiary!
       beneficiary = @client.beneficiaries.create(
         beneficiary_type: "business",

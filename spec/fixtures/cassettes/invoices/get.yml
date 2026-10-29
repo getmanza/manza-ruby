@@ -38,7 +38,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-Ud0gWs3DdK/A9kA2UUh/gQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-qpkPeoZefryo8a5KC6U+xg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -97,7 +97,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"423961366f20d5a6cdf2dd45a51f992f"
+      - W/"62e04877fe2a58d2ceec7fe0cd4214fb"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -121,7 +121,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=O4yZVBC8cbH3HXB%2BPyTnNnEtapQkHXQDVLyLbhYdvsA%2FIlo0mb1wdiWJ0IdhqdBX%2BQ9a62fiIGilixqh1TyZxuVSMN79MtgFl32CJqJpSlKLo%2FibRtxqlS4OB2v5xSTiZXd3ZI%2BMPpAsGWU%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=sRJZIX2iBVvTx2EWtZh%2B3nLmC4N27jE9yWPjc406YvqHeSlYxDP9CTadQi5eOCZQeSdkuT3jykj424ASMtFkp5MhsuO2N3LpzqbYhUlpf6Ldils1DyKO6O%2BJDWeVFlR%2BXWyMP1GKy8MNxgo%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -129,6 +129,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtaW52b2ljZS1pZCIsIm51bWJlciI6IklOVi0yMDI2MTAtMDEzIiwic3RhdHVzIjoicGVuZGluZ19hcHByb3ZhbCIsImN1cnJlbmN5X2NvZGUiOiJNQUQiLCJpc3N1ZV9kYXRlIjoiMjAyNi0xMC0yOSIsImR1ZV9kYXRlIjoiMjAyNi0xMS0yOCIsInJlZmVyZW5jZSI6InphenUtcnVieS1maXh0dXJlLXYxLWludi0wIiwibm90ZXMiOiJbemF6dS1ydWJ5LWZpeHR1cmVdIGRyYWZ0IDAiLCJwYXltZW50X3Rlcm1zIjpudWxsLCJzZW5kX3RvX2VtYWlsIjpudWxsLCJjcmVkaXRlZF9pbnZvaWNlX2lkIjpudWxsLCJkZWxpdmVyeV9kYXRlIjpudWxsLCJzdWJ0b3RhbCI6IjEwMC4wIiwiZGlzY291bnRfdG90YWwiOiIwLjAiLCJ0YXhfdG90YWwiOiIyMC4wIiwidG90YWwiOiIxMjAuMCIsInNlbnRfYXQiOm51bGwsInBhaWRfYXQiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjMxOjEzKzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMjlUMDY6MzE6MTMrMDA6MDAiLCJjcmVkaXRfbm90ZSI6ZmFsc2UsImNyZWRpdF9ub3RlcyI6W10sImN1c3RvbWVyIjp7ImlkIjoiZml4dHVyZS1jdXN0b21lci1pZCIsIm5hbWUiOiJNYW56YSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJlbWFpbCI6ImZpeHR1cmUtcHJpbWFyeS02YzY3NjA1ZEBleGFtcGxlLmNvbSIsInBob25lIjpudWxsLCJ0YXhfaWQiOm51bGwsImljZV9udW1iZXIiOiI0NTM4MDIzNTUyMDIzMTkifSwiYmlsbGluZ19hZGRyZXNzIjpudWxsLCJpdGVtcyI6W3siaWQiOiIwMWExODY1Yi0wMWYxLTcxZmMtYjljYy0zMGU4OWUwNjI5MTQiLCJkZXNjcmlwdGlvbiI6Ik1hbnphIGZpeHR1cmUgbGluZSBpdGVtIiwicG9zaXRpb24iOjAsInF1YW50aXR5IjoiMS4wIiwidW5pdF9wcmljZSI6IjEwMC4wIiwidGF4X3JhdGUiOiIwLjIiLCJhbW91bnQiOiIxMDAuMCJ9XSwiZGlzY291bnRzIjpbXSwicGF5bWVudF9saW5rIjpudWxsfQ==
-  recorded_at: Thu, 29 Oct 2026 06:31:38 GMT
+        eyJpZCI6ImZpeHR1cmUtaW52b2ljZS1pZCIsIm51bWJlciI6IklOVi0yMDI2MTAtMDEzIiwic3RhdHVzIjoicGVuZGluZ19hcHByb3ZhbCIsImN1cnJlbmN5X2NvZGUiOiJNQUQiLCJpc3N1ZV9kYXRlIjoiMjAyNi0xMC0yOSIsImR1ZV9kYXRlIjoiMjAyNi0xMS0yOCIsInJlZmVyZW5jZSI6InphenUtcnVieS1maXh0dXJlLXYxLWludi0wIiwibm90ZXMiOiJbemF6dS1ydWJ5LWZpeHR1cmVdIGRyYWZ0IDAiLCJwYXltZW50X3Rlcm1zIjpudWxsLCJzZW5kX3RvX2VtYWlsIjpudWxsLCJjcmVkaXRlZF9pbnZvaWNlX2lkIjpudWxsLCJkZWxpdmVyeV9kYXRlIjpudWxsLCJzdWJ0b3RhbCI6IjEwMC4wIiwiZGlzY291bnRfdG90YWwiOiIwLjAiLCJ0YXhfdG90YWwiOiIyMC4wIiwidG90YWwiOiIxMjAuMCIsInNlbnRfYXQiOm51bGwsInBhaWRfYXQiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjQ4OjA2KzAwOjAwIiwidXBkYXRlZF9hdCI6IjIwMjYtMTAtMjlUMDY6NDg6MDYrMDA6MDAiLCJjcmVkaXRfbm90ZSI6ZmFsc2UsImNyZWRpdF9ub3RlcyI6W10sImN1c3RvbWVyIjp7ImlkIjoiZml4dHVyZS1jdXN0b21lci1pZCIsIm5hbWUiOiJNYW56YSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJlbWFpbCI6ImZpeHR1cmUtcHJpbWFyeS04YjgxNTRlOUBleGFtcGxlLmNvbSIsInBob25lIjpudWxsLCJ0YXhfaWQiOm51bGwsImljZV9udW1iZXIiOiI0OTQ3OTA1MjA4MTQ5NjYifSwiYmlsbGluZ19hZGRyZXNzIjpudWxsLCJpdGVtcyI6W3siaWQiOiIwMWExODY2YS03NDRiLTdmYWQtOTExMy1hZDhjMzMxYjQ0MzIiLCJkZXNjcmlwdGlvbiI6Ik1hbnphIGZpeHR1cmUgbGluZSBpdGVtIiwicG9zaXRpb24iOjAsInF1YW50aXR5IjoiMS4wIiwidW5pdF9wcmljZSI6IjEwMC4wIiwidGF4X3JhdGUiOiIwLjIiLCJhbW91bnQiOiIxMDAuMCJ9XSwiZGlzY291bnRzIjpbXSwicGF5bWVudF9saW5rIjpudWxsfQ==
+  recorded_at: Thu, 29 Oct 2026 06:48:28 GMT
 recorded_with: VCR 6.4.0
