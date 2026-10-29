@@ -1,0 +1,25 @@
+spec/fixtures/cassettes/transfer_authorizer/get.yml
+  s_65c3c5c5f93719::t_888dbecab6db61 133
+lib/manza/resources/transfer_drafts.rb
+  s_65c3c5c5f93719::t_888dbecab6db61 56-57
+CHANGELOG.md
+  s_65c3c5c5f93719::t_888dbecab6db61 49-50,56-57
+spec/support/vcr.rb
+  s_65c3c5c5f93719::t_888dbecab6db61 30,99-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d7887601333a8379021152581adad86836058ba8",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
