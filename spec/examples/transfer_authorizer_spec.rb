@@ -38,7 +38,8 @@ RSpec.describe TransferAuthorizer::App do
           "external_account_id" => "01958e51-7c5a-7000-8000-000000000014",
           "destination_account_id" => nil,
           "payment_reference" => "INV-2026-001",
-          "client_reference" => "po_8812"
+          "client_reference" => "po_8812",
+          "payee_trusted" => false
         },
         "signature_input" => "manza.transfer-authorization.v1|01958e51-7c5a-7000-8000-000000000012|" \
                              "9f86d081884c7d659a2feaa0c55ad015|2500.0|ZAR|01958e51-7c5a-7000-8000-000000000013|" \
@@ -58,6 +59,7 @@ RSpec.describe TransferAuthorizer::App do
   let(:dir) { Dir.mktmpdir }
   let(:ledger) { TransferAuthorizer::Ledger.new(File.join(dir, "ledger.json")) }
   let(:log) { StringIO.new }
+  let(:allow_new_payees) { true }
   let(:app) do
     described_class.new(
       client: Manza::Client.new(api_key: "key-b", base_url: base_url),
@@ -66,7 +68,8 @@ RSpec.describe TransferAuthorizer::App do
       executor: ->(&job) { job.call },
       logger: Logger.new(log),
       ledger_wait: 0,
-      retry_delay: 0
+      retry_delay: 0,
+      allow_new_payees: allow_new_payees
     )
   end
 
@@ -148,6 +151,79 @@ RSpec.describe TransferAuthorizer::App do
 
       expect(stub).to have_been_requested.times(3)
       expect(log.string).to include("API error Manza::ServerError")
+    end
+
+    it "retries authorize while the API answers authorization_busy" do
+      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+             .to_return(
+               { status: 409, headers: { "Content-Type" => "application/json" },
+                 body: JSON.generate("error" => { "type" => "authorization_busy" }) },
+               { status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing") }
+             )
+
+      deliver(JSON.generate(example_payload))
+
+      expect(stub).to have_been_requested.twice
+      expect(log.string).to include("retrying", "authorized")
+    end
+
+    it "does not retry another conflict" do
+      stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+             .to_return(status: 409, headers: { "Content-Type" => "application/json" },
+                        body: JSON.generate("error" => { "type" => "already_answered" }))
+
+      deliver(JSON.generate(example_payload))
+
+      expect(stub).to have_been_requested.once
+      expect(log.string).to include("API error Manza::ConflictError")
+    end
+
+    it "logs that a new payee will be trusted on authorize" do
+      stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing"))
+
+      deliver(JSON.generate(example_payload))
+
+      expect(log.string).to include("new payee ext:01958e51-7c5a-7000-8000-000000000014, will be trusted on authorize")
+    end
+
+    it "does not log a new payee when the payee is already trusted" do
+      stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing"))
+      payload = JSON.parse(JSON.generate(example_payload))
+      payload["data"]["payment"]["payee_trusted"] = true
+
+      deliver(JSON.generate(payload))
+
+      expect(log.string).not_to include("new payee")
+    end
+
+    context "with ALLOW_NEW_PAYEES=false" do
+      let(:allow_new_payees) { false }
+
+      it "declines a transfer to a payee that is not trusted yet" do
+        stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/decline")
+               .with(body: hash_including("authorization_id" => authorization_id, "reason" => /new payee/))
+               .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                          body: JSON.generate("id" => authorization_id, "status" => "declined"))
+
+        deliver(JSON.generate(example_payload))
+
+        expect(stub).to have_been_requested.once
+        expect(a_request(:post, %r{/authorize\z})).not_to have_been_made
+        expect(log.string).to include("declined", "new payee")
+      end
+
+      it "authorizes a trusted payee" do
+        stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/authorize")
+               .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: JSON.generate("status" => "processing"))
+        payload = JSON.parse(JSON.generate(example_payload))
+        payload["data"]["payment"]["payee_trusted"] = true
+
+        deliver(JSON.generate(payload))
+
+        expect(stub).to have_been_requested.once
+      end
     end
 
     it "does not retry a validation error" do

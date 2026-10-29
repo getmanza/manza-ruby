@@ -12,6 +12,21 @@ module Manza
     # representative approves it. Poll {#get} (status: requested →
     # processing → completed / failed) or subscribe to the
     # `transfer.executed` webhook to follow execution.
+    #
+    # A draft's `authorization` says which way it went: `pending` (a
+    # challenge was sent), `authorized`, `declined`, or `refused` /
+    # `expired` / `superseded` / `failed` with a `refusal_reason` (it went
+    # to the approvers): `untrusted_payee`, `unrestricted_api_key`,
+    # `over_new_payee_limit`, `over_transfer_limit`, `over_daily_limit`,
+    # `currency_mismatch`, `suspended`, `secret_expired`,
+    # `signature_failed`, `stale` (the draft, its payee's bank details or
+    # the endpoint changed while the challenge was open) or `expired`.
+    # `authorization` is nil when no authorizer was enrolled.
+    #
+    # With "Approve transfers to new payees" on (enrolment, in the app),
+    # a draft to bank details the entity never trusted is challenged too,
+    # up to the new-payee limit, when the creating key has an IP
+    # allowlist; authorizing it also trusts the payee.
     class TransferDrafts < Base
       # POST /api/transfer_drafts
       #
@@ -36,8 +51,11 @@ module Manza
       # `payment.authorization_requested` webhook; build `signature` with
       # {Manza::TransferAuthorization}. Requires the `transfers:authorize`
       # scope on a key other than the draft's creator (otherwise 403
-      # `same_key_forbidden`). A blank signature is refused locally: the
-      # API counts it as a failed attempt, and five fail the challenge.
+      # `same_key_forbidden`), bound to an IP allowlist (otherwise 403
+      # `unrestricted_api_key`). A 409 {Manza::ConflictError} with `type`
+      # `authorization_busy` means a bank-detail edit or trust was in
+      # flight: retry. A blank signature is refused locally: the API counts
+      # it as a failed attempt, and five fail the challenge.
       def authorize(id, authorization_id:, signature:)
         raise Manza::ArgumentError, "signature cannot be blank" if signature.to_s.strip.empty?
 
@@ -50,7 +68,8 @@ module Manza
       # POST /api/transfer_drafts/:id/decline
       #
       # Declines the challenge and deletes the draft. Returns the
-      # authorization (`status: "declined"`).
+      # authorization (`status: "declined"`, `declined_at`, and a nil
+      # `refusal_reason`).
       def decline(id, authorization_id:, reason: nil)
         http_post(
           encode_path("api/transfer_drafts", id, "decline"),

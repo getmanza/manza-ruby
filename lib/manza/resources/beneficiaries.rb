@@ -4,7 +4,10 @@ module Manza
   module Resources
     # Saved transfer recipients. Each beneficiary embeds its bank
     # accounts; the one flagged `default` is used when a transfer names
-    # only the beneficiary_id. There is no update or delete via the API.
+    # only the beneficiary_id. Each bank account carries `trusted`: whether
+    # its bank details are a trusted payee, which machine-authorized
+    # transfers need (or "Approve transfers to new payees" on for details
+    # never trusted). There is no update or delete via the API.
     class Beneficiaries < Base
       # GET /api/beneficiaries
       def list(limit: MAX_PER_PAGE, cursor: nil)

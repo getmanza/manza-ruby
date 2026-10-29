@@ -82,7 +82,7 @@ manza.checkout_sessions.get("cs_...")
 manza.beneficiaries.list
 manza.beneficiaries.create(beneficiary_type: "business", company_name: "Acme Supplies", email: "ap@acme.com")
 manza.beneficiaries.list_external_accounts("01a0...")
-manza.beneficiaries.get_external_account("01a0...", "01a1...")
+manza.beneficiaries.get_external_account("01a0...", "01a1...")  # "trusted": true once a trusted payee
 manza.beneficiaries.create_external_account("01a0...", account_number: "007780...", name: "Main account")
 
 manza.payee_trust_requests.create(external_account_ids: ["01a1..."])
@@ -94,8 +94,10 @@ manza.transfer_drafts.create(
   amount: "2500.00",
   client_reference: "po_1042" # unique per entity; a duplicate raises Manza::ConflictError
 )
-manza.transfer_drafts.get("01a3...")
+manza.transfer_drafts.get("01a3...")            # authorization: status, refusal_reason
 manza.transfer_drafts.decline("01a3...", authorization_id: "01a4...", reason: "Not ours")
+
+manza.transfer_authorizer.get  # status, suspension_reason, limits, daily_authorized_total; NotFoundError: none enrolled
 
 manza.webhook_endpoints.list
 manza.webhook_endpoints.create(
@@ -110,12 +112,12 @@ manza.webhook_endpoints.disable("01a0...")
 
 ## Machine-authorized transfers
 
-A draft inside your entity's authorization envelope (trusted payee, within limits) is sent to your enrolled authorizer endpoint as a `payment.authorization_requested` webhook carrying an `authorization.id` and a one-time `nonce`. Your system checks it against its own ledger, signs it and authorizes it with a **different API key** from the one that created it. [`examples/transfer_authorizer/`](examples/transfer_authorizer/) runs the whole flow.
+A draft inside your entity's authorization envelope (trusted payee, or a new one when you allow it, within limits) is sent to your enrolled authorizer endpoint as a `payment.authorization_requested` webhook carrying an `authorization.id` and a one-time `nonce`. Your system checks it against its own ledger, signs it and authorizes it with a **different API key** from the one that created it. [`examples/transfer_authorizer/`](examples/transfer_authorizer/) runs the whole flow.
 
 ### Setup, step by step
 
 1. **Feature flags.** Ask support to enable API transfers and transfer authorization (`release_api_webhook_authorization`) on your workspace.
-2. **Two API keys.** Key A creates drafts (`transfers:write`; `beneficiaries:request_trust` for step 6). Key B answers the challenges (`transfers:authorize`). The creating key is always refused with 403 `same_key_forbidden`, so keep key B and the signing secret on the system that holds your ledger.
+2. **Two API keys.** Key A creates drafts (`transfers:write`; `beneficiaries:request_trust` for step 6; `entity:read`, `accounts:read`, `webhook_endpoints:read` and `beneficiaries:read` for the preflight in step 7). Key B answers the challenges (`transfers:authorize`). The creating key is always refused with 403 `same_key_forbidden`, so keep key B and the signing secret on the system that holds your ledger. Bind key B to an IP allowlist: authorizing from a key without one is refused with 403 `unrestricted_api_key`. Bind key A to one too if you allow new payees (step 6): a draft to a new payee from a key without an allowlist goes to your approvers (`unrestricted_api_key`).
 3. **A stable public URL.** Your authorizer needs an HTTPS URL that never changes: an enrolled endpoint's URL is locked. Use a reserved ngrok domain (`ngrok http --url=your-name.ngrok.app 4599`) or a named Cloudflare tunnel (see [The authorizer tunnel](#the-authorizer-tunnel)). Never a free ngrok URL: it changes on every restart.
 4. **Create the webhook endpoint** at that URL:
 
@@ -124,14 +126,15 @@ A draft inside your entity's authorization envelope (trusted payee, within limit
    ```
 
 5. **Enrol it in the app**: Settings → Developer → Transfer approval. Pick the endpoint, the currency and both limits, confirm with your two-factor code, and copy the signing secret: it is shown once.
-6. **Trust the payee.** An approver marks the beneficiary's bank account as trusted from the Beneficiaries list, or you ask them to:
+6. **Allow new payees, or trust each payee.** Turn on *Approve transfers to new payees* at enrolment (or later, same page, with your two-factor code) and set the *Limit per transfer to a new payee*. Your authorizer may then approve a transfer to bank details your workspace never trusted, up to that limit, and its signature trusts them: the webhook's `payment.payee_trusted` is `false` for such a transfer. Bank details whose trust was revoked, or that were edited after trusting, still go to your approvers. Without the option, an approver marks the beneficiary's bank account as trusted from the Beneficiaries list, or you ask them to:
 
    ```ruby
    manza.payee_trust_requests.create(external_account_ids: ["01a1..."])
    ```
 
-7. **Run the example**: `bundle exec rackup -p 4599` in one terminal, `bundle exec ruby create_transfer.rb` in another (from `examples/transfer_authorizer/`, after `bundle install` and filling in `.env`).
-8. **Troubleshooting**: a draft that goes to your approvers instead failed one of the checks in "Which transfers qualify"; an API error's `type` is in the errors table. Both are in the [transfer authorization docs](https://ma.manza.finance/docs/api/transfer-authorization).
+   `trusted` on `manza.beneficiaries.get_external_account` says which it is. The API does not show whether the option is on.
+7. **Run the preflight, then the example** (from `examples/transfer_authorizer/`, after `bundle install` and filling in `.env`): `bundle exec ruby preflight.rb` checks steps 1–6 and prints a fix for each that fails. Then `bundle exec rackup -p 4599` in one terminal, `bundle exec ruby create_transfer.rb` in another.
+8. **Troubleshooting**: a draft that goes to your approvers instead has an `authorization` with status `refused` and a `refusal_reason` (`create_transfer.rb` prints it in words); `manza.transfer_authorizer.get` shows a suspension and its `suspension_reason`. An authorize answered 409 `authorization_busy` (a bank-detail edit or trust on the same payee was in flight) is safe to retry. The reasons, and an API error's `type`, are in the [transfer authorization docs](https://ma.manza.finance/docs/api/transfer-authorization).
 
 ### Verifying the webhook
 
@@ -244,7 +247,7 @@ cloudflared tunnel --config ~/.cloudflared/zazu-sdk-authorizer.yml run zazu-sdk-
 bundle exec rake fixtures:record
 ```
 
-Recording executes a real 10.00 MAD transfer on staging (the authorize cassette). The one-time staging setup (keys, authorizer enrolment, trusted payee) is listed at the top of `lib/tasks/fixtures.rake`.
+Recording executes two real 10.00 MAD transfers on staging: the authorize cassette pays the trusted payee, and authorize_new_payee pays a freshly seeded bank account (and trusts it). The one-time staging setup (keys, authorizer enrolment, trusted payee, the new-payee option) is listed at the top of `lib/tasks/fixtures.rake`; AGENTS.md → Staging fixture state keeps it in place.
 
 ### The authorizer tunnel
 
