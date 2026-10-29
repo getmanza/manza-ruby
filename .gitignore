@@ -17,3 +17,4 @@ Gemfile.lock
 .env
 .env.local
 .env.bak
+.claude/worktrees/
