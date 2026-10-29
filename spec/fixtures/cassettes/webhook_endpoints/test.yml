@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Content-Length:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-M8bbmHoQenSwQ7gxi/dXTw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-gvtrl0wwfHRUdOQ+9AyDUw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -121,13 +121,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=YQkjqGJh1Xf8fdQDnvQZxdD4Mor9LIYPjfCKJt9kda8EVJq%2BBdi3bBy9%2B%2BnE15oTqhWPZRoXJOP9vmndPdPc8VsI2rc%2F0bymgwW%2Bbu%2BJzePNVtveZr9Ojuww5L9duSNOPuENl5z%2FZbV09gs%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2FQ0LiN8Vemg1vpmCORDYzR3UulwHESddWsMTkS35sZiRLM4tR4f2Z8u8FoLbmtgvDfeyH9DcGWbnY6Mjgo2r1NNLKCtdBCAeCIXvi6nbYft6xFUFRu%2BFuQWxh%2FKIAMgI7TGB2bQhj4hmL8k%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"delivery_id":"01a18672-dc1e-73d1-9c38-969facc4856d","status":"queued"}'
-  recorded_at: Thu, 29 Oct 2026 06:57:17 GMT
+      string: '{"delivery_id":"01a187f0-9ef7-75b8-ad2b-30611d32aa7c","status":"queued"}'
+  recorded_at: Thu, 29 Oct 2026 13:54:16 GMT
 recorded_with: VCR 6.4.0

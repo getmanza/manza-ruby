@@ -87,6 +87,10 @@ module Manza
       @payment_links ||= Resources::PaymentLinks.new(self)
     end
 
+    def payments
+      @payments ||= Resources::Payments.new(self)
+    end
+
     def payee_trust_requests
       @payee_trust_requests ||= Resources::PayeeTrustRequests.new(self)
     end
@@ -95,8 +99,12 @@ module Manza
       @transfer_authorizer ||= Resources::TransferAuthorizer.new(self)
     end
 
+    # @deprecated Use {#payments}. Kept for all of 1.x: returns the same
+    #   resource, which calls `/api/payments`. Warns when Ruby's deprecation
+    #   warnings are on (`Warning[:deprecated] = true` or `-W:deprecated`).
     def transfer_drafts
-      @transfer_drafts ||= Resources::TransferDrafts.new(self)
+      warn("[manza] transfer_drafts is deprecated; use payments instead.", category: :deprecated, uplevel: 1)
+      payments
     end
 
     def webhook_endpoints

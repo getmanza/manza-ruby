@@ -9,7 +9,7 @@ Status: **shipped** — zazu-ruby and every SDK released 0.3.0 on 2026-10-02; th
 | 409 `duplicate_client_reference` | New 10th error class `ConflictError` exposing `payment_id`; 400 maps to `ValidationError` |
 | Machine-authorization cassettes | Record the full happy path (authorize 200, decline 200, trust request 201) |
 | Wire names | Keep this release additive: still `Zazu-Version`, `staging.zazu.ma`, `ZAZU_*` env, `Zazu` namespace. Everything Manza-named lands in Plan 2 |
-| Payments vs transfer_drafts | Keep `transfer_drafts` (the alias is permanent server-side) and add `authorize`/`decline` to it. Renaming to `payments` is a Plan 2 break |
+| Payments vs transfer_drafts | Keep `transfer_drafts` (the alias is permanent server-side) and add `authorize`/`decline` to it. Renaming to `payments` is a Plan 2 break. Superseded by #25: `payments` was added in 1.3.0 with `transfer_drafts` kept as a deprecated alias, no break |
 | Webhook signature verifier | **Out of scope.** Only the transfer-authorization signer ships |
 
 Cost of the chosen order: the cassettes get recorded twice (here, then again in Plan 2 against `ma.manza.dev` / `Manza-Version`).

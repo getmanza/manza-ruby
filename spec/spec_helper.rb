@@ -20,7 +20,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
   # Files and examples run in the order they are defined, never random:
   # recording depends on it (beneficiaries_spec reads the seeded account
-  # untrusted before transfer_drafts_spec's new-payee authorize trusts it;
+  # untrusted before payments_spec's new-payee authorize trusts it;
   # a bad signature records before the valid authorize).
   config.order = :defined
   config.expect_with :rspec do |c|

@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-xyxLA/vs670UlB01anEWBw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-i09ql2p0Q+vl5Ns8fhjs/g==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"5ba551148eb89c58c66f0f3c4260586c"
+      - W/"e1e13104e66992c8b7caa1906305eaa5"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=xa%2BDF8mKopLxcluCaaw%2FG7bRSvMNgspTfeZykNC92JoejMmqQalhhdM%2Bc04jsknPtktajfV19Hz1h7alDi22MsfHLA909LyaDYN%2FVf80L%2BJG%2BPvOaHzd78R45WesNbVluck%2BpKv3T6JbTac%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Dux6iLjsZzKT7DM%2FqCT1JhVufr43AQYj%2F8jYKfZUCWRkocAW2EjKmuyG%2FMrNyGHo2eXLNE06iffoCcW9g8sCreIrB9Y6lsBYi%2F5gstzKrX4Pm8RdDHViYwxVQKIW5hewHmuWL4XrspG%2Bs%2BM%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"currency_code":"MAD","webhook_endpoint_id":"01a0fcf7-cf63-798e-9d22-855756ccf684","status":"active","suspension_reason":null,"per_transfer_limit":"10.0","daily_limit":"500.0","daily_authorized_total":"0.0","secret_expires_at":"2026-12-31T15:23:26+00:00","enrolled_at":"2026-10-02T14:22:54+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:57:07 GMT
+  recorded_at: Thu, 29 Oct 2026 13:54:14 GMT
 recorded_with: VCR 6.4.0

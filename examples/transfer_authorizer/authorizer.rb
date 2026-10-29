@@ -149,13 +149,13 @@ module TransferAuthorizer
       @logger.info("signed the challenge for payment #{entry["payment_id"]}")
 
       response = with_retries do
-        @client.transfer_drafts.authorize(entry["payment_id"], authorization_id: authorization["id"], signature: signature)
+        @client.payments.authorize(entry["payment_id"], authorization_id: authorization["id"], signature: signature)
       end
       @logger.info("authorized payment #{entry["payment_id"]} (status #{response.body["status"].inspect})")
     end
 
     def decline(payment_id, authorization_id, reason)
-      with_retries { @client.transfer_drafts.decline(payment_id, authorization_id: authorization_id, reason: reason) }
+      with_retries { @client.payments.decline(payment_id, authorization_id: authorization_id, reason: reason) }
       @logger.warn("declined payment #{payment_id}: #{reason}")
     end
 

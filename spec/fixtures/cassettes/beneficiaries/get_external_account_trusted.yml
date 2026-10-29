@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.0.0
+      - manza-ruby/1.2.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-0sCnwNhcFfpwtusah+hnWQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-uiJ7A64dL4Ss8xkvnkGWug==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"13dbc6930da0a127999072aad49cd78f"
+      - W/"40cdbb2e0902887eae67f0260bb41752"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,7 +123,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=snz5W2yCn6fDwswddNK4%2FZelasYmIjQ3d3r8JQPkfbEryf59LlyiVM3U%2FRsmqolJyxUlhxI2zYB7qv33E6xWfy20vBx%2FSzXodG6s5f1sOJmBFPg6TtHqGk0BF7g55P8DG7ke7sLVUTqsKKQ%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=a%2BVjDSSIJ756njr7YBBIeulXytJJNXExJNG%2F2j70FwTGv1EK13NFN%2B3cQCEI3HFUa6i3cGbZGxC3ic7I81%2BZRiSVzJUZ8z7CRu7l8oc27DutGsHmKmW54ghi09XamwGvZ6aVJDfqbqtJ44Q%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -131,5 +131,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"id":"fixture-external-account-id","name":"Fixture Seeded Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true,"trusted":true}'
-  recorded_at: Thu, 29 Oct 2026 06:57:14 GMT
+  recorded_at: Thu, 29 Oct 2026 13:54:13 GMT
 recorded_with: VCR 6.4.0

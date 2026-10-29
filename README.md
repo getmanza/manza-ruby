@@ -88,14 +88,15 @@ manza.beneficiaries.create_external_account("01a0...", account_number: "007780..
 manza.payee_trust_requests.create(external_account_ids: ["01a1..."])
 manza.payee_trust_requests.get("01a2...")
 
-manza.transfer_drafts.create(
+manza.payments.create(
   account_id: "019dde7d-...",
   beneficiary_id: "01a0...",
   amount: "2500.00",
   client_reference: "po_1042" # unique per entity; a duplicate raises Manza::ConflictError
 )
-manza.transfer_drafts.get("01a3...")            # authorization: status, refusal_reason
-manza.transfer_drafts.decline("01a3...", authorization_id: "01a4...", reason: "Not ours")
+manza.payments.get("01a3...")  # authorization: status, refusal_reason
+manza.payments.decline("01a3...", authorization_id: "01a4...", reason: "Not ours")
+# manza.transfer_drafts is a deprecated alias of manza.payments (same methods, /api/payments)
 
 manza.transfer_authorizer.get  # status, suspension_reason, limits, daily_authorized_total; NotFoundError: none enrolled
 
@@ -167,7 +168,7 @@ input = Manza::TransferAuthorization.signature_input(
 signature = Manza::TransferAuthorization.sign(secret: signing_secret, signature_input: input)
 
 authorizer = Manza.new(api_key: ENV["MANZA_AUTHORIZER_API_KEY"])
-authorizer.transfer_drafts.authorize(draft["id"], authorization_id: webhook["data"]["authorization"]["id"], signature: signature)
+authorizer.payments.authorize(draft["id"], authorization_id: webhook["data"]["authorization"]["id"], signature: signature)
 ```
 
 A wrong signature raises `Manza::ValidationError` (`type` `invalid_signature`). Five on one challenge send the draft to your in-app approvers; five in a row suspend the authorizer.
