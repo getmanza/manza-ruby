@@ -21,8 +21,8 @@ module TransferAuthorizer
       "signature_failures" => "five invalid signatures in a row: fix the signing, then an approver resumes it in the app",
       "secret_expired" => "an approver rotates the secret in the app (and resumes it if it stays suspended); " \
                           "set the new one as MANZA_AUTHORIZER_SECRET",
-      "endpoint_disabled" => "re-enable the webhook endpoint (webhook_endpoints.enable); if it stays suspended, " \
-                             "an approver resumes it in the app"
+      "endpoint_disabled" => "re-enable the webhook endpoint (webhook_endpoints.enable), or enrol a new one if it was " \
+                             "deleted; if it stays suspended, an approver resumes it in the app"
     }.freeze
 
     def initialize(env: ENV, amount: "10.00", out: $stdout, now: Time.now)
