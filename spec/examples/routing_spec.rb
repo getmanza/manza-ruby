@@ -10,7 +10,19 @@ RSpec.describe TransferAuthorizer::Routing do
     end
 
     it "explains every create-time refusal reason in words" do
-      described_class::REFUSAL_REASONS.each do |reason, words|
+      expected = {
+        "untrusted_payee" => "bank details are not trusted",
+        "unrestricted_api_key" => "key A has no IP allowlist",
+        "over_new_payee_limit" => "limit per transfer to a new payee",
+        "over_transfer_limit" => "over the limit per transfer",
+        "over_daily_limit" => "limit per 24 hours",
+        "currency_mismatch" => "not the enrolled currency",
+        "suspended" => "is suspended",
+        "secret_expired" => "secret has expired"
+      }
+      expect(described_class::REFUSAL_REASONS.keys).to match_array(expected.keys)
+
+      expected.each do |reason, words|
         line = described_class.describe({ "status" => "refused", "refusal_reason" => reason })
 
         expect(line).to include("approvers", "refused", reason, words)

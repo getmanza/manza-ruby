@@ -99,7 +99,7 @@ RSpec.describe TransferAuthorizer::Preflight do
   end
 
   it "fails when the amount is not positive" do
-    %w[-5 0].each do |amount|
+    %w[-5 0 1/2 1e2].each do |amount|
       _, output = run(amount: amount)
 
       expect(failures(output).first).to include(amount.inspect, "positive")

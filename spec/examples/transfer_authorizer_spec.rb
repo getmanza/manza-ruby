@@ -203,7 +203,7 @@ RSpec.describe TransferAuthorizer::App do
 
       it "declines a webhook that does not say whether the payee is trusted" do
         stub = stub_request(:post, "#{base_url}/api/transfer_drafts/#{draft_id}/decline")
-               .with(body: hash_including("reason" => /new payee/))
+               .with(body: hash_including("authorization_id" => authorization_id, "reason" => /new payee/))
                .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: "{}")
         payload = JSON.parse(JSON.generate(example_payload))
         payload["data"]["payment"].delete("payee_trusted")

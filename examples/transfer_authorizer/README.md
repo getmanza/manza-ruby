@@ -17,7 +17,7 @@ Do steps 1–6 of [Setup, step by step](../../README.md#setup-step-by-step) in t
 cd examples/transfer_authorizer
 bundle install
 cp .env.example .env    # fill in both keys, the signing secret, the account and the beneficiary
-bundle exec ruby preflight.rb          # or: preflight.rb 250.00, the amount you will send
+bundle exec ruby preflight.rb          # or: bundle exec ruby preflight.rb 250.00, the amount you will send
 ```
 
 ## Preflight
@@ -26,7 +26,7 @@ bundle exec ruby preflight.rb          # or: preflight.rb 250.00, the amount you
 
 | Check | Fails when |
 |---|---|
-| Keys | `MANZA_CREATOR_API_KEY` or `MANZA_AUTHORIZER_API_KEY` is empty, or both are the same key |
+| Keys | any of `MANZA_CREATOR_API_KEY`, `MANZA_AUTHORIZER_API_KEY`, `MANZA_ACCOUNT_ID`, `MANZA_BENEFICIARY_ID` is empty, or the two keys are the same |
 | Key A reaches the API | `entity.get` with key A is refused: a wrong key, a missing scope, or this machine outside its IP allowlist |
 | Transfer authorizer | `transfer_authorizer.get` with key B is not `active`: prints the `suspension_reason` and its fix, or that nothing is enrolled |
 | Currency | `MANZA_ACCOUNT_ID`'s currency is not the enrolled currency |

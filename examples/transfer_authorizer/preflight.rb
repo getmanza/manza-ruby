@@ -30,7 +30,9 @@ module TransferAuthorizer
       @raw_amount = amount
       # Rational parses the API's decimal strings exactly, without the
       # bigdecimal gem (not a default gem since Ruby 3.4).
-      @amount = Rational(amount.to_s, exception: false)
+      # Plain decimals only: create_transfer.rb sends the string as is, so
+      # "1/2" or "1e2" would parse here but not mean the same to the API.
+      @amount = /\A\d+(?:\.\d+)?\z/.match?(amount.to_s) ? Rational(amount.to_s) : nil
       @amount = nil unless @amount&.positive?
       @out = out
       @now = now
