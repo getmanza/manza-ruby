@@ -41,7 +41,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-ghiO1ZsRQPabHFeqoIXJXw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-ETmB1CPdmVbUAXE+PlsSPA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -100,7 +100,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"ef07175b1e3dfddca95212313109c706"
+      - W/"8158f11e93fda5b07f6afde1cfff801f"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -124,14 +124,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2FHfbaIFmE%2FepJJUbrhmb2EnwmvewPlxQj8W4xg8ciVcpkQXi%2B0TjzmCw68h6WZcLX7sIxkCkK6RCGNB5E9yt6aDrKZHUuoPyhcGfaOPWkQYwfdqAGbQuMdUyKlqlNibs%2FWRGqS17EKXHtD8%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=JhtIgVaFe14HlVKzT0eesLVjTrKM5ljGvLZErzUmC9zHwUlcrIXCePVZ5Q8kxeZQvlMd46E3jE2%2BL6n2dGYWhOb0r52Ru%2Bec3gkGwIGyaDOiOsnlKSRQCJOM0GJA8X0mJx%2B9r1Hnlf9tJnw%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a1866a-b975-7967-8503-6e18632b4f1a","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Manza
-        Fixture Beneficiary spec","external_accounts":[],"created_at":"2026-10-29T06:48:23+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:48:24 GMT
+      string: '{"id":"01a18672-8f25-7abd-88af-7e69f05e71b5","beneficiary_type":"business","email":"fixture-beneficiary-spec@example.com","phone_number":null,"name":"Manza
+        Fixture Beneficiary spec","external_accounts":[],"created_at":"2026-10-29T06:56:57+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 06:56:57 GMT
 recorded_with: VCR 6.4.0

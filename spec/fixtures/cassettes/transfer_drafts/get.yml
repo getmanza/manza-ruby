@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-ZiWWusj4yzQPF8jyGDtA9A==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-esro4CRrfwiQU21Iy0LMoQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"484311b9d17532228c514ea28bf54068"
+      - W/"9b1cc8596f69b6264afc9953533fc414"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=62jD3Z%2FTsE2MGl5qnBJPEr23a1mIAknSDQ4pxAhi4ZcHpatLQBkjVw6QJDB25NPlHjvddmXAUhofOnJWe32MYJ3mP%2B08FADVH0nRmbSIRaoN6PD%2BMv5mGo4yjeZuSWnX7Qm15liRam0jeaA%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ME9N2xjCqHTf01bLQHKDLRr3SSker5%2Fukvrq1CTeQ8TQA0rMkMe26ROZhVClPx0X4NfHFJxdIQ6iOWR3GeDFt4tvPTfsPQ0%2FSRyInz4B%2BGaBjJ9Rm4eJ9UDxRPRHdhAS3qGt8O%2BlglO5jAo%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"id":"fixture-transfer-draft-id","status":"requested","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-transfer","client_reference":null,"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"10.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a1866a-8c5a-7797-8df2-93058c24a47a","status":"pending","expires_at":"2026-10-29T07:48:12+00:00","refusal_reason":null},"created_at":"2026-10-29T06:48:12+00:00","updated_at":"2026-10-29T06:48:12+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:48:35 GMT
+      string: '{"id":"fixture-transfer-draft-id","status":"requested","currency_code":"MAD","payment_reference":"zazu-ruby-fixture-v1-transfer","client_reference":null,"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"10.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a18672-6495-7b14-86c2-4142964cbc28","status":"pending","expires_at":"2026-10-29T07:56:46+00:00","refusal_reason":null},"created_at":"2026-10-29T06:56:46+00:00","updated_at":"2026-10-29T06:56:46+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 06:57:09 GMT
 recorded_with: VCR 6.4.0

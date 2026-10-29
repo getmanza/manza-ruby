@@ -12,7 +12,7 @@ RSpec.describe Manza::Resources::TransferDrafts do
         beneficiary_id: fixture_id("MANZA_FIXTURE_BENEFICIARY_ID"),
         amount: "10.00",
         payment_reference: "SDK fixture",
-        internal_notes: "[zazu-ruby-fixture] create spec — do not approve",
+        internal_notes: "[zazu-ruby-fixture] create spec - do not approve",
         client_reference: fixture_id("MANZA_FIXTURE_CLIENT_REFERENCE")
       )
 

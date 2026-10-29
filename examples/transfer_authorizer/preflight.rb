@@ -7,7 +7,6 @@
 #   bundle exec ruby preflight.rb 250.00
 #
 # ✓ passed, ✗ failed (exit status 1), ! cannot be checked through the API.
-require "bigdecimal"
 require "time"
 require "manza"
 
@@ -26,7 +25,9 @@ module TransferAuthorizer
 
     def initialize(env: ENV, amount: "10.00", out: $stdout, now: Time.now)
       @env = env
-      @amount = BigDecimal(amount)
+      # Rational parses the API's decimal strings exactly, without the
+      # bigdecimal gem (not a default gem since Ruby 3.4).
+      @amount = Rational(amount)
       @out = out
       @now = now
       @ok = true
@@ -146,8 +147,8 @@ module TransferAuthorizer
 
     # 6a. The test amount fits both limits.
     def amount_within_limits(authorizer)
-      per_transfer = BigDecimal(authorizer["per_transfer_limit"])
-      room = BigDecimal(authorizer["daily_limit"]) - BigDecimal(authorizer["daily_authorized_total"])
+      per_transfer = Rational(authorizer["per_transfer_limit"])
+      room = Rational(authorizer["daily_limit"]) - Rational(authorizer["daily_authorized_total"])
       if @amount > per_transfer
         fail_step("#{format_amount(@amount)} is over the limit per transfer (#{format_amount(per_transfer)})",
                   "send at most #{format_amount(per_transfer)}, or have an approver raise the limit")
@@ -205,7 +206,7 @@ module TransferAuthorizer
     end
 
     def format_amount(amount)
-      amount.to_s("F")
+      format("%.2f", amount)
     end
 
     def pass(message)

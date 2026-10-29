@@ -42,7 +42,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-RJfIcUuF/A6SuUkM7grFOQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-fQFBnHgTGNaE1oy7e2JnXw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -101,7 +101,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"bc1c1b1282a81e913c73f0f9627e4762"
+      - W/"2d13be74224c921519e59813a15f2f39"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -125,7 +125,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fFG03%2FRY06cRlKw3rY5BK3Uo3h8hPJ2If4ek80sWGEQQEk%2BP14pJ1tV2ViZuNfFvlCYHaQsLMUbpTGDtzYuEW5eTbucLDKrE75YbAoVuN1ZtXtkLbgI%2BU1cZBj%2Frk1mch2%2FlwFNqON7Ai2Y%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=TZtm3GqLFllpeC41kAhdYfEqhDU%2BbAsdmiQbYBtAZv9mhOfXMs8e7dZ4rw0Oqv0e1ckBcSOaYla%2FOatqDx%2FoAD9ipJf6DqEunH6%2FpraWn4oMPGWeZhyVdSnMgZAttppPZW6Ki3%2BwucOvaio%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -133,6 +133,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJ1cGRhdGVkQGV4YW1wbGUuY29tIiwicGhvbmUiOm51bGwsImN1c3RvbWVyX3R5cGUiOiJidXNpbmVzcyIsInRheF9pZCI6bnVsbCwiaWNlX251bWJlciI6IjQ5NDc5MDUyMDgxNDk2NiIsIm5hbWUiOiJNYW56YSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0yOVQwNjo0ODowNSswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjQ4OjI2KzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
-  recorded_at: Thu, 29 Oct 2026 06:48:27 GMT
+        eyJpZCI6ImZpeHR1cmUtY3VzdG9tZXItaWQiLCJwZXJzb25fbmFtZSI6bnVsbCwiY29tcGFueV9uYW1lIjoiTWFuemEgRml4dHVyZSBDbyDigJQgcHJpbWFyeSAoemF6dS1ydWJ5LWZpeHR1cmUtdjEpIiwiZW1haWwiOiJ1cGRhdGVkQGV4YW1wbGUuY29tIiwicGhvbmUiOm51bGwsImN1c3RvbWVyX3R5cGUiOiJidXNpbmVzcyIsInRheF9pZCI6bnVsbCwiaWNlX251bWJlciI6Ijc0OTExMDcxOTU3NDU1NSIsIm5hbWUiOiJNYW56YSBGaXh0dXJlIENvIOKAlCBwcmltYXJ5ICh6YXp1LXJ1YnktZml4dHVyZS12MSkiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0yOVQwNjo1Njo0MCswMDowMCIsInVwZGF0ZWRfYXQiOiIyMDI2LTEwLTI5VDA2OjU3OjAwKzAwOjAwIiwiYmlsbGluZ19hZGRyZXNzIjpudWxsfQ==
+  recorded_at: Thu, 29 Oct 2026 06:57:00 GMT
 recorded_with: VCR 6.4.0

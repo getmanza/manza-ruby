@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-TGWsc4eHmkJG9HfYQP0GSw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-yL1CgRZ4apUY3vU1fL0oUg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -123,7 +123,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=v1ev%2B3Nh3P1x82ihfEE8rHFwPfseNmes6Y7ciSVzrDrs2BPRlytyu1klXLJjWvkWGISW9MSp7EPneVPbgQeRVHc8xjh52AsBZYJrBFgSJuucnXq3gMvXPcKMAaO4yGr%2FDFZscJuNr0znPFA%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=iVyaf%2F9Pf878bu0oCgq5XDibmZPA8dle3v4yKWN6qtPRiQIM5UOY6kj3cyw77xfVP1fl9eRNRnKkmaaPC1I4jF%2Bb8lPeeJZRhE1RKVRLiFIs67lEY1Yb0L2AdOFHN%2FpTmhIL%2FhNjEcnszjs%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -133,5 +133,5 @@ http_interactions:
       string: '{"id":"fixture-beneficiary-id","beneficiary_type":"business","email":null,"phone_number":null,"name":"Casawave
         SARLAU","external_accounts":[{"id":"fixture-trusted-external-account-id","name":"Compte
         Courant","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true,"trusted":true}],"created_at":"2026-03-07T17:13:01+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:48:23 GMT
+  recorded_at: Thu, 29 Oct 2026 06:56:57 GMT
 recorded_with: VCR 6.4.0

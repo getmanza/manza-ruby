@@ -122,6 +122,20 @@ RSpec.describe TransferAuthorizer::Preflight do
     expect(failures(output).first).to include("key A", "accounts:read")
   end
 
+  it "fails when key A cannot read the enrolled webhook endpoint" do
+    stub_request(:get, "#{base_url}/api/webhook_endpoints/#{endpoint_id}").to_return(error(403, "insufficient_scope"))
+    _, output = run
+
+    expect(failures(output).first).to include("key A", "webhook_endpoints:read")
+  end
+
+  it "fails when key A cannot read the beneficiary" do
+    stub_request(:get, "#{base_url}/api/beneficiaries/#{beneficiary_id}").to_return(error(404, "not_found_error"))
+    _, output = run
+
+    expect(failures(output).first).to include("key A", "MANZA_BENEFICIARY_ID")
+  end
+
   it "fails with the suspension reason and its fix" do
     authorizer.merge!("status" => "suspended", "suspension_reason" => "endpoint_disabled")
     _, output = run

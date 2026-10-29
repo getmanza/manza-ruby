@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-tI6z0/FEfajHf+erXQwUFQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-hMB36KhNQDq4mU8CB1ys4Q==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"8ae237c9699d83c350dac8641119596b"
+      - W/"21bb6945f4b069bda668874e35d0fb0b"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2FV%2BRDmqVlvw1%2FcUKctXPyVG3Df6Ve3Ie4ZAF9g1oHHrJjad5%2BaUmMogzvNapW%2BcHUMsKMSCYywrDSoJWfvHdZ3rkUiBi%2BUjsoe4py4Jo3kO8DP7fj%2FGGuxr%2BBfn6MEeVTxNCcxa%2BSzFpN80%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tZOSr9rlCav9SWB3tx%2FuZA%2BCfpRNJo8AdCsZBy2thhpnkOUMcZoBOQHJyz%2BaZPk52I%2BGrcCfNpFlMOaZvxtybOhNNqeGR98Po0gMte%2BXEDoZ4jHR6uWi61lqHf%2BeUKSDz3Kt0N6vW8mm61c%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-account-id","name":"Main Account","status":"open","currency_code":"MAD","balance":"238772.24","created_at":"2025-11-18T08:05:28+01:00","updated_at":"2026-10-29T06:32:50+00:00","rib":"<RIB>"}],"has_more":false,"next_cursor":null}'
-  recorded_at: Thu, 29 Oct 2026 06:48:21 GMT
+      string: '{"data":[{"id":"fixture-account-id","name":"Main Account","status":"open","currency_code":"MAD","balance":"238752.24","created_at":"2025-11-18T08:05:28+01:00","updated_at":"2026-10-29T06:49:51+00:00","rib":"<RIB>"}],"has_more":false,"next_cursor":null}'
+  recorded_at: Thu, 29 Oct 2026 06:56:55 GMT
 recorded_with: VCR 6.4.0

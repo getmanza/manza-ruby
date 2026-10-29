@@ -15,5 +15,5 @@ run TransferAuthorizer::App.new(
   client: Manza.new(api_key: ENV.fetch("MANZA_AUTHORIZER_API_KEY")),
   secret: ENV.fetch("MANZA_AUTHORIZER_SECRET"),
   ledger: TransferAuthorizer::Ledger.new(File.expand_path("ledger.json", __dir__)),
-  allow_new_payees: ENV.fetch("ALLOW_NEW_PAYEES", "true") != "false"
+  allow_new_payees: !%w[false 0 no].include?(ENV.fetch("ALLOW_NEW_PAYEES", "true").strip.downcase)
 )

@@ -36,7 +36,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-8uNeTmM5G6eZKmwvUH2+EA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-xZSBkUAbF6ZcSKQimybpCA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -115,7 +115,7 @@ http_interactions:
       Zazu-Version:
       - "<MANZA_VERSION>"
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=S1ss0KIPCUw44ociU4cfgnn%2F0dhHB6SJ%2BbijJT3tMpts6U4B1Oz05aiTLtUPB1qSZEb8shGq3FKmKFyWQ1CBlF63Ylh%2FFjqjnQ%2BYqwHH9NcJdDGmRMBF1zHFluKQfH1DV%2FPJgvNfsjAZ0GM%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fXo6WPXkcSNzkGG3%2F8bznlz7LNeH1NXPVULzBf7ZW4LxIjgigPrk9KijGiYgaBjrraFgPD5kUYv0y7MHFsO0k8zuyNX0wj6Ro9PQ0ALRQV4HrVH3LqkHOhU%2FD1jbGqaq1O5cd%2Flcnsl%2Bj7E%3D"}]}'
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Server:
@@ -125,5 +125,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-  recorded_at: Thu, 29 Oct 2026 06:48:27 GMT
+  recorded_at: Thu, 29 Oct 2026 06:57:00 GMT
 recorded_with: VCR 6.4.0

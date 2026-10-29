@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","amount":"10.00","payment_reference":"SDK
-        fixture","internal_notes":"[zazu-ruby-fixture] create spec — do not approve","client_reference":"fixture-client-reference"}'
+        fixture","internal_notes":"[zazu-ruby-fixture] create spec - do not approve","client_reference":"fixture-client-reference"}'
     headers:
       Authorization:
       - Bearer <MANZA_API_KEY>
@@ -41,7 +41,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-VMPHBlqLDH8w4e57St4F7w==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-Ml57/rAbbyA4YBO4ThGGBA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -100,7 +100,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"7143e08e488d28fed670a68208be9b2e"
+      - W/"c1c57ab2d8e5677584c1a6b68d3c708c"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -124,14 +124,14 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=s0uGqGrDv2cQzqM3uDfbZY4Mk6GoVAc0ptfJ3nNZgzSQDIPg4wt00v1exA1DD3HU9%2FDhi2azRn35viwmZFoya9JIEhFhkzu4grMzaxLnehHjZ0YC4rDbhbZxM6bpdk2D%2BF60DOm6nJ%2FzNJ0%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=VfGoxImvuU5lFvThNucnOCk14CMFUPKhPjytEpNZTbOe3TXVwKZwEif4DWv1%2Ft2JJzuXTogmyecEtAf5YVNrvY4KwOlSf3fXopL0SSh0Jp3VlWoWEEKv9aEx0%2FAGoL49qDi6fy1m3xV%2Fuos%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a1866a-e380-704b-b192-83af74cd8478","status":"requested","currency_code":"MAD","payment_reference":"SDK
-        fixture","client_reference":"fixture-client-reference","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"10.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a1866a-e3c6-7e05-9190-3d0f88d39afc","status":"pending","expires_at":"2026-10-29T07:48:34+00:00","refusal_reason":null},"created_at":"2026-10-29T06:48:34+00:00","updated_at":"2026-10-29T06:48:34+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:48:35 GMT
+      string: '{"id":"01a18672-b89a-75b7-99a2-51b164e8ba37","status":"requested","currency_code":"MAD","payment_reference":"SDK
+        fixture","client_reference":"fixture-client-reference","account_id":"fixture-account-id","beneficiary_id":"fixture-beneficiary-id","external_account_id":"fixture-trusted-external-account-id","amount":"10.0","destination_account_id":null,"transfer":null,"authorization":{"id":"01a18672-b8ea-7241-93d5-9109caacdcbe","status":"pending","expires_at":"2026-10-29T07:57:07+00:00","refusal_reason":null},"created_at":"2026-10-29T06:57:07+00:00","updated_at":"2026-10-29T06:57:07+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 06:57:08 GMT
 recorded_with: VCR 6.4.0

@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-+sycnO7OM0PMoK2YXUOwSw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-L7yDJZ8OlqF3mf3gz3WKyg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"f77905e48dfc5169437daa8afcdec9dc"
+      - W/"eb3f290964e23a85bbf79da5ff9464ae"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,7 +123,7 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=AExKsN7y3qFzwfZFATA%2BS2dOUveS5juqk8XS7W9JV3LFKKCJ8qQ%2FSRn9b9JOxaZSQhbkvv16%2BZ4nyF2P5iEC1mwOFexw%2F6CJljYHRBerQPy0cNdAbaQaiCc4vVLL%2BIX1czWlcTzuwT5cUQU%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=p8Cignh9%2BJpdZwAvTERBkC9dm%2Fm6e6ugfepH0rEG8WY0H8c0uUh0nZxd3Hy2fjFIb7hhqS4TGTgDYrK3lanXmErda%2FvElpzVD9JSU2c2O2%2BvvlbT89pM9%2BojrHV81ohm249ROsuGPJFzdyk%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -131,9 +131,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"id":"fixture-transaction-id","account_id":"fixture-account-id","operation":"debit","currency_code":"MAD","internal_transfer":false,"other_name":"Casawave
-        SARLAU","external_id":"29342","provider_name":"chari_money","transfer_id":"01a1865b-8e74-77f4-bcb9-f9cf7d788a6f","card_payment_id":null,"card_topup_id":null,"posting_id":"01a1865c-7df1-72cf-8b17-b277605e65dc","amount":"-10.0","account_balance_after":"264825.21","source_type":"transfer","source_id":"01a1865b-8e74-77f4-bcb9-f9cf7d788a6f","transaction_type":"External
+        SARLAU","external_id":"29345","provider_name":"chari_money","transfer_id":"01a1866a-ee74-7bc2-a7d4-8d95bbac916f","card_payment_id":null,"card_topup_id":null,"posting_id":"01a1866c-0f74-70a3-ae23-d898d5540425","amount":"-10.0","account_balance_after":"264815.21","source_type":"transfer","source_id":"01a1866a-ee74-7bc2-a7d4-8d95bbac916f","transaction_type":"External
         Transfer","reference":"zazu-ruby-fixture-v1-authorizable","label":"Virement
-        sortant - Casawave SARLAU","posted_at":"2026-10-29T06:31:50+00:00","value_date":"2026-10-29","created_at":"2026-10-29T06:32:51+00:00","updated_at":"2026-10-29T06:32:51+00:00","account":{"id":"fixture-account-id","name":"Main
+        sortant - Casawave SARLAU","posted_at":"2026-10-29T06:48:37+00:00","value_date":"2026-10-29","created_at":"2026-10-29T06:49:51+00:00","updated_at":"2026-10-29T06:49:51+00:00","account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"}}'
-  recorded_at: Thu, 29 Oct 2026 06:48:23 GMT
+  recorded_at: Thu, 29 Oct 2026 06:56:56 GMT
 recorded_with: VCR 6.4.0

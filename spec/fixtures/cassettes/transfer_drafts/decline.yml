@@ -43,7 +43,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-CWxlyzE8QGzc+f6z5ipVmQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-9gYmBGqt+/M3FC8nLDFAHA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -102,7 +102,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"5e1b0a92492eade2dc24cd929f31a023"
+      - W/"32dcdfdd565f0902a9729ad1bf3401aa"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -126,13 +126,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ognK%2Bvf6qcs8nXQw3PLDtWiBGLY4oZpKTztCtHzFksdScNl7A0TjLLkj3DxvdFxg4vyPo%2FxcAUyn%2FZyM2sQuf%2B9tzL8j%2BVFgrsdDXnBdLSdWrEhoyxl24mSkD7n%2Fk%2FSlA0iTlPQXB6PSVxY%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=GnNjB3I8BulGHwah%2BZVZ5IX420BRVy%2FKtz8DGb5TDUacBOwhNGR2kq3zGbz1cnAklmpe01cwYMrxC%2FhuXKCoiq7OyQS3YOmsj6XshyGTDDMWXjXG%2F%2BgNlRjZ3V7CYT%2BRU9ZEjC8SE6d1eKg%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"id":"fixture-declinable-authorization-id","status":"declined","refusal_reason":null,"expires_at":"2026-10-29T07:48:15+00:00","authorized_at":null,"declined_at":"2026-10-29T06:48:42+00:00"}'
-  recorded_at: Thu, 29 Oct 2026 06:48:42 GMT
+      string: '{"id":"fixture-declinable-authorization-id","status":"declined","refusal_reason":null,"expires_at":"2026-10-29T07:56:49+00:00","authorized_at":null,"declined_at":"2026-10-29T06:57:14+00:00"}'
+  recorded_at: Thu, 29 Oct 2026 06:57:15 GMT
 recorded_with: VCR 6.4.0

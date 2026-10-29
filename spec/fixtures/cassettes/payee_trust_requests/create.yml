@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-QtZ8pTyjW2WoY8Meh0Gxew==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-eY58PAgJSW4g3PQ6/1FK1g==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"ebcaa70b065f1f3c533d76ce51d1a3d5"
+      - W/"05ee8715515e67dd8c500c652f624bdd"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,13 +123,13 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=osk4f3V38LKJYETJQTArwlMkwqoD7FAzSANSG3m7CBn81OBwI4n0GI7JbATBX8GtXB3IIikgbVgYqzK%2F5e7k5IH2F2dmpXOLtD2%2FI8RSAZLWqhg262odmh3HnPMGF1ZL06erhYc0m8%2Bz53M%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=O%2BntzgAaT3uvI%2BTGjc06n0kzD3tDXgjkVDVp4cGV2HOW0fl1Z0mN3E051JRut9cWkSZwLuM0vUBD9C%2FK8oq8C%2F5bGgU%2BxMm%2FhkY9W913ZqHHEz%2Fn%2FvzcfttDLilyRHRdF1eb1NiqYkrKitw%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"id":"01a1866a-d5cc-7446-87a7-bcae3d257e86","status":"pending","external_account_ids":["fixture-external-account-id"],"created_at":"2026-10-29T06:48:30+00:00","resolved_at":null}'
-  recorded_at: Thu, 29 Oct 2026 06:48:32 GMT
+      string: '{"id":"01a18672-aa4b-770d-8720-61d69c43b3c5","status":"pending","external_account_ids":["fixture-external-account-id"],"created_at":"2026-10-29T06:57:04+00:00","resolved_at":null}'
+  recorded_at: Thu, 29 Oct 2026 06:57:05 GMT
 recorded_with: VCR 6.4.0
