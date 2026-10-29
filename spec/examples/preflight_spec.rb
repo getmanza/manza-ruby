@@ -89,12 +89,19 @@ RSpec.describe TransferAuthorizer::Preflight do
     expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
   end
 
-  it "fails when the amount is not a decimal" do
+  it "fails when the amount is not a decimal, and runs the other checks" do
     ok, output = run(amount: "ten")
 
     expect(ok).to be(false)
-    expect(failures(output).first).to include("\"ten\"", "10.00")
-    expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
+    expect(failures(output)).to contain_exactly(a_string_including("\"ten\"", "10.00"))
+    expect(output).to include("✓ transfer authorizer is active")
+    expect(output).not_to include("limit per transfer and")
+  end
+
+  it "fails when the amount is not positive" do
+    _, output = run(amount: "-5")
+
+    expect(failures(output).first).to include("\"-5\"", "positive")
   end
 
   it "fails when both keys are the same" do

@@ -19,8 +19,10 @@ module TransferAuthorizer
     SUSPENSION_FIXES = {
       "member" => "an approver suspended it: resume it in Settings → Developer → Transfer approval",
       "signature_failures" => "five invalid signatures in a row: fix the signing, then an approver resumes it in the app",
-      "secret_expired" => "an approver rotates the secret in the app and resumes; set the new one as MANZA_AUTHORIZER_SECRET",
-      "endpoint_disabled" => "re-enable the webhook endpoint (webhook_endpoints.enable), then an approver resumes it in the app"
+      "secret_expired" => "an approver rotates the secret in the app (and resumes it if it stays suspended); " \
+                          "set the new one as MANZA_AUTHORIZER_SECRET",
+      "endpoint_disabled" => "re-enable the webhook endpoint (webhook_endpoints.enable); if it stays suspended, " \
+                             "an approver resumes it in the app"
     }.freeze
 
     def initialize(env: ENV, amount: "10.00", out: $stdout, now: Time.now)
@@ -29,6 +31,7 @@ module TransferAuthorizer
       # Rational parses the API's decimal strings exactly, without the
       # bigdecimal gem (not a default gem since Ruby 3.4).
       @amount = Rational(amount.to_s, exception: false)
+      @amount = nil unless @amount&.positive?
       @out = out
       @now = now
       @ok = true
@@ -36,8 +39,8 @@ module TransferAuthorizer
 
     # Prints one line per step; true when no step failed.
     def run
-      fail_step("amount #{@raw_amount.inspect} is not a decimal", "pass an amount like 10.00 or 250.00") unless @amount
-      return @ok unless @ok && keys?
+      fail_step("amount #{@raw_amount.inspect} is not a positive decimal", "pass an amount like 10.00 or 250.00") unless @amount
+      return @ok unless keys?
 
       creator_reaches_entity
       authorizer = enrolled_authorizer
@@ -48,7 +51,7 @@ module TransferAuthorizer
       secret_set
       if authorizer
         endpoint_enabled(authorizer)
-        amount_within_limits(authorizer)
+        amount_within_limits(authorizer) if @amount
       end
       payee_trusted
       @ok
@@ -67,8 +70,9 @@ module TransferAuthorizer
                   "use two different keys: the API refuses to let the key that created a transfer authorize it")
       else
         pass("key A and key B are set and different")
+        return true
       end
-      @ok
+      false
     end
 
     # 2. Key A reaches the API.
