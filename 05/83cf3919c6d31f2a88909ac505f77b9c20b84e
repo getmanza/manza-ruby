@@ -1,0 +1,29 @@
+examples/transfer_authorizer/preflight.rb
+  s_65c3c5c5f93719::t_5aafeda0c58766 33-35
+spec/examples/preflight_spec.rb
+  s_65c3c5c5f93719::t_5aafeda0c58766 102
+spec/examples/transfer_authorizer_spec.rb
+  s_65c3c5c5f93719::t_5aafeda0c58766 206
+examples/transfer_authorizer/README.md
+  s_65c3c5c5f93719::t_5aafeda0c58766 20,29
+README.md
+  s_65c3c5c5f93719::t_5aafeda0c58766 136
+spec/examples/routing_spec.rb
+  s_65c3c5c5f93719::t_5aafeda0c58766 13-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "0583cf3919c6d31f2a88909ac505f77b9c20b84e",
+  "prompts": {},
+  "sessions": {
+    "s_65c3c5c5f93719": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bee1964f-92c4-4310-92b4-5e82d7d3d709",
+        "model": "unknown"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
