@@ -1,0 +1,23 @@
+lib/manza/errors.rb
+  s_95d145fb97175c::t_1b6c616fa13437 51-70
+lib/manza/client.rb
+  s_95d145fb97175c::t_df88e500cc05a3 180-185
+spec/manza/client_spec.rb
+  s_95d145fb97175c::t_6430d440115dd3 170-198
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "195fdbc36aa8b2dfb3db129b56c6f5d22235dfc8",
+  "prompts": {},
+  "sessions": {
+    "s_95d145fb97175c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39a5c888-7a84-4e0e-ab64-5d4b3f0e12c0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "mhenrixon <mikael@mhenrixon.com>"
+    }
+  }
+}
