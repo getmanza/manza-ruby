@@ -5,7 +5,7 @@ http_interactions:
     uri: https://ma.manza.dev/api/invoices
     body:
       encoding: UTF-8
-      string: '{"customer_id":"fixture-customer-id","currency_code":"MAD","issue_date":"2026-05-03","due_date":"2026-06-03","items":[{"description":"SDK
+      string: '{"customer_id":"fixture-customer-id","account_id":"fixture-account-id","currency_code":"MAD","issue_date":"2026-05-03","due_date":"2026-06-03","generate_payment_link":true,"items":[{"description":"SDK
         fixture line","quantity":1,"unit_price":"100.00"}]}'
     headers:
       Authorization:
@@ -131,7 +131,9 @@ http_interactions:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        eyJpZCI6IjAxYTE4N2YwLTVlMDItNzRlMS04OWY4LTZkMTE1N2EyYTEzYiIsIm51bWJlciI6IklOVi0yMDI2MTAtMDE1Iiwic3RhdHVzIjoicGVuZGluZ19hcHByb3ZhbCIsImN1cnJlbmN5X2NvZGUiOiJNQUQiLCJpc3N1ZV9kYXRlIjoiMjAyNi0wNS0wMyIsImR1ZV9kYXRlIjoiMjAyNi0wNi0wMyIsInJlZmVyZW5jZSI6bnVsbCwibm90ZXMiOm51bGwsInBheW1lbnRfdGVybXMiOm51bGwsInNlbmRfdG9fZW1haWwiOm51bGwsImNyZWRpdGVkX2ludm9pY2VfaWQiOm51bGwsImRlbGl2ZXJ5X2RhdGUiOm51bGwsInN1YnRvdGFsIjoiMTAwLjAiLCJkaXNjb3VudF90b3RhbCI6IjAuMCIsInRheF90b3RhbCI6IjIwLjAiLCJ0b3RhbCI6IjEyMC4wIiwic2VudF9hdCI6bnVsbCwicGFpZF9hdCI6bnVsbCwiY3JlYXRlZF9hdCI6IjIwMjYtMTAtMjlUMTM6NTM6NTkrMDA6MDAiLCJ1cGRhdGVkX2F0IjoiMjAyNi0xMC0yOVQxMzo1Mzo1OSswMDowMCIsImNyZWRpdF9ub3RlIjpmYWxzZSwiY3JlZGl0X25vdGVzIjpbXSwiY3VzdG9tZXIiOnsiaWQiOiJmaXh0dXJlLWN1c3RvbWVyLWlkIiwibmFtZSI6Ik1hbnphIEZpeHR1cmUgQ28g4oCUIHByaW1hcnkgKHphenUtcnVieS1maXh0dXJlLXYxKSIsImVtYWlsIjoidXBkYXRlZEBleGFtcGxlLmNvbSIsInBob25lIjpudWxsLCJ0YXhfaWQiOm51bGwsImljZV9udW1iZXIiOiI1OTUyNTA0OTkxNTc1MjEifSwiYmlsbGluZ19hZGRyZXNzIjpudWxsLCJpdGVtcyI6W3siaWQiOiIwMWExODdmMC01ZTE4LTc2MjctYjVlMi1jYmU2NjYzZmI0ZDAiLCJkZXNjcmlwdGlvbiI6IlNESyBmaXh0dXJlIGxpbmUiLCJwb3NpdGlvbiI6MCwicXVhbnRpdHkiOiIxLjAiLCJ1bml0X3ByaWNlIjoiMTAwLjAiLCJ0YXhfcmF0ZSI6IjAuMiIsImFtb3VudCI6IjEwMC4wIn1dLCJkaXNjb3VudHMiOltdLCJwYXltZW50X2xpbmsiOm51bGx9
+      string: '{"id":"01a187f0-5e02-74e1-89f8-6d1157a2a13b","number":"INV-202610-015","status":"pending_approval","currency_code":"MAD","issue_date":"2026-05-03","due_date":"2026-06-03","reference":null,"notes":null,"payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"generate_payment_link":true,"delivery_date":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-10-29T13:53:59+00:00","updated_at":"2026-10-29T13:53:59+00:00","credit_note":false,"credit_notes":[],"customer":{"id":"fixture-customer-id","name":"Manza
+        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"updated@example.com","phone":null,"tax_id":null,"ice_number":"595250499157521"},"billing_address":null,"items":[{"id":"01a187f0-5e18-7627-b5e2-cbe6663fb4d0","description":"SDK
+        fixture line","position":0,"quantity":"1.0","unit_price":"100.0","tax_rate":"0.2","amount":"100.0"}],"discounts":[],"account":{"id":"fixture-account-id","name":"Main
+        Account","currency_code":"MAD","rib":"<RIB>"},"payment_link":null}'
   recorded_at: Thu, 29 Oct 2026 13:54:01 GMT
 recorded_with: VCR 6.4.0

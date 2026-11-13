@@ -9,7 +9,7 @@ module Manza
   # The `payment.authorization_requested` webhook delivers the
   # authorization id and a one-time nonce. Build the signature input
   # from your *own* record of the transfer (not the webhook's
-  # `signature_input`, which is there only to compare against), sign
+  # `signature_input_v2`, which is there only to compare against), sign
   # it with the authorizer endpoint's signing secret, and pass the
   # result to {Resources::Payments#authorize}:
   #
@@ -17,22 +17,32 @@ module Manza
   #     payment_id: draft["id"], nonce: nonce, amount: draft["amount"],
   #     currency_code: draft["currency_code"], account_id: draft["account_id"],
   #     payee: Manza::TransferAuthorization.payee_for(external_account_id: draft["external_account_id"]),
-  #     client_reference: draft["client_reference"]
+  #     client_reference: draft["client_reference"], transfer_method: draft["transfer_method"]
   #   )
   #   signature = Manza::TransferAuthorization.sign(secret: signing_secret, signature_input: input)
   #   manza.payments.authorize(draft["id"], authorization_id: authorization_id, signature: signature)
+  #
+  # This is the v2 input, which the API verifies for every request that
+  # is unpinned or sends `Manza-Version: 2026-11-13` or later. A client
+  # pinned to `Manza-Version: 2026-03-27` must sign v1 and stays on
+  # manza 1.x.
   module TransferAuthorization
-    SIGNATURE_VERSION = "manza.transfer-authorization.v1"
+    SIGNATURE_VERSION = "manza.transfer-authorization.v2"
 
     module_function
 
     # `amount` must be the API's decimal string verbatim (e.g. "2500.0").
     # `client_reference` is empty when the transfer has none.
-    def signature_input(payment_id:, nonce:, amount:, currency_code:, account_id:, payee:, client_reference: nil)
+    # `transfer_method` is the payment's rail as the API stores it (the
+    # create response's `transfer_method`): required, and nil (signed as
+    # an empty segment) where the market offers no choice.
+    def signature_input(payment_id:, nonce:, amount:, currency_code:, account_id:, payee:, transfer_method:,
+                        client_reference: nil)
       raise Manza::ArgumentError, "amount must be the API's decimal string (got #{amount.inspect})" unless amount.is_a?(String)
 
       [
-        SIGNATURE_VERSION, payment_id, nonce, amount, currency_code, account_id, payee, client_reference.to_s
+        SIGNATURE_VERSION, payment_id, nonce, amount, currency_code, account_id, payee, client_reference.to_s,
+        transfer_method.to_s
       ].join("|")
     end
 

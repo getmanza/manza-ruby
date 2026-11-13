@@ -45,7 +45,7 @@ begin
   ledger.record(
     client_reference,
     payment_id: draft["id"], amount: draft["amount"], currency_code: draft["currency_code"],
-    account_id: draft["account_id"], payee: payee
+    account_id: draft["account_id"], payee: payee, transfer_method: draft["transfer_method"]
   )
 rescue StandardError => e
   abort "payment #{draft["id"]} (client_reference #{client_reference}) was created but not written to the ledger " \

@@ -312,6 +312,7 @@ module Fixtures
     def create_draft_invoice!(customer_id, idx)
       response = @client.invoices.create(
         customer_id: customer_id,
+        account_id: @account_id,
         currency_code: "MAD",
         issue_date: Date.today.iso8601,
         due_date: (Date.today + 30).iso8601,
@@ -473,6 +474,12 @@ module Fixtures
               "the seeded bank account was already trusted, so authorize_new_payee would not record a new payee."
       end
 
+      rails = challenges.transform_values { |c| c["transfer_method"] }.reject { |_, rail| rail == "standard" }
+      unless rails.empty?
+        raise "Challenges for #{rails.inspect} sign another transfer_method than the \"standard\" the drafts sent: " \
+              "the authorize specs sign \"standard\" and would record invalid_signature."
+      end
+
       drafts.each do |kind, draft|
         prefix = "MANZA_FIXTURE_#{kind.upcase}"
         @ids["#{prefix}_DRAFT_ID"] = draft["id"]
@@ -492,7 +499,9 @@ module Fixtures
         external_account_id: external_account_id,
         amount: "10.00",
         payment_reference: fixture_marker(kind.tr("_", "-")),
-        client_reference: random_client_reference(kind)
+        client_reference: random_client_reference(kind),
+        # Explicit, so the v2 signature the specs build signs a known rail.
+        transfer_method: "standard"
       ).body
       authorization = draft["authorization"] || {}
       return draft if authorization["status"] == "pending"
@@ -731,7 +740,7 @@ module Fixtures
       end
     end
 
-    # Returns { payment_id => { "authorization_id", "nonce", "payee_trusted" } } once
+    # Returns { payment_id => { "authorization_id", "nonce", "payee_trusted", "transfer_method" } } once
     # every id has arrived.
     def wait_for(payment_ids, timeout:)
       deadline = Time.now + timeout
@@ -790,7 +799,8 @@ module Fixtures
         @challenges[data.dig("payment", "id")] = {
           "authorization_id" => data.dig("authorization", "id"),
           "nonce" => data.dig("authorization", "nonce"),
-          "payee_trusted" => data.dig("payment", "payee_trusted")
+          "payee_trusted" => data.dig("payment", "payee_trusted"),
+          "transfer_method" => data.dig("payment", "transfer_method")
         }
       end
     end

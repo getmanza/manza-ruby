@@ -49,16 +49,18 @@ manza.customers.delete("01a0...")
 manza.invoices.list(status: "sent", limit: 50)
 manza.invoices.create(
   customer_id: "01a0...",
+  account_id: "019dde7d-...",    # required: the account the invoice is paid into
   currency_code: "MAD",
   issue_date: "2026-05-03",
   due_date: "2026-06-03",
+  generate_payment_link: true,   # a card payment link, made when the invoice is approved (payment_links:write)
   items: [{ description: "Consulting", quantity: 10, unit_price: "150.00" }]
 )
+manza.invoices.update("01a0...", account_id: "019dde7d-...", generate_payment_link: false)
 manza.invoices.send_invoice("01a0...")
 manza.invoices.mark_as_paid("01a0...")
 manza.invoices.cancel("01a0...")
 manza.invoices.credit_note("01a0...")
-manza.invoices.create_payment_link("01a0...", account_id: "019dde7d-...")
 
 manza.payment_links.list(status: "active")
 manza.payment_links.create(
@@ -92,13 +94,15 @@ manza.payments.create(
   account_id: "019dde7d-...",
   beneficiary_id: "01a0...",
   amount: "2500.00",
-  client_reference: "po_1042" # unique per entity; a duplicate raises Manza::ConflictError
+  client_reference: "po_1042", # unique per entity; a duplicate raises Manza::ConflictError
+  transfer_method: "standard"   # optional rail: eft/rtc (ZA), standard/instant (MA); omitted → the default
 )
 manza.payments.get("01a3...")  # authorization: status, refusal_reason
 manza.payments.decline("01a3...", authorization_id: "01a4...", reason: "Not ours")
 # manza.transfer_drafts is a deprecated alias of manza.payments (same methods, /api/payments)
 
-manza.transfer_authorizer.get  # status, suspension_reason, limits, daily_authorized_total; NotFoundError: none enrolled
+manza.transfer_authorizer.get  # status, suspension_reason, limits, daily_authorized_total, trust_new_payees,
+                               # new_payee_limit; NotFoundError: none enrolled
 
 manza.webhook_endpoints.list
 manza.webhook_endpoints.create(
@@ -153,7 +157,7 @@ end
 
 ### Signing the challenge
 
-Sign the draft from **your own record** of it with the endpoint's signing secret:
+Sign the draft from **your own record** of it with the endpoint's signing secret. The SDK builds the v2 input (`manza.transfer-authorization.v2`), which ends with the payment's `transfer_method` (an empty segment when it is `null`); compare it with the webhook's `signature_input_v2`. The webhook's `signature_input` is the v1 string, verified only for clients pinned to `Manza-Version: 2026-03-27`: those stay on manza 1.x.
 
 ```ruby
 input = Manza::TransferAuthorization.signature_input(
@@ -163,7 +167,8 @@ input = Manza::TransferAuthorization.signature_input(
   currency_code: draft["currency_code"],
   account_id: draft["account_id"],
   payee: Manza::TransferAuthorization.payee_for(external_account_id: draft["external_account_id"]),
-  client_reference: draft["client_reference"]
+  client_reference: draft["client_reference"],
+  transfer_method: draft["transfer_method"] # required; nil signs as ""
 )
 signature = Manza::TransferAuthorization.sign(secret: signing_secret, signature_input: input)
 
@@ -203,7 +208,7 @@ Every non-2xx response raises a subclass of `Manza::Error`:
 | 400 | `Manza::ValidationError` (malformed request, e.g. bad `limit`/`cursor`) |
 | 404 | `Manza::NotFoundError` |
 | 409 | `Manza::ConflictError` (carries `#payment_id` for a duplicate `client_reference`) |
-| 422 | `Manza::ValidationError` |
+| 422 | `Manza::ValidationError`; `Manza::PlanLimitReachedError` (a subclass) for `type` `plan_limit_reached`, carrying `#kind`, `#current` and `#max` |
 | 429 | `Manza::RateLimitError` (carries `#retry_after`) |
 | 5xx | `Manza::ServerError` |
 | network | `Manza::ConnectionError` |
@@ -223,10 +228,10 @@ end
 ## Versioning the API contract
 
 ```ruby
-manza = Manza.new(api_key: "...", api_version: "2026-03-27")
+manza = Manza.new(api_key: "...", api_version: "2026-11-13")
 ```
 
-Or via env: `MANZA_API_VERSION=2026-03-27`. The header is sent on every request; the API echoes it back in `Manza-Version` (and the legacy `Zazu-Version`); `response.api_version` reads it.
+Or via env: `MANZA_API_VERSION=2026-11-13`. Unpinned, the API answers with its current version. manza 2.x signs transfer authorizations v2, which the API verifies for every version but `2026-03-27`: a client pinned to that one stays on manza 1.x. The header is sent on every request; the API echoes it back in `Manza-Version` (and the legacy `Zazu-Version`); `response.api_version` reads it.
 
 ## Development
 

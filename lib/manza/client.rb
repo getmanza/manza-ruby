@@ -177,6 +177,12 @@ module Manza
       message = payload["message"]
       kwargs = error_kwargs(response, payload)
 
+      if response.status == 422 && payload["type"] == "plan_limit_reached"
+        return PlanLimitReachedError.new(
+          message || "Plan limit reached", kind: payload["kind"], current: payload["current"], max: payload["max"], **kwargs
+        )
+      end
+
       if (mapping = ERROR_BY_STATUS[response.status])
         klass, default_message = mapping
         return klass.new(message || default_message, **kwargs)

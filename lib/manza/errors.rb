@@ -48,6 +48,26 @@ module Manza
   # field name when the API supplies it.
   class ValidationError < Error; end
 
+  # 422 with `type` "plan_limit_reached" — the entity's plan caps this
+  # kind of record and the cap is reached. Retrying does not help until
+  # the plan changes or the period rolls over. `#kind` names what is
+  # capped (e.g. "invoices"), `#current` the count the entity holds and
+  # `#max` the cap.
+  class PlanLimitReachedError < ValidationError
+    attr_reader :kind, :current, :max
+
+    def initialize(message = nil, kind: nil, current: nil, max: nil, **)
+      super(message, **)
+      @kind = kind
+      @current = current
+      @max = max
+    end
+
+    def to_h
+      super.merge(kind:, current:, max:).compact
+    end
+  end
+
   # 409 — the request conflicts with an existing resource. For a
   # duplicate `client_reference` on a transfer draft (`type`
   # "duplicate_client_reference"), `#payment_id` names the draft that
