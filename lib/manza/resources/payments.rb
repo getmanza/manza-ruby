@@ -26,7 +26,7 @@ module Manza
     #   `over_transfer_limit`, `over_daily_limit`, `currency_mismatch`,
     #   `suspended` or `secret_expired`.
     # - `expired` / `superseded` / `failed`: a challenge was sent and closed
-    #   without an authorize: `expired` (no answer within the hour),
+    #   without executing the transfer: `expired` (no answer within the hour),
     #   `stale` (the draft, its payee's bank details or the endpoint changed
     #   while it was open), `signature_failed` (five invalid signatures)
     #   or `rail_limit_exceeded` (status `superseded`: the challenge was

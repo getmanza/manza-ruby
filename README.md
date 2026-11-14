@@ -53,7 +53,7 @@ manza.invoices.create(
   currency_code: "MAD",
   issue_date: "2026-05-03",
   due_date: "2026-06-03",
-  generate_payment_link: true,   # a card payment link, made when the invoice is approved (payment_links:write)
+  generate_payment_link: true,   # a card payment link, made when approved (payment_links:write; payment links enabled for the entity)
   items: [{ description: "Consulting", quantity: 10, unit_price: "150.00" }]
 )
 manza.invoices.update("01a0...", account_id: "019dde7d-...", generate_payment_link: false)
@@ -231,7 +231,7 @@ end
 manza = Manza.new(api_key: "...", api_version: "2026-11-13")
 ```
 
-Or via env: `MANZA_API_VERSION=2026-11-13`. Unpinned, the API answers with its current version. manza 2.x signs transfer authorizations v2, which the API verifies for every version but `2026-03-27`: a client pinned to that one stays on manza 1.x. The header is sent on every request; the API echoes it back in `Manza-Version` (and the legacy `Zazu-Version`); `response.api_version` reads it.
+Or via env: `MANZA_API_VERSION=2026-11-13`. Unpinned, the API answers with its current version. manza 2.x signs transfer authorizations v2, which the API verifies for unpinned requests and requests pinned to `2026-11-13` or later; a client pinned to `2026-03-27` must stay on manza 1.x. The header is sent on every request; the API echoes it back in `Manza-Version` (and the legacy `Zazu-Version`); `response.api_version` reads it.
 
 ## Development
 

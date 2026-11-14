@@ -26,7 +26,7 @@ Synced to the Manza API at getmanza/app `906ec486e5` (API version
 - **Breaking:** `Manza::TransferAuthorization::SIGNATURE_VERSION` is
   `manza.transfer-authorization.v2`, and `signature_input` takes a required
   `transfer_method:` keyword, appended after `client_reference` (`""` when
-  nil): `v2|payment_id|nonce|amount|currency_code|account_id|payee|client_reference|transfer_method`.
+  nil): `manza.transfer-authorization.v2|payment_id|nonce|amount|currency_code|account_id|payee|client_reference|transfer_method`.
   The API verifies v2 for every request that is unpinned or sends
   `Manza-Version: 2026-11-13`; only `2026-03-27` still verifies v1. Pass the
   payment's `transfer_method` as the API returned it.
