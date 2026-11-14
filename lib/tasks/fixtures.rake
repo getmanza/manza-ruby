@@ -275,7 +275,12 @@ module Fixtures
     # and the cassettes are public.
     def discover_transaction_id!
       fixture = list_all_transactions.find { |t| fixture_record?(t["reference"]) }
-      raise "No fixture transaction on the fixture account — cannot record the get_transaction cassette" unless fixture
+      unless fixture
+        raise "No transaction whose reference carries #{FIXTURE_TAG.inspect} among the fixture account's newest " \
+              "1000, so the get_transaction cassette has nothing to replay. A record run's authorized transfer " \
+              "makes one: on a fresh account, create and authorize one payment with payment_reference " \
+              "\"#{FIXTURE_TAG}\" first, then run the record again."
+      end
 
       @ids["MANZA_FIXTURE_TRANSACTION_ID"] = fixture["id"]
     end

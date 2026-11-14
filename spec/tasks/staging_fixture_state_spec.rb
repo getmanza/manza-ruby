@@ -324,7 +324,7 @@ RSpec.describe "staging fixture state tasks", type: :task do
     it "fails when the account holds no fixture transaction" do
       stub_transactions([{ "id" => "someone-elses", "reference" => "a staging tester's transfer" }])
 
-      expect { discovered }.to raise_error(RuntimeError, /fixture transaction/)
+      expect { discovered }.to raise_error(RuntimeError, /no transaction whose reference carries "zazu-ruby-fixture"/i)
     end
   end
 end
