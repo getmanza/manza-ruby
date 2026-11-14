@@ -61,6 +61,30 @@ RSpec.describe Manza::Resources::Invoices do
     end
   end
 
+  # Only a boolean (or "true"/"false"/"1"/"0") is taken: any other text
+  # is refused before anything is created.
+  describe "#create with a non-boolean generate_payment_link",
+           vcr: { cassette_name: "invoices/create_invalid_generate_payment_link" } do
+    it "raises ValidationError with status 400" do
+      expect do
+        client.invoices.create(
+          customer_id: fixture_id("MANZA_FIXTURE_CUSTOMER_ID"),
+          account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
+          currency_code: "MAD",
+          issue_date: "2026-05-03",
+          due_date: "2026-06-03",
+          generate_payment_link: "yes please",
+          items: [
+            { description: "SDK fixture line", quantity: 1, unit_price: "100.00" }
+          ]
+        )
+      end.to raise_error(Manza::ValidationError) { |e|
+        expect(e.status).to eq(400)
+        expect(e.message).to include("generate_payment_link")
+      }
+    end
+  end
+
   describe "#update", vcr: { cassette_name: "invoices/update" } do
     it "updates an invoice" do
       response = client.invoices.update(

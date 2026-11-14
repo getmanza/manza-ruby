@@ -35,8 +35,9 @@ module Manza
       # `generate_payment_link: true` asks for a card payment link, made
       # from the invoice's account when the invoice is approved; it needs
       # the `payment_links:write` scope and is taken only while payment
-      # links are enabled for the entity. It replaces the removed
-      # `create_payment_link`.
+      # links are enabled for the entity. Only a boolean is taken: any
+      # other value raises {Manza::ValidationError} (400) and nothing is
+      # created. It replaces the removed `create_payment_link`.
       #
       # The response carries `generate_payment_link`, the embedded
       # `account` (`id`, `name`, `currency_code`, and `rib` in Morocco or

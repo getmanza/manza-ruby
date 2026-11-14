@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
-## [2.0.0] - 2026-11-13
+## [2.0.0] - 2026-11-14
 
 Synced to the Manza API at getmanza/app `906ec486e5` (API version
 `2026-11-13`). A major release: see Migrating from 1.x below.
@@ -55,6 +55,11 @@ Synced to the Manza API at getmanza/app `906ec486e5` (API version
   `Manza::ValidationError` with `param` `transfer_method`. Payment responses
   carry `transfer_method` (the rail sent, the provider's default when left
   out, nil where the market offers no choice).
+- Documented: the authorization `refusal_reason` `rail_limit_exceeded`
+  (status `superseded`): an authorized transfer over its rail's limit at
+  execution, sent to the approvers; the authorize call raises a 422
+  `Manza::ValidationError` (`state_error`). A non-boolean
+  `generate_payment_link` raises `Manza::ValidationError` (400).
 - Documented: the `payment.authorization_requested` webhook's
   `signature_input_v2` and `payment.transfer_method`, and
   `transfer_authorizer.get`'s `trust_new_payees` and `new_payee_limit`.

@@ -28,7 +28,10 @@ module Manza
     # - `expired` / `superseded` / `failed`: a challenge was sent and closed
     #   without an authorize: `expired` (no answer within the hour),
     #   `stale` (the draft, its payee's bank details or the endpoint changed
-    #   while it was open) or `signature_failed` (five invalid signatures).
+    #   while it was open), `signature_failed` (five invalid signatures)
+    #   or `rail_limit_exceeded` (status `superseded`: the challenge was
+    #   authorized, but the transfer was over its rail's limit when it
+    #   executed, so nothing moved).
     #   One exception: the in-app approval that finalizes the draft while
     #   its challenge is open supersedes it (`stale`), and the draft
     #   executes or is scheduled; the draft's own `status` shows which.
@@ -79,6 +82,10 @@ module Manza
       # revocation on the payee was in flight: retry. A blank signature
       # raises {Manza::ArgumentError} and is never sent: the API would count
       # it as a failed attempt. Five invalid signatures fail the challenge.
+      # A valid signature on a transfer over its rail's limit raises a 422
+      # {Manza::ValidationError} (`state_error`): nothing moved, the
+      # authorization is `superseded` with `refusal_reason`
+      # `rail_limit_exceeded`, and the draft went to your approvers.
       def authorize(id, authorization_id:, signature:)
         raise Manza::ArgumentError, "signature cannot be blank" if signature.to_s.strip.empty?
 
