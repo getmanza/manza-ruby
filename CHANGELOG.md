@@ -64,6 +64,11 @@ Synced to the Manza API at getmanza/app `906ec486e5` (API version
   `signature_input_v2` and `payment.transfer_method`, and
   `transfer_authorizer.get`'s `trust_new_payees` and `new_payee_limit`.
 
+### Fixed (API side, no wire change)
+
+- `accounts.list_transactions` and `accounts.get_transaction` return
+  posted movements only (getmanza/app 818432457a); the SDK is unchanged.
+
 ### Changed (cassettes)
 
 Every cassette was re-recorded against staging. An SDK that replays
