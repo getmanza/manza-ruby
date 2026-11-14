@@ -268,15 +268,20 @@ module Fixtures
     # --- Seed steps ---------------------------------------------------------
 
     # Transactions are read-only — they're created as a side effect of
-    # bank movements, not via the API. We pluck the most recent one
-    # off the fixture account so the get_transaction spec has a real
-    # ID to replay against.
+    # bank movements, not via the API. We pluck the most recent one a
+    # previous record run moved (its reference carries FIXTURE_TAG), so
+    # the get_transaction spec has a real ID to replay against. Never the
+    # account's newest: other staging transfers land on the same account,
+    # and the cassettes are public.
     def discover_transaction_id!
-      page = @client.accounts.list_transactions(@account_id, limit: 1)
-      first = page.data.first
-      raise "No transactions found on fixture account — cannot record get_transaction cassette" unless first
+      fixture = list_all_transactions.find { |t| fixture_record?(t["reference"]) }
+      raise "No fixture transaction on the fixture account — cannot record the get_transaction cassette" unless fixture
 
-      @ids["MANZA_FIXTURE_TRANSACTION_ID"] = first["id"]
+      @ids["MANZA_FIXTURE_TRANSACTION_ID"] = fixture["id"]
+    end
+
+    def list_all_transactions
+      each_page_from(@client.accounts.list_transactions(@account_id, limit: 100))
     end
 
     def seed_customers!
@@ -598,8 +603,11 @@ module Fixtures
     # Stops at 10 pages (1000 records) so a runaway entity never
     # blocks the seed forever.
     def list_all(resource)
+      each_page_from(resource.list(limit: 100))
+    end
+
+    def each_page_from(page)
       results = []
-      page = resource.list(limit: 100)
       pages_seen = 0
       while page && pages_seen < 10
         results.concat(page.data)

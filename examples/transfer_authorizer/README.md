@@ -9,6 +9,8 @@ Two processes and a shared ledger, matching the two-key model of [transfer autho
 | `preflight.rb` | Checks every setup step and prints the fix for each that fails | A and B |
 | `ledger.rb` | Your own record of what you created, keyed by `client_reference`. Swap it for your database | — |
 
+Since manza 2.0 every ledger entry records the draft's `transfer_method`, which the v2 signature signs. An entry written by the 1.x example has none, so the authorizer declines its draft as a mismatch: let open challenges finish (or expire) before upgrading, or add `"transfer_method"` from `payments.get` to those entries.
+
 ## Setup
 
 Do steps 1–6 of [Setup, step by step](../../README.md#setup-step-by-step) in the SDK README first: feature flags, keys A and B, a stable tunnel URL, the webhook endpoint, enrolment, and new payees allowed or a trusted payee.

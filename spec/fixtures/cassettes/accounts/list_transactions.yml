@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-KvneCZ0LkYiAl9VhpWCYCw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-72tsDxffbeJHENQLw+kCWQ==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"ca8d57d10d1cf2222edf45acf71338f8"
+      - W/"5966ecb547e160595381b8cdc8884ec5"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,17 +123,17 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=rjUC46d9doSLQYj6WvNwISZVJgGxeC4bLKCekb%2BcxAPVYhHiluq6J3bxBTLHm1PuglBfHs4Se5ckai8n5K%2FAdqF3ExeHyHiWjzGEkVpF8RvGVpSHrhFFp5I4p0jwlxAenY2xduHxb6MoC8E%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=3%2FOKq%2F%2F3B%2FYQyOIGlpCDAMWqm49FjxT1ztgXafJIzUhvzEa9FpDZro6GZWOhx%2Bf7BGlEiU1PIJUT%2B5LaR7RbgfHcu1LlOPvpwAVsTSk3PMkDE%2F876KTHyIqThDHrOoerQpS3LcgTJbXyJF0%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-transaction-id","account_id":"fixture-account-id","operation":"debit","currency_code":"MAD","internal_transfer":false,"other_name":"Graphics
-        Go Ltd","external_id":"30805","provider_name":"chari_money","transfer_id":"01a1cf76-7707-7ff0-a6bd-5b690f6d8231","card_payment_id":null,"card_topup_id":null,"posting_id":"01a1cf77-b477-7e27-b12e-fb9b2d487336","amount":"-1299.0","account_balance_after":"1000.0","source_type":"transfer","source_id":"01a1cf76-7707-7ff0-a6bd-5b690f6d8231","transaction_type":"External
-        Transfer","reference":"this is a very long statement will this go through","label":"Virement
-        sortant - Graphics Go Ltd","posted_at":"2026-11-12T11:13:30+00:00","value_date":"2026-11-12","created_at":"2026-11-12T11:14:51+00:00","updated_at":"2026-11-12T11:14:51+00:00","account":{"id":"fixture-account-id","name":"Main
+      string: '{"data":[{"id":"fixture-transaction-id","account_id":"fixture-account-id","operation":"debit","currency_code":"MAD","internal_transfer":false,"other_name":"Casawave
+        SARLAU","external_id":"31182","provider_name":"chari_money","transfer_id":"01a1d981-e47b-7431-895e-bf9c03351618","card_payment_id":null,"card_topup_id":null,"posting_id":"01a1d983-63c7-7a8a-a308-52b4a07e221f","amount":"-10.0","account_balance_after":"1000.0","source_type":"transfer","source_id":"01a1d981-e47b-7431-895e-bf9c03351618","transaction_type":"External
+        Transfer","reference":"zazu-ruby-fixture-v1-authorizable","label":"Virement
+        sortant - Casawave SARLAU","posted_at":"2026-11-14T10:02:11+00:00","value_date":"2026-11-14","created_at":"2026-11-14T10:02:11+00:00","updated_at":"2026-11-14T10:03:49+00:00","account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"}}],"has_more":false,"next_cursor":null}'
-  recorded_at: Sat, 14 Nov 2026 10:01:54 GMT
+  recorded_at: Sat, 14 Nov 2026 10:16:45 GMT
 recorded_with: VCR 6.4.1

@@ -61,6 +61,9 @@ RSpec.describe Manza::Resources::Invoices do
       end.to raise_error(Manza::ValidationError) { |e|
         expect(e.status).to eq(422)
         expect(e.type).to eq("state_error")
+        # The account refusal, not a date one (also state_error).
+        expect(e.param).to be_nil
+        expect(e.message).to match(/compte bancaire|bank account/i)
       }
     end
   end

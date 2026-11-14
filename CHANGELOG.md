@@ -94,9 +94,15 @@ pending).
 - **`create_payment_link` is gone.** Replace
   `manza.invoices.create_payment_link(id, account_id: acc)` with
   `manza.invoices.update(id, account_id: acc, generate_payment_link: true)`,
-  or pass `generate_payment_link: true` on create. The link is made from
-  the invoice's account when the invoice is approved, and appears in the
-  invoice's `payment_link`.
+  or pass `generate_payment_link: true` on create. `update` returns the
+  invoice, not a link: the link is made from the invoice's account when
+  the invoice is approved, and appears in the invoice's `payment_link`.
+  `update` takes only an invoice that is still `draft`,
+  `pending_approval` or `declined` (any other raises
+  `Manza::ValidationError`, `state_error`); for an invoice already
+  approved or sent, there is no API path to attach a link to it:
+  `manza.payment_links.create(account_id:, amount:, ...)` makes a
+  standalone link instead.
 - **`account_id` is required on invoice create.** Pass the account the
   invoice is paid into (`manza.accounts.list`); 1.x calls without it now
   raise `Manza::ValidationError`.

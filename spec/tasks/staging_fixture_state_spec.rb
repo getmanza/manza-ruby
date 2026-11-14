@@ -271,7 +271,10 @@ RSpec.describe "staging fixture state tasks", type: :task do
                   invoice("sent", status: "sent", number: "INV-1"),
                   invoice("numbered-in-review", status: "pending_approval", number: "INV-2"),
                   invoice("paid", status: "paid", number: "INV-3"),
-                  invoice("cancelled", status: "cancelled", number: "INV-4")
+                  invoice("cancelled", status: "cancelled", number: "INV-4"),
+                  invoice("unnumbered-declined", status: "declined"),
+                  invoice("approved", status: "approved", number: "INV-5"),
+                  invoice("overdue", status: "overdue", number: "INV-6")
                 ])
     end
 
@@ -281,7 +284,47 @@ RSpec.describe "staging fixture state tasks", type: :task do
     it "counts only the fixture invoices teardown can delete or cancel" do
       stale = Fixtures::Seeder.new.send(:find_stale_fixtures)
 
-      expect(stale[:invoices]).to contain_exactly("unnumbered-draft", "sent")
+      expect(stale[:invoices]).to contain_exactly("unnumbered-draft", "unnumbered-declined", "sent", "approved", "overdue")
+    end
+  end
+
+  # The cassettes are public: the transaction they replay must be one the
+  # fixtures moved, never another staging transfer on the same account.
+  describe "Fixtures::Seeder transaction discovery" do
+    around do |example|
+      saved = ENV.fetch("MANZA_FIXTURE_ACCOUNT_ID", nil)
+      ENV["MANZA_FIXTURE_ACCOUNT_ID"] = "fixture-account-id"
+      example.run
+    ensure
+      ENV["MANZA_FIXTURE_ACCOUNT_ID"] = saved
+    end
+
+    def stub_transactions(records)
+      stub_request(:get, %r{\A#{Regexp.escape(staging_url)}/api/accounts/fixture-account-id/transactions\?})
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                   body: JSON.generate("data" => records, "has_more" => false, "next_cursor" => nil))
+    end
+
+    def discovered
+      seeder = Fixtures::Seeder.new
+      seeder.send(:discover_transaction_id!)
+      seeder.instance_variable_get(:@ids)["MANZA_FIXTURE_TRANSACTION_ID"]
+    end
+
+    it "takes the newest transaction the fixtures made, not the account's newest" do
+      stub_transactions([
+                          { "id" => "someone-elses", "reference" => "a staging tester's transfer" },
+                          { "id" => "fixture-newest", "reference" => "zazu-ruby-fixture-v1-authorizable" },
+                          { "id" => "fixture-older", "reference" => "zazu-ruby-fixture-v1-new-payee" }
+                        ])
+
+      expect(discovered).to eq("fixture-newest")
+    end
+
+    it "fails when the account holds no fixture transaction" do
+      stub_transactions([{ "id" => "someone-elses", "reference" => "a staging tester's transfer" }])
+
+      expect { discovered }.to raise_error(RuntimeError, /fixture transaction/)
     end
   end
 end
