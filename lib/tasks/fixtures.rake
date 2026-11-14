@@ -550,11 +550,21 @@ module Fixtures
 
     def stale_invoices
       stale_records(@client.invoices) do |i|
-        # Teardown cancels invoices it cannot delete; treat those as gone.
-        next false if i["status"] == "cancelled"
+        # Teardown cancels invoices it cannot delete; treat those as gone,
+        # and the ones it can do neither to too: they outlive every run.
+        next false unless removable_invoice?(i)
 
         fixture_record?(i["reference"]) || fixture_record?(i.dig("customer", "name"))
       end
+    end
+
+    # The API deletes an invoice only while it is a draft, pending_approval
+    # or declined and has no number, and cancels only an approved, sent or
+    # overdue one. A numbered pending_approval invoice (numbered before the
+    # API stopped numbering invoices in review) or a paid one is neither.
+    def removable_invoice?(invoice)
+      deletable = %w[draft pending_approval declined].include?(invoice["status"]) && invoice["number"].to_s.empty?
+      deletable || %w[approved sent overdue].include?(invoice["status"])
     end
 
     def stale_payment_links

@@ -240,4 +240,48 @@ RSpec.describe "staging fixture state tasks", type: :task do
       expect(Rake::Task["fixtures:seed"].prerequisites).to eq(%w[preflight])
     end
   end
+
+  # The seed aborts on stale fixtures, so the check must not count one
+  # teardown cannot remove.
+  describe "Fixtures::Seeder stale invoices" do
+    around do |example|
+      saved = ENV.fetch("MANZA_FIXTURE_ACCOUNT_ID", nil)
+      ENV["MANZA_FIXTURE_ACCOUNT_ID"] = "fixture-account-id"
+      example.run
+    ensure
+      ENV["MANZA_FIXTURE_ACCOUNT_ID"] = saved
+    end
+
+    def stub_list(path, records)
+      stub_request(:get, %r{\A#{Regexp.escape(staging_url)}/api/#{path}\?})
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                   body: JSON.generate("data" => records, "has_more" => false, "next_cursor" => nil))
+    end
+
+    def invoice(id, status:, number: nil)
+      { "id" => id, "status" => status, "number" => number, "reference" => "zazu-ruby-fixture-v1-inv-0" }
+    end
+
+    before do
+      stub_list("customers", [])
+      stub_list("payment_links", [])
+      stub_list("webhook_endpoints", [])
+      stub_list("invoices", [
+                  invoice("unnumbered-draft", status: "pending_approval"),
+                  invoice("sent", status: "sent", number: "INV-1"),
+                  invoice("numbered-in-review", status: "pending_approval", number: "INV-2"),
+                  invoice("paid", status: "paid", number: "INV-3"),
+                  invoice("cancelled", status: "cancelled", number: "INV-4")
+                ])
+    end
+
+    # The API deletes only an unnumbered draft, pending_approval or declined
+    # invoice, and cancels only an approved, sent or overdue one. Any other
+    # fixture invoice outlives every teardown and must not block the seed.
+    it "counts only the fixture invoices teardown can delete or cancel" do
+      stale = Fixtures::Seeder.new.send(:find_stale_fixtures)
+
+      expect(stale[:invoices]).to contain_exactly("unnumbered-draft", "sent")
+    end
+  end
 end
