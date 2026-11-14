@@ -71,7 +71,8 @@ Every cassette was re-recorded against staging. An SDK that replays
 
 | Cassette | Request |
 |---|---|
-| `invoices/create` | `POST https://ma.manza.dev/api/invoices` with `account_id` (`fixture-account-id`) and `generate_payment_link: true` |
+| `invoices/create` | `POST https://ma.manza.dev/api/invoices` with `account_id` (`fixture-account-id`), `generate_payment_link: true` and new dates (`issue_date` `2026-11-14`, `due_date` `2026-12-14`: staging refuses a date in a month before its newest invoice number) |
+| `invoices/create_invalid_generate_payment_link` (new) | `POST https://ma.manza.dev/api/invoices` with `generate_payment_link: "yes please"`: 400 |
 | `invoices/create_without_account` (new) | `POST https://ma.manza.dev/api/invoices` without `account_id`: 422 `state_error` |
 | `invoices/update` | `PATCH https://ma.manza.dev/api/invoices/fixture-invoice-id` with `account_id`, `notes` and `generate_payment_link: true` |
 | `payments/create` | `POST https://ma.manza.dev/api/payments` with `transfer_method: "standard"` |

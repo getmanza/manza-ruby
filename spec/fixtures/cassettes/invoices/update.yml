@@ -11,7 +11,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.2.0
+      - manza-ruby/1.3.0
       Accept:
       - application/json
       Content-Type:
@@ -41,7 +41,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-LbzZ9GP1Xoy2m0kWHFsCGg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-QUwInF68SXAzYVa7cs2wzw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -100,7 +100,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"a040c78ab35be9f28238dc05e5bd15b9"
+      - W/"255e470b313fceaeaf64a7fae9a98183"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -121,20 +121,20 @@ http_interactions:
       - '0'
       Zazu-Version:
       - "<MANZA_VERSION>"
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9oRjAKAC10ced8NC%2Bxvo3IQDKi1v%2FrVr6t1PTwHY0wyiSPtz1QYSspPb%2BXUEABUQ4LuvDoh84A7wFlfj89QMByt7CluNWcv6F5NgKU2hpJQCQKS60ygKfSweY2olfZARCaKvBX4%2Faxl682w%3D"}]}'
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
-      Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=NAj6yCbTTGobAMuebY3JFBpbC1P3E6SsXdiKNX7PLcyDmQmtlKsibYsY3H7CcBY%2BB6NC8A29D8ScHOUsemMLulO9zUu7ngLfEilGs0apUnQBl0uZTQd8lL6OlFf2mvoPQmSs2hP%2FLSuZ6hQ%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: ASCII-8BIT
-      string: '{"id":"fixture-invoice-id","number":"INV-202610-013","status":"pending_approval","currency_code":"MAD","issue_date":"2026-10-29","due_date":"2026-11-28","reference":"zazu-ruby-fixture-v1-inv-0","notes":"updated
-        by SDK fixture spec","payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"generate_payment_link":true,"delivery_date":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-10-29T13:53:35+00:00","updated_at":"2026-10-29T13:54:01+00:00","credit_note":false,"credit_notes":[],"customer":{"id":"fixture-customer-id","name":"Manza
-        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-737cab72@example.com","phone":null,"tax_id":null,"ice_number":"595250499157521"},"billing_address":null,"items":[{"id":"01a187f0-018b-7906-8cb3-650d945a2433","description":"Manza
+      encoding: UTF-8
+      string: '{"id":"fixture-invoice-id","number":null,"status":"pending_approval","currency_code":"MAD","issue_date":"2026-11-14","due_date":"2026-12-14","reference":"zazu-ruby-fixture-v1-inv-0","notes":"updated
+        by SDK fixture spec","payment_terms":null,"send_to_email":null,"credited_invoice_id":null,"generate_payment_link":true,"delivery_date":null,"subtotal":"100.0","discount_total":"0.0","tax_total":"20.0","total":"120.0","sent_at":null,"paid_at":null,"created_at":"2026-11-14T10:01:34+00:00","updated_at":"2026-11-14T10:02:02+00:00","credit_note":false,"credit_notes":[],"customer":{"id":"fixture-customer-id","name":"Manza
+        Fixture Co — primary (zazu-ruby-fixture-v1)","email":"fixture-primary-b07b24cb@example.com","phone":null,"tax_id":null,"ice_number":"357106474416305"},"billing_address":null,"items":[{"id":"01a1d981-561d-7262-9f7f-db70d767addb","description":"Manza
         fixture line item","position":0,"quantity":"1.0","unit_price":"100.0","tax_rate":"0.2","amount":"100.0"}],"discounts":[],"account":{"id":"fixture-account-id","name":"Main
         Account","currency_code":"MAD","rib":"<RIB>"},"payment_link":null}'
-  recorded_at: Thu, 29 Oct 2026 13:54:01 GMT
-recorded_with: VCR 6.4.0
+  recorded_at: Sat, 14 Nov 2026 10:02:02 GMT
+recorded_with: VCR 6.4.1

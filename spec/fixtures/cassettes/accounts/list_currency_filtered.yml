@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.2.0
+      - manza-ruby/1.3.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-9hdRZYBfQLq7vtDxABpFXw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-+gtp31P0Sw4I54MXX4Vc3Q==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"c626b824215e8b4529a07f3f8b56baa4"
+      - W/"21ec013aaffca78fe8b8e92779b9e74e"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -120,16 +120,16 @@ http_interactions:
       - '0'
       Zazu-Version:
       - "<MANZA_VERSION>"
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=iZdynSZdGi7OlH36C3dG0QJiPggmXpwm69O2MUdOzq2EXiVttHbISPm67R30Fo%2FhU9%2BAyzXlU6ZNIv4CrEVmgsuTmJCUQtnDvd42IanzHqCPC8Xv6ylq5Sc%2Fx5E1aNI8GoCXO49mnOGaf0A%3D"}]}'
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
-      Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=3kq5619%2BVbk%2B%2F%2FVLiCkg4o%2BcZ07XZ8ghAoxnmuGCdUsRObPKWNDb%2BZkRumQMwRrXYYfLKKH2FxP2zqqQtsGbjznbpNAn9rQgd44pfwYJYqgeMsg806bPuxbAmpxabzD9oJVH%2F5Y2i4Dpg9A%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-account-id","name":"Main Account","status":"open","currency_code":"MAD","balance":"1000.0","created_at":"2025-11-18T08:05:28+01:00","updated_at":"2026-10-29T06:58:51+00:00","rib":"<RIB>"}],"has_more":false,"next_cursor":null}'
-  recorded_at: Thu, 29 Oct 2026 13:53:52 GMT
-recorded_with: VCR 6.4.0
+      string: '{"data":[{"id":"fixture-account-id","name":"Main Account","status":"open","currency_code":"MAD","balance":"1000.0","created_at":"2025-11-18T08:05:28+01:00","updated_at":"2026-11-12T11:14:51+00:00","rib":"<RIB>"}],"has_more":false,"next_cursor":null}'
+  recorded_at: Sat, 14 Nov 2026 10:01:53 GMT
+recorded_with: VCR 6.4.1

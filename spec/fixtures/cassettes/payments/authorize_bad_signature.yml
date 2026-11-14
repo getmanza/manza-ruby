@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.2.0
+      - manza-ruby/1.3.0
       Accept:
       - application/json
       Content-Type:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-tjqFeE8dUCBfHrUHHLTczw==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-NYX3l+g1m/2RR2ISV3wu6g==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -114,10 +114,10 @@ http_interactions:
       - "<REQUEST_ID>"
       X-Xss-Protection:
       - '0'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=vW1E%2F%2FTVIef8C9H%2Fjwne5pFDyGzFgnGFXahMTC4etadt1uTFZu3fn71dmWxUKKfj6nsjy3e4cOwv0HRh5vXQOn4UqYpVM6jbQq8S4WqQjVa7GzEKVEQTrc7KCwVCF75yQfPRwr8%2FEZk3zsE%3D"}]}'
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
-      Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=0eFx63dlx%2F%2F6HfdOOACmEl92hRC7ei9oeH2w584uMxPW97COcgvG6JohjjMLNe1FwWxE1o8biYWMtNGLKgIKFtzmOYejuNSyiwNMN97v%2B%2B%2FZDtD3Dg37%2Fovsf4wGAQrR6kvav%2BpuKlH94hw%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
@@ -125,5 +125,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"error":{"message":"Signature does not match","type":"invalid_signature"}}'
-  recorded_at: Thu, 29 Oct 2026 13:54:07 GMT
-recorded_with: VCR 6.4.0
+  recorded_at: Sat, 14 Nov 2026 10:02:09 GMT
+recorded_with: VCR 6.4.1

@@ -19,14 +19,18 @@ RSpec.describe Manza::Resources::Invoices do
     end
   end
 
+  # Fixed dates keep the recorded body stable. The API refuses an issue
+  # date in a month before the entity's newest invoice number (the fixture
+  # entity has one in November 2026) or more than a month ahead, so a
+  # re-record in a later month may need these moved forward.
   describe "#create", vcr: { cassette_name: "invoices/create" } do
     it "creates an invoice paid into the account, asking for a payment link" do
       response = client.invoices.create(
         customer_id: fixture_id("MANZA_FIXTURE_CUSTOMER_ID"),
         account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
         currency_code: "MAD",
-        issue_date: "2026-05-03",
-        due_date: "2026-06-03",
+        issue_date: "2026-11-14",
+        due_date: "2026-12-14",
         generate_payment_link: true,
         items: [
           { description: "SDK fixture line", quantity: 1, unit_price: "100.00" }
