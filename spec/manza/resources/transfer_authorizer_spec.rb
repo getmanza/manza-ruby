@@ -13,6 +13,9 @@ RSpec.describe Manza::Resources::TransferAuthorizer do
       expect(response.body["currency_code"]).to eq("MAD")
       expect(response.body).to include("per_transfer_limit", "daily_limit", "daily_authorized_total",
                                        "secret_expires_at", "webhook_endpoint_id", "enrolled_at")
+      # "Approve transfers to new payees" is on for the fixture entity (setup step 6).
+      expect(response.body["trust_new_payees"]).to be(true)
+      expect(response.body["new_payee_limit"]).to be_a(String)
     end
   end
 end

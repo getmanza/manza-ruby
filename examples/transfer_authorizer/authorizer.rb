@@ -28,7 +28,8 @@ module TransferAuthorizer
       "amount" => "amount",
       "currency_code" => "currency_code",
       "account_id" => "account_id",
-      "payee" => "payee"
+      "payee" => "payee",
+      "transfer_method" => "transfer_method"
     }.freeze
 
     # Failures worth another try: the API did not answer, asked us to slow
@@ -104,7 +105,7 @@ module TransferAuthorizer
       end
 
       @logger.info("ledger match for #{client_reference}: #{payment["amount"]} #{payment["currency_code"]} to #{payment["payee"]}")
-      authorize(entry, authorization, client_reference, data["signature_input"])
+      authorize(entry, authorization, client_reference, data["signature_input_v2"])
     rescue Manza::Error => e
       @logger.error("API error #{e.class.name}: #{e.message} (type #{e.type.inspect}, request_id #{e.request_id.inspect})")
     rescue StandardError => e
@@ -128,13 +129,14 @@ module TransferAuthorizer
       "#{field} differs from the ledger (ledger #{entry[field].inspect}, webhook #{payment[CHECKED_FIELDS[field]].inspect})"
     end
 
-    # Sign from the ledger, never from the webhook: `signature_input` in the
-    # webhook is only there to compare against.
+    # Sign from the ledger, never from the webhook: `signature_input_v2` in
+    # the webhook is only there to compare against. (Its `signature_input`
+    # is the v1 string, for clients pinned to Manza-Version 2026-03-27.)
     def authorize(entry, authorization, client_reference, webhook_input)
       input = Manza::TransferAuthorization.signature_input(
         payment_id: entry["payment_id"], nonce: authorization["nonce"], amount: entry["amount"],
         currency_code: entry["currency_code"], account_id: entry["account_id"], payee: entry["payee"],
-        client_reference: client_reference
+        client_reference: client_reference, transfer_method: entry["transfer_method"]
       )
       # A signature over a different input is sure to fail, and failed
       # attempts count toward suspending the authorizer. Leave the challenge

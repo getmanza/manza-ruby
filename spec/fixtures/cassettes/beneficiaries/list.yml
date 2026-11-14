@@ -10,7 +10,7 @@ http_interactions:
       Authorization:
       - Bearer <MANZA_API_KEY>
       User-Agent:
-      - manza-ruby/1.2.0
+      - manza-ruby/1.3.0
       Accept:
       - application/json
       Accept-Encoding:
@@ -40,7 +40,7 @@ http_interactions:
         https://applepay.cdn-apple.com https://js.stripe.com https://www.google-analytics.com
         https://www.googletagmanager.com https://assets.calendly.com https://app.cal.com
         https://challenges.cloudflare.com https://assets.ma.manza.dev ''strict-dynamic''
-        ''nonce-+pqLIwWXl79Nx9hW2sNVQg==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        ''nonce-vebqAyb+YVijaWfWLkQ2CA==''; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
         https://assets.ma.manza.dev https://*.peachpayments.com https://oppwa.com
         https://*.oppwa.com; font-src ''self'' https://fonts.gstatic.com data: https://*.peachpayments.com
         https://oppwa.com https://*.oppwa.com https://fonts.gstatic.com https://js.intercomcdn.com
@@ -99,7 +99,7 @@ http_interactions:
         https://*.oppwa.com https://ajax.googleapis.com https://checkout.paystack.com
         https://standard.paystack.co; manifest-src ''self''; report-uri /csp-violation-reports'
       Etag:
-      - W/"a357382bc47ad801a932071a1514ec7a"
+      - W/"368e83d3d492e929eda31f5445891b23"
       Manza-Version:
       - "<MANZA_VERSION>"
       Referrer-Policy:
@@ -123,17 +123,17 @@ http_interactions:
       Nel:
       - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
       Report-To:
-      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2B3MHvyQMBvHhXE1D7RR%2FyUdHJyIr6QtncSpWUVxTXSwp23Edni5T7evPCCznVBIMryd%2FsVmaIlH9kkU1TLKelaoE5zgKw7lE30v%2F4QVvldPfBMuSa%2BVYq84%2FOuUW6h9tLQ%2FYD6zHhDAW2JI%3D"}]}'
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ddxeDw0LXYI0SJghIrWU1z4XqTgBfZDRj4RyyPYRycZZcbStz4ZP3ZJ%2FlTzcCMt20aom5TxwG2AXkIlGt3INzJQPcJajVqtxy%2BG8EtvEPSTVrA3%2B5sUxZl%2BVcSDrc4MUTIOoylsVQNaiM88%3D"}]}'
       Server:
       - cloudflare
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"fixture-created-beneficiary-id","beneficiary_type":"business","email":"fixture-created-beneficiary-e059cf58@example.com","phone_number":null,"name":"Manza
+      string: '{"data":[{"id":"fixture-created-beneficiary-id","beneficiary_type":"business","email":"fixture-created-beneficiary-b3163cdd@example.com","phone_number":null,"name":"Manza
         Fixture Beneficiary created","external_accounts":[{"id":"fixture-external-account-id","name":"Fixture
-        Seeded Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true,"trusted":false}],"created_at":"2026-10-29T13:53:43+00:00"},{"id":"fixture-beneficiary-id","beneficiary_type":"business","email":null,"phone_number":null,"name":"Casawave
+        Seeded Account","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true,"trusted":false}],"created_at":"2026-11-14T10:01:43+00:00"},{"id":"fixture-beneficiary-id","beneficiary_type":"business","email":null,"phone_number":null,"name":"Casawave
         SARLAU","external_accounts":[{"id":"fixture-trusted-external-account-id","name":"Compte
         Courant","account_number":"<ACCOUNT_NUMBER>","bank_identifier":"<BANK_IDENTIFIER>","currency_code":"MAD","default":true,"trusted":true}],"created_at":"2026-03-07T17:13:01+00:00"}],"has_more":false,"next_cursor":null}'
-  recorded_at: Thu, 29 Oct 2026 13:53:54 GMT
-recorded_with: VCR 6.4.0
+  recorded_at: Sat, 14 Nov 2026 10:01:55 GMT
+recorded_with: VCR 6.4.1

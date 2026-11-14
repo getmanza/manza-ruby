@@ -36,7 +36,7 @@ manza.payments.create(...)
 ```
 
 - `Manza::Page` — cursor-based pagination, hard cap of 100/page (`MAX_PER_PAGE`)
-- 10-class `Manza::Error` hierarchy — discriminate via `is_a?(Manza::ValidationError)`, never status-code matching
+- 11-class `Manza::Error` hierarchy (`PlanLimitReachedError` < `ValidationError` since 2.0) — discriminate via `is_a?(Manza::ValidationError)`, never status-code matching
 - Snake-case wire format — request/response bodies are returned as-is. **No auto-camelCasing.**
 
 ## How to work in this codebase
@@ -55,7 +55,7 @@ manza.payments.create(...)
 - **Fixture IDs go through `fixture_id()`.** Defined in `spec/support/fixture_ids.rb`. Specs call `fixture_id("MANZA_FIXTURE_X")` which returns `ENV[X]` when set or a deterministic placeholder when not. The placeholder is what VCR scrubs to, so cassettes replay everywhere. A new fixture env var goes into that file's `IDS` table.
 - **A replay mismatch is fixed, never silenced.** Read `spec/support/vcr.rb` and `spec/support/fixture_ids.rb` before touching cassettes. Re-record (`rake fixtures:record`) or fix the matcher in `vcr.rb`; never a `record: :new_episodes` override, and never mocks in place of cassettes (the other SDKs replay the same files).
 - **Snake-case wire format.** API request/response bodies use snake_case. Don't transform them.
-- **No new error classes without updating other SDKs.** The 10-class hierarchy is shared across SDKs. Adding to it means coordinating manza-ruby + manza-ts at minimum.
+- **No new error classes without updating other SDKs.** The 11-class hierarchy is shared across SDKs. Adding to it means coordinating manza-ruby + manza-ts at minimum.
 - **Public API breaks are deliberate.** A change that breaks the gem's public API or its compatibility with the Manza API is made only on purpose, named in `CHANGELOG.md` and released as a major version.
 - **`Dotenv.overload`, not `Dotenv.load`.** A stale shell-exported `MANZA_FIXTURE_*` variable will mask the freshly-seeded value otherwise. Both `spec_helper.rb` and `lib/tasks/fixtures.rake` do this.
 - **Staging fixture state is agents' to fix, never production.** Before `rake fixtures:record`, bring MA staging to the declared state yourself ("Staging fixture state" below) without asking. The `sdk_fixtures_*` tools exist on staging only; never point any of it at a production host.

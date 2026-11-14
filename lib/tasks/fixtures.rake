@@ -268,15 +268,25 @@ module Fixtures
     # --- Seed steps ---------------------------------------------------------
 
     # Transactions are read-only — they're created as a side effect of
-    # bank movements, not via the API. We pluck the most recent one
-    # off the fixture account so the get_transaction spec has a real
-    # ID to replay against.
+    # bank movements, not via the API. We pluck the most recent one a
+    # previous record run moved (its reference carries FIXTURE_TAG), so
+    # the get_transaction spec has a real ID to replay against. Never the
+    # account's newest: other staging transfers land on the same account,
+    # and the cassettes are public.
     def discover_transaction_id!
-      page = @client.accounts.list_transactions(@account_id, limit: 1)
-      first = page.data.first
-      raise "No transactions found on fixture account — cannot record get_transaction cassette" unless first
+      fixture = list_all_transactions.find { |t| fixture_record?(t["reference"]) }
+      unless fixture
+        raise "No transaction whose reference carries #{FIXTURE_TAG.inspect} among the fixture account's newest " \
+              "1000, so the get_transaction cassette has nothing to replay. A record run's authorized transfer " \
+              "makes one: on a fresh account, create and authorize one payment with payment_reference " \
+              "\"#{FIXTURE_TAG}\" first, then run the record again."
+      end
 
-      @ids["MANZA_FIXTURE_TRANSACTION_ID"] = first["id"]
+      @ids["MANZA_FIXTURE_TRANSACTION_ID"] = fixture["id"]
+    end
+
+    def list_all_transactions
+      each_page_from(@client.accounts.list_transactions(@account_id, limit: 100))
     end
 
     def seed_customers!
@@ -312,6 +322,7 @@ module Fixtures
     def create_draft_invoice!(customer_id, idx)
       response = @client.invoices.create(
         customer_id: customer_id,
+        account_id: @account_id,
         currency_code: "MAD",
         issue_date: Date.today.iso8601,
         due_date: (Date.today + 30).iso8601,
@@ -473,6 +484,12 @@ module Fixtures
               "the seeded bank account was already trusted, so authorize_new_payee would not record a new payee."
       end
 
+      rails = challenges.transform_values { |c| c["transfer_method"] }.reject { |_, rail| rail == "standard" }
+      unless rails.empty?
+        raise "Challenges for #{rails.inspect} sign another transfer_method than the \"standard\" the drafts sent: " \
+              "the authorize specs sign \"standard\" and would record invalid_signature."
+      end
+
       drafts.each do |kind, draft|
         prefix = "MANZA_FIXTURE_#{kind.upcase}"
         @ids["#{prefix}_DRAFT_ID"] = draft["id"]
@@ -492,7 +509,9 @@ module Fixtures
         external_account_id: external_account_id,
         amount: "10.00",
         payment_reference: fixture_marker(kind.tr("_", "-")),
-        client_reference: random_client_reference(kind)
+        client_reference: random_client_reference(kind),
+        # Explicit, so the v2 signature the specs build signs a known rail.
+        transfer_method: "standard"
       ).body
       authorization = draft["authorization"] || {}
       return draft if authorization["status"] == "pending"
@@ -541,11 +560,21 @@ module Fixtures
 
     def stale_invoices
       stale_records(@client.invoices) do |i|
-        # Teardown cancels invoices it cannot delete; treat those as gone.
-        next false if i["status"] == "cancelled"
+        # Teardown cancels invoices it cannot delete; treat those as gone,
+        # and the ones it can do neither to too: they outlive every run.
+        next false unless removable_invoice?(i)
 
         fixture_record?(i["reference"]) || fixture_record?(i.dig("customer", "name"))
       end
+    end
+
+    # The API deletes an invoice only while it is a draft, pending_approval
+    # or declined and has no number, and cancels only an approved, sent or
+    # overdue one. A numbered pending_approval invoice (numbered before the
+    # API stopped numbering invoices in review) or a paid one is neither.
+    def removable_invoice?(invoice)
+      deletable = %w[draft pending_approval declined].include?(invoice["status"]) && invoice["number"].to_s.empty?
+      deletable || %w[approved sent overdue].include?(invoice["status"])
     end
 
     def stale_payment_links
@@ -579,8 +608,11 @@ module Fixtures
     # Stops at 10 pages (1000 records) so a runaway entity never
     # blocks the seed forever.
     def list_all(resource)
+      each_page_from(resource.list(limit: 100))
+    end
+
+    def each_page_from(page)
       results = []
-      page = resource.list(limit: 100)
       pages_seen = 0
       while page && pages_seen < 10
         results.concat(page.data)
@@ -731,7 +763,7 @@ module Fixtures
       end
     end
 
-    # Returns { payment_id => { "authorization_id", "nonce", "payee_trusted" } } once
+    # Returns { payment_id => { "authorization_id", "nonce", "payee_trusted", "transfer_method" } } once
     # every id has arrived.
     def wait_for(payment_ids, timeout:)
       deadline = Time.now + timeout
@@ -790,7 +822,8 @@ module Fixtures
         @challenges[data.dig("payment", "id")] = {
           "authorization_id" => data.dig("authorization", "id"),
           "nonce" => data.dig("authorization", "nonce"),
-          "payee_trusted" => data.dig("payment", "payee_trusted")
+          "payee_trusted" => data.dig("payment", "payee_trusted"),
+          "transfer_method" => data.dig("payment", "transfer_method")
         }
       end
     end

@@ -6,19 +6,21 @@ RSpec.describe Manza::Resources::Payments do
   let(:client) { manza_client }
 
   describe "#create", vcr: { cassette_name: "payments/create" } do
-    it "creates a draft carrying the client_reference" do
+    it "creates a draft carrying the client_reference and the transfer_method" do
       response = client.payments.create(
         account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
         beneficiary_id: fixture_id("MANZA_FIXTURE_BENEFICIARY_ID"),
         amount: "10.00",
         payment_reference: "SDK fixture",
         internal_notes: "[zazu-ruby-fixture] create spec - do not approve",
-        client_reference: fixture_id("MANZA_FIXTURE_CLIENT_REFERENCE")
+        client_reference: fixture_id("MANZA_FIXTURE_CLIENT_REFERENCE"),
+        transfer_method: "standard"
       )
 
       expect(response.status).to eq(201)
       expect(response.body["status"]).to eq("requested")
       expect(response.body["client_reference"]).to eq(fixture_id("MANZA_FIXTURE_CLIENT_REFERENCE"))
+      expect(response.body["transfer_method"]).to eq("standard")
       # Inside the envelope: the challenge went to the authorizer.
       expect(response.body.dig("authorization", "status")).to eq("pending")
       expect(response.body["transfer"]).to be_nil
@@ -37,6 +39,23 @@ RSpec.describe Manza::Resources::Payments do
       end.to raise_error(Manza::ConflictError) { |e|
         expect(e.type).to eq("duplicate_client_reference")
         expect(e.payment_id).to eq(fixture_id("MANZA_FIXTURE_AUTHORIZABLE_DRAFT_ID"))
+      }
+    end
+  end
+
+  describe "#create with a transfer_method the market does not offer",
+           vcr: { cassette_name: "payments/create_invalid_transfer_method" } do
+    it "raises ValidationError on transfer_method and creates nothing" do
+      expect do
+        client.payments.create(
+          account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
+          beneficiary_id: fixture_id("MANZA_FIXTURE_BENEFICIARY_ID"),
+          amount: "10.00",
+          transfer_method: "carrier_pigeon"
+        )
+      end.to raise_error(Manza::ValidationError) { |e|
+        expect(e.status).to eq(422)
+        expect(e.param).to eq("transfer_method")
       }
     end
   end
@@ -76,6 +95,10 @@ RSpec.describe Manza::Resources::Payments do
   # recorded signature is an HMAC over the real nonce and secret
   # (scrubbed to <SIGNATURE>), which replay cannot reproduce. The signer
   # itself is proven by spec/manza/transfer_authorization_spec.rb.
+  #
+  # The seeded drafts send `transfer_method: "standard"` (MA's base rail,
+  # always offered), so the v2 input signs that rail: left out, staging
+  # would store its default, which depends on its flags.
   describe "machine authorization", order: :defined do
     describe "#authorize with a bad signature",
              vcr: { cassette_name: "payments/authorize_bad_signature", match_requests_on: %i[method uri body_without_signature] } do
@@ -113,10 +136,9 @@ RSpec.describe Manza::Resources::Payments do
           amount: "10.0",
           currency_code: "MAD",
           account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
-          payee: Manza::TransferAuthorization.payee_for(
-            external_account_id: fixture_id("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID")
-          ),
-          client_reference: fixture_id("MANZA_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE")
+          payee: Manza::TransferAuthorization.payee_for(external_account_id: fixture_id("MANZA_FIXTURE_TRUSTED_EXTERNAL_ACCOUNT_ID")),
+          client_reference: fixture_id("MANZA_FIXTURE_AUTHORIZABLE_CLIENT_REFERENCE"),
+          transfer_method: "standard"
         )
 
         response = manza_authorizer_client.payments.authorize(
@@ -144,7 +166,8 @@ RSpec.describe Manza::Resources::Payments do
           currency_code: "MAD",
           account_id: fixture_id("MANZA_FIXTURE_ACCOUNT_ID"),
           payee: Manza::TransferAuthorization.payee_for(external_account_id: fixture_id("MANZA_FIXTURE_EXTERNAL_ACCOUNT_ID")),
-          client_reference: fixture_id("MANZA_FIXTURE_NEW_PAYEE_CLIENT_REFERENCE")
+          client_reference: fixture_id("MANZA_FIXTURE_NEW_PAYEE_CLIENT_REFERENCE"),
+          transfer_method: "standard"
         )
 
         response = manza_authorizer_client.payments.authorize(

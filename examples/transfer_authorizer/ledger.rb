@@ -10,15 +10,17 @@ module TransferAuthorizer
   #
   #   { "po_8812" => { "payment_id" => "...", "amount" => "2500.0",
   #                    "currency_code" => "MAD", "account_id" => "...",
-  #                    "payee" => "ext:..." } }
+  #                    "payee" => "ext:...", "transfer_method" => "standard" } }
   class Ledger
     def initialize(path)
       @path = path
     end
 
-    def record(client_reference, payment_id:, amount:, currency_code:, account_id:, payee:)
+    # `transfer_method` is the create response's (nil where the market
+    # offers no choice): the v2 signature signs it.
+    def record(client_reference, payment_id:, amount:, currency_code:, account_id:, payee:, transfer_method:)
       entry = { "payment_id" => payment_id, "amount" => amount, "currency_code" => currency_code,
-                "account_id" => account_id, "payee" => payee }
+                "account_id" => account_id, "payee" => payee, "transfer_method" => transfer_method }
 
       # Serialize writers on a separate lock file, write the new ledger to a
       # temporary file and rename it over the old one: a reader sees the old

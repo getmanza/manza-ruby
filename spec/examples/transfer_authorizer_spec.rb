@@ -9,7 +9,8 @@ require_relative "../../examples/transfer_authorizer/authorizer"
 
 # Drives the example's authorizer with a signed copy of the documented
 # `payment.authorization_requested` payload (getmanza/app
-# WebhookEvents::PaymentAuthorizationRequested.example_payload, verbatim).
+# WebhookEvents::PaymentAuthorizationRequested.example_payload, verbatim,
+# with v2's `signature_input_v2` and `payment.transfer_method`).
 # WebMock only: no cassette, no network.
 RSpec.describe TransferAuthorizer::App do
   let(:secret) { "whsec_example_authorizer_secret" }
@@ -39,11 +40,15 @@ RSpec.describe TransferAuthorizer::App do
           "destination_account_id" => nil,
           "payment_reference" => "INV-2026-001",
           "client_reference" => "po_8812",
+          "transfer_method" => "eft",
           "payee_trusted" => false
         },
         "signature_input" => "manza.transfer-authorization.v1|01958e51-7c5a-7000-8000-000000000012|" \
                              "9f86d081884c7d659a2feaa0c55ad015|2500.0|ZAR|01958e51-7c5a-7000-8000-000000000013|" \
-                             "ext:01958e51-7c5a-7000-8000-000000000014|po_8812"
+                             "ext:01958e51-7c5a-7000-8000-000000000014|po_8812",
+        "signature_input_v2" => "manza.transfer-authorization.v2|01958e51-7c5a-7000-8000-000000000012|" \
+                                "9f86d081884c7d659a2feaa0c55ad015|2500.0|ZAR|01958e51-7c5a-7000-8000-000000000013|" \
+                                "ext:01958e51-7c5a-7000-8000-000000000014|po_8812|eft"
       }
     }
   end
@@ -53,7 +58,8 @@ RSpec.describe TransferAuthorizer::App do
       amount: "2500.0",
       currency_code: "ZAR",
       account_id: "01958e51-7c5a-7000-8000-000000000013",
-      payee: "ext:01958e51-7c5a-7000-8000-000000000014"
+      payee: "ext:01958e51-7c5a-7000-8000-000000000014",
+      transfer_method: "eft"
     }
   end
   let(:dir) { Dir.mktmpdir }
@@ -120,14 +126,22 @@ RSpec.describe TransferAuthorizer::App do
       expect(log.string).to include("invalid_signature", "req_123")
     end
 
-    it "logs both signature inputs and does not authorize when the webhook's differs from the ledger's" do
+    it "signs the webhook's v2 input" do
+      input = Manza::TransferAuthorization.signature_input(
+        **ledger_entry, nonce: "9f86d081884c7d659a2feaa0c55ad015", client_reference: "po_8812"
+      )
+
+      expect(input).to eq(example_payload["data"]["signature_input_v2"])
+    end
+
+    it "logs both signature inputs and does not authorize when the webhook's v2 input differs from the ledger's" do
       payload = JSON.parse(JSON.generate(example_payload))
-      payload["data"]["signature_input"] = "something-else"
+      payload["data"]["signature_input_v2"] = "something-else"
 
       deliver(JSON.generate(payload))
 
       expect(a_request(:any, /staging\.manza\.example/)).not_to have_been_made
-      expect(log.string).to include("something-else", example_payload["data"]["signature_input"])
+      expect(log.string).to include("something-else", example_payload["data"]["signature_input_v2"])
     end
 
     it "retries authorize after a transient failure" do
@@ -246,6 +260,22 @@ RSpec.describe TransferAuthorizer::App do
       deliver(JSON.generate(example_payload))
 
       expect(stub).to have_been_requested.once
+    end
+  end
+
+  describe "with a transfer_method that differs from the ledger's" do
+    before { ledger.record("po_8812", **ledger_entry, transfer_method: "rtc") }
+
+    it "declines with a reason naming transfer_method" do
+      stub = stub_request(:post, "#{base_url}/api/payments/#{draft_id}/decline")
+             .with(body: hash_including("authorization_id" => authorization_id, "reason" => /transfer_method/))
+             .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                        body: JSON.generate("id" => authorization_id, "status" => "declined"))
+
+      deliver(JSON.generate(example_payload))
+
+      expect(stub).to have_been_requested.once
+      expect(a_request(:post, %r{/authorize\z})).not_to have_been_made
     end
   end
 

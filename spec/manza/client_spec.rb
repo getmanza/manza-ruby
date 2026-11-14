@@ -167,5 +167,34 @@ RSpec.describe Manza::Client do
 
       expect(error.to_h).to include(error: "ConflictError", payment_id: "pay_1")
     end
+
+    # The API's body verbatim (getmanza/app spec/requests/api/invoices_spec.rb).
+    it "maps 422 plan_limit_reached to PlanLimitReachedError carrying kind, current and max" do
+      stub_error(422, { type: "plan_limit_reached", message: "Plan limit reached for invoices: 10 of 10",
+                        kind: "invoices", current: 10, max: 10 })
+
+      expect { client.entity.get }.to raise_error(Manza::PlanLimitReachedError) { |e|
+        expect(e).to be_a(Manza::ValidationError)
+        expect(e.status).to eq(422)
+        expect(e.type).to eq("plan_limit_reached")
+        expect(e.message).to eq("Plan limit reached for invoices: 10 of 10")
+        expect([e.kind, e.current, e.max]).to eq(["invoices", 10, 10])
+      }
+    end
+
+    it "keeps any other 422 a plain ValidationError" do
+      stub_error(422, { message: "Customer not found", type: "invalid_request_error", param: "customer_id" })
+
+      expect { client.entity.get }.to raise_error(Manza::ValidationError) { |e|
+        expect(e).not_to be_a(Manza::PlanLimitReachedError)
+        expect(e.param).to eq("customer_id")
+      }
+    end
+
+    it "includes kind, current and max in PlanLimitReachedError#to_h" do
+      error = Manza::PlanLimitReachedError.new("capped", status: 422, kind: "invoices", current: 3, max: 3)
+
+      expect(error.to_h).to include(error: "PlanLimitReachedError", kind: "invoices", current: 3, max: 3)
+    end
   end
 end
