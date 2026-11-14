@@ -9,7 +9,7 @@ Two processes and a shared ledger, matching the two-key model of [transfer autho
 | `preflight.rb` | Checks every setup step and prints the fix for each that fails | A and B |
 | `ledger.rb` | Your own record of what you created, keyed by `client_reference`. Swap it for your database | — |
 
-Since manza 2.0 every ledger entry records the draft's `transfer_method`, which the v2 signature signs. An entry written by the 1.x example has none, so the authorizer declines its draft as a mismatch: let open challenges finish (or expire) before upgrading, or add `"transfer_method"` from `payments.get` to those entries.
+Since manza 2.0 every ledger entry records the draft's `transfer_method`, which the v2 signature signs. An entry written by the 1.x example has none, which reads as `nil`: it still matches a draft whose `transfer_method` is null (a market with no rail choice), but the authorizer declines a draft that carries one as a mismatch. Let open challenges finish (or expire) before upgrading, or add `"transfer_method"` from `payments.get` to those entries.
 
 ## Setup
 
